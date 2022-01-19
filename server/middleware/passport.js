@@ -5,7 +5,7 @@ const pool = require("../db");
 
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: keys.jwt
+    secretOrKey: keys.jwt_access
 }
 
 module.exports = passport => {
