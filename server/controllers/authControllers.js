@@ -45,8 +45,10 @@ module.exports.GetUsers = async (req, res) => {
 }
 module.exports.RefreshToken = async (req, res) => {
     try {
-        let data = await pool.query("SELECT * FROM users");
-        res.json(data.rows)
+        const {refreshToken} = req.cookies
+        let data = await userService.refresh(refreshToken)
+        res.cookie('refreshToken', data.refreshToken, {maxAge: 14 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return res.json(data)
     } catch (e) {
         errorHandler(res, e)
     }

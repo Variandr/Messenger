@@ -28,8 +28,21 @@ class UserService {
             return {...tokens, user: user}
         } else return {message: "User with this login already exist"}
     }
+
     async logout(refreshToken) {
         await tokenService.removeToken(refreshToken)
+    }
+
+    async refresh(refreshToken) {
+        if (!refreshToken) return {message: "You are not authorized"}
+        const tokenData = tokenService.validateRefreshToken(refreshToken)
+        const isTokenInDB = await tokenService.searchForRefreshTokenDB(refreshToken)
+        if (!tokenData || !isTokenInDB) return {message: "You are not authorized"}
+        const userByLogin = await pool.query("SELECT * FROM users WHERE id = $1", [tokenData.userId]);
+        const user = userByLogin.rows[0];
+        const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
+        await tokenService.saveToken(user.id, tokens.refreshToken)
+        return {...tokens}
     }
 }
 
