@@ -11,7 +11,7 @@ const Users = () => {
         <div>
             <Link to="me">My Profile</Link>
             <Routes>
-                <Route path=":id" element={<UsersContainer/>}/>
+                <Route path="?:id" element={<UsersContainer/>}/>
                 <Route path="me" element={<ProfileContainer/>}/>
             </Routes>
         </div>

@@ -11,22 +11,29 @@ class UserService {
             if (passwordSync) {
                 const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
                 await tokenService.saveToken(user.id, tokens.refreshToken)
-                return {...tokens, user: user}
-            } else return {message: "Wrong login or password"}
-        } else return {message: "User wasn't found"}
+                return {
+                    ...tokens, user: {
+                        id: user.id,
+                        login: user.login,
+                        username: user.username
+                    },
+                    code: 0
+                }
+            } else return {message: "Wrong login or password", code: 1}
+        } else return {message: "User wasn't found", code: 1}
     }
 
-    async registration(username, login, password, status) {
+    async registration(username, login, password) {
         const cryptoPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
         let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [login]);
         if (!userByLogin.rows.length) {
             if (!username) username = login;
-            let data = await pool.query("INSERT INTO users (username, login, password, status) VALUES($1, $2, $3, $4) RETURNING *", [username, login, cryptoPassword, status])
+            let data = await pool.query("INSERT INTO users (username, login, password) VALUES($1, $2, $3) RETURNING id, login, username", [username, login, cryptoPassword])
             const user = data.rows[0]
             const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
             await tokenService.saveToken(user.id, tokens.refreshToken)
-            return {...tokens, user: user}
-        } else return {message: "User with this login already exist"}
+            return {...tokens, user: user, code: 0}
+        } else return {message: "User with this login already exist", code: 1}
     }
 
     async logout(refreshToken) {
@@ -34,15 +41,15 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        if (!refreshToken) return {message: "You are not authorized"}
+        if (!refreshToken) return {message: "You are not authorized", code: 1}
         const tokenData = tokenService.validateRefreshToken(refreshToken)
         const isTokenInDB = await tokenService.searchForRefreshTokenDB(refreshToken)
-        if (!tokenData || !isTokenInDB) return {message: "You are not authorized"}
-        const userByLogin = await pool.query("SELECT * FROM users WHERE id = $1", [tokenData.userId]);
+        if (!tokenData || !isTokenInDB) return {message: "You are not authorized", code: 1}
+        const userByLogin = await pool.query("SELECT id, login FROM users WHERE id = $1", [tokenData.userId]);
         const user = userByLogin.rows[0];
         const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
         await tokenService.saveToken(user.id, tokens.refreshToken)
-        return {...tokens}
+        return {...tokens, code: 0}
     }
 }
 

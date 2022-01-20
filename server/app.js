@@ -8,7 +8,10 @@ const cookieParser = require('cookie-parser')
 
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:3000"
+}))
 app.use(cookieParser())
 app.use(require('morgan')('dev'))
 app.use(express.json())

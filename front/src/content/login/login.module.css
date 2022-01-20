@@ -1,0 +1,178 @@
+.body {
+    height: 100vh;
+    color: #e0e0e0;
+    background: rgba(26, 31, 37, 1);
+    text-align: center;
+}
+
+.sign_in {
+    position: relative;
+    top: 20vh;
+    margin: auto;
+    width: 300px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
+
+.sign_up {
+    display: grid;
+    width: 500px;
+    position: relative;
+    top: 20vh;
+    margin: auto;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    grid-template-areas:
+        "u" "a"
+        "e" "p";
+}
+
+.sign_up .input {
+    color: #e0e0e0;
+    font-size: 14px;
+    width: 240px;
+    padding: 10px 0 10px 10px;
+    border: 1px solid #22272e;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.sign_up .error {
+    color: #e0e0e0;
+    font-size: 16px;
+    width: 240px;
+    padding: 10px 0 10px 10px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.user {
+    grid-area: u;
+}
+
+.age {
+    grid-area: a;
+}
+
+.pass {
+    grid-area: p;
+}
+
+.email {
+    grid-area: e;
+}
+
+.icon {
+    position: relative;
+    padding: 0 10px;
+    width: 20px;
+    top: 32px;
+    font-size: 20px;
+    border-right: 1px solid #22272e;
+}
+
+.iconPass {
+    position: absolute;
+    padding: 0 10px;
+    bottom: 93px;
+    right: 0;
+    font-size: 20px;
+}
+
+.button_log {
+    margin-top: 20px;
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #e6b333;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkbox {
+    position: relative;
+    left: -5px;
+}
+
+.remember {
+    color: #7f8084;
+    margin: 10px;
+    font-size: 12px;
+}
+
+.sign_in .input {
+    color: #e0e0e0;
+    font-size: 14px;
+    width: 240px;
+    padding: 10px 0 10px 60px;
+    border: 1px solid #22272e;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.error {
+    color: #e0e0e0;
+    font-size: 16px;
+    width: 240px;
+    padding: 10px 0 10px 60px;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    background-color: transparent;
+    outline: none;
+    transition: 0.3s;
+}
+
+.error_message {
+    position: relative;
+    top: 10px;
+}
+
+form button:hover {
+    background: #ba8e2c;
+}
+
+.sign {
+    display: inline-block;
+    position: relative;
+    top: 13vh;
+    margin-left: 2vh;
+
+}
+
+.signButton {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 18px;
+    color: black;
+    background-color: #e6c835;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.signButton:hover {
+    background: #e69c6a;
+}
+.signButton:focus, .signButton:active {
+    background: #e68456;
+}

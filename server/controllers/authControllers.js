@@ -38,7 +38,7 @@ module.exports.LogoutUser = async (req, res) => {
 module.exports.GetUsers = async (req, res) => {
     try {
         let data = await pool.query("SELECT id, login, username, status FROM users");
-        res.json(data.rows)
+        res.json(data.rows, {code: 0})
     } catch (e) {
         errorHandler(res, e)
     }
