@@ -17,8 +17,8 @@ module.exports.RegisterUser = async (req, res) => {
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) return res.status(404).json(errors.errors)
-        let {username, login, password, status} = req.body
-        let data = await userService.registration(username, login, password, status)
+        let {username, login, password} = req.body
+        let data = await userService.registration(username, login, password)
         res.cookie('refreshToken', data.refreshToken, {maxAge: 14 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(data)
     } catch (e) {
@@ -37,7 +37,7 @@ module.exports.LogoutUser = async (req, res) => {
 }
 module.exports.GetUsers = async (req, res) => {
     try {
-        let data = await pool.query("SELECT * FROM users");
+        let data = await pool.query("SELECT id, login, username, status FROM users");
         res.json(data.rows)
     } catch (e) {
         errorHandler(res, e)
