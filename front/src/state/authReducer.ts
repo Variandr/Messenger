@@ -1,9 +1,9 @@
-import {stopSubmit} from "redux-form";
-import {ThunkAction} from "redux-thunk";
-import {AuthAPI} from "../API/api";
-import {StateType} from "./store";
+import {stopSubmit} from "redux-form"
+import {ThunkAction} from "redux-thunk"
+import {AuthAPI} from "../API/api"
+import {StateType} from "./store"
 
-const SET_AUTH_DATA = 'SET_AUTH_DATA'
+const SET_AUTH_DATA = '/auth/SET_AUTH_DATA'
 let initialState = {
     isAuth: false,
     login: null as string | null,
@@ -37,11 +37,11 @@ const _setAuthUserData = (login: string | null, id: number | null, isAuth: boole
 export const Login = (log: string, password: string) => async (dispatch: any) => {
     let userData = await AuthAPI.login(log, password)
     if (userData.code === 0) {
-        let {login, id,} = userData.user
+        let {login, id} = userData.user
         dispatch(_setAuthUserData(login, id, true))
-        localStorage.setItem('accessToken', userData.accessToken);
+        localStorage.setItem('accessToken', userData.accessToken)
     } else {
-        let msg = userData.message.length > 0 ? userData.message : "Unknown error";
+        let msg = userData.message.length > 0 ? userData.message : "Unknown error"
         dispatch(stopSubmit('login', {_error: msg}))
     }
 }
@@ -49,7 +49,7 @@ export const Logout = (): ThunkType => async (dispatch) => {
     let userData = await AuthAPI.logout()
     if (userData.code === 0) {
         dispatch(_setAuthUserData(null, null, false))
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken')
     }
 }
 export const Registration = (log: string, password: string, username: string): ThunkType => async (dispatch) => {
@@ -57,6 +57,15 @@ export const Registration = (log: string, password: string, username: string): T
     if (userData.code === 0) {
         let {login, id} = userData.user
         dispatch(_setAuthUserData(login, id, true))
-        localStorage.setItem('accessToken', userData.accessToken);
+        localStorage.setItem('accessToken', userData.accessToken)
+    }
+}
+
+export const AuthMe = ():ThunkType => async (dispatch) => {
+    let tokenData = await AuthAPI.authMe()
+    if(tokenData.code === 0){
+        let {login, id} = tokenData.user
+        dispatch(_setAuthUserData(login, id, true))
+        localStorage.setItem('accessToken', tokenData.accessToken)
     }
 }

@@ -13,6 +13,7 @@ type LoginSignupType = {
         id: number
     }
     accessToken: string
+    refreshToken: string
     code: number
     message: string
 }
@@ -20,7 +21,12 @@ type LogoutType = {
     code: number
 }
 type RefreshType = {
+    user: {
+        login: string
+        id: number
+    }
     accessToken: string
+    refreshToken: string
     code: number
 }
 export const AuthAPI = {
@@ -33,7 +39,7 @@ export const AuthAPI = {
     logout() {
         return instance.post<LogoutType>('auth/logout').then(res => res.data)
     },
-    refresh() {
+    authMe() {
         return instance.get<RefreshType>('auth/refresh').then(res => res.data)
     },
     getUsers() {
