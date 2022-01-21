@@ -1,10 +1,14 @@
 import React from "react"
 import {connect} from "react-redux"
 import Navbar from "./navbar"
+import {StateType} from "../state/store";
+import {Logout} from "../state/authReducer";
 
-const NavbarContainer = () => {
-    return <Navbar/>
+const NavbarContainer = (props: any) => {
+    return <Navbar {...props}/>
 }
-
-export default connect(null, {})(NavbarContainer)
+let mapStateToProps = (state: StateType) => ({
+    isAuth: state.authPage.isAuth
+})
+export default connect(mapStateToProps, {Logout})(NavbarContainer)
 

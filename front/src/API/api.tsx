@@ -1,25 +1,18 @@
 import axios from 'axios'
 
-let token = null;
-export const getToken = (accessToken: string | null) => {
-    token = accessToken
-}
-
 const instance = axios.create({
     baseURL: `http://localhost:5000/api/`,
     withCredentials: true,
     headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
     }
 })
 type LoginSignupType = {
     user: {
-        login: string | null
-        id: number | null
+        login: string
+        id: number
     }
-    accessToken: string | null
-    refreshToken: string | null
+    accessToken: string
     code: number
     message: string
 }
@@ -27,8 +20,7 @@ type LogoutType = {
     code: number
 }
 type RefreshType = {
-    accessToken: string | null
-    refreshToken: string | null
+    accessToken: string
     code: number
 }
 export const AuthAPI = {

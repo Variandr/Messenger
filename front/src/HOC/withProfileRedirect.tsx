@@ -8,7 +8,6 @@ let mapStateToProps = (state: StateType) => ({
 });
 export const withProfileRedirect = (Component: any) => {
     const RedirectComponent = (props: any) => {
-        console.log(props)
         if (props.isAuth) return <Navigate to='/users/me'/>
         return <Component {...props}/>
     }

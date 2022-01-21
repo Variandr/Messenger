@@ -1,15 +1,13 @@
 import {stopSubmit} from "redux-form";
 import {ThunkAction} from "redux-thunk";
-import {AuthAPI, getToken} from "../API/api";
+import {AuthAPI} from "../API/api";
 import {StateType} from "./store";
 
 const SET_AUTH_DATA = 'SET_AUTH_DATA'
 let initialState = {
     isAuth: false,
     login: null as string | null,
-    id: null as number | null,
-    accessToken: null as string | null,
-    refreshToken: null as string | null
+    id: null as number | null
 };
 type initialStateType = typeof initialState
 const AuthorizationReducer = (state = initialState, action: ActionTypes): initialStateType => {
@@ -26,42 +24,39 @@ type ThunkType = ThunkAction<Promise<void>, StateType, unknown, ActionTypes>
 type authDataType = {
     login: string | null
     id: number | null
-    accessToken: string | null
-    refreshToken: string | null
     isAuth: boolean
 }
 type setAuthUserType = {
     type: typeof SET_AUTH_DATA
     payload: authDataType
 }
-const _setAuthUserData = (login: string | null, id: number | null, accessToken: string | null, refreshToken: string | null, isAuth: boolean): setAuthUserType => ({
+const _setAuthUserData = (login: string | null, id: number | null, isAuth: boolean): setAuthUserType => ({
     type: SET_AUTH_DATA,
-    payload: {login, id, accessToken, refreshToken, isAuth}
+    payload: {login, id, isAuth}
 })
-export const Login = (log: string, password: string) => async (dispatch: any, getState: any) => {
+export const Login = (log: string, password: string) => async (dispatch: any) => {
     let userData = await AuthAPI.login(log, password)
-    console.log(userData)
     if (userData.code === 0) {
         let {login, id,} = userData.user
-        dispatch(_setAuthUserData(login, id, userData.accessToken, userData.refreshToken, true))
-        getToken(getState().authPage.accessToken)
+        dispatch(_setAuthUserData(login, id, true))
+        localStorage.setItem('accessToken', userData.accessToken);
     } else {
         let msg = userData.message.length > 0 ? userData.message : "Unknown error";
         dispatch(stopSubmit('login', {_error: msg}))
     }
 }
-export const Logout = (): ThunkType => async (dispatch, getState) => {
+export const Logout = (): ThunkType => async (dispatch) => {
     let userData = await AuthAPI.logout()
     if (userData.code === 0) {
-        dispatch(_setAuthUserData(null, null, null, null, false))
-        getToken(getState().authPage.accessToken)
+        dispatch(_setAuthUserData(null, null, false))
+        localStorage.removeItem('accessToken');
     }
 }
-export const Registration = (log: string, password: string, username: string): ThunkType => async (dispatch, getState) => {
+export const Registration = (log: string, password: string, username: string): ThunkType => async (dispatch) => {
     let userData = await AuthAPI.reg(log, password, username)
     if (userData.code === 0) {
         let {login, id} = userData.user
-        dispatch(_setAuthUserData(login, id, userData.accessToken, userData.refreshToken, true))
-        getToken(getState().authPage.accessToken)
+        dispatch(_setAuthUserData(login, id, true))
+        localStorage.setItem('accessToken', userData.accessToken);
     }
 }

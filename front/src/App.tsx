@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import AuthorizationContainer from "./content/login/loginContainer";
-import {Link, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import NavbarContainer from "./navbar/navbarContainer";
 import ProfileContainer from "./content/profile/profileContainer";
 import UsersContainer from "./content/users/usersContainer";
@@ -9,7 +9,6 @@ import UsersContainer from "./content/users/usersContainer";
 const Users = () => {
     return (
         <div>
-            <Link to="me">My Profile</Link>
             <Routes>
                 <Route path="?:id" element={<UsersContainer/>}/>
                 <Route path="me" element={<ProfileContainer/>}/>
