@@ -10,7 +10,7 @@ import {connect} from 'react-redux'
 import {initializeApp} from './state/appReducer'
 import Preloader from "./helpers/preloader";
 
-const Users: React.FC = () => {
+const Profile: React.FC = () => {
     return <div>
         <Routes>
             <Route path=":id" element={<UsersContainer/>}/>
@@ -21,7 +21,6 @@ const Users: React.FC = () => {
 
 const App: React.FC = (props: any) => {
     useEffect(() => {
-        console.log(props)
         if (!props.isInitialized) {
             props.initializeApp()
         }
@@ -34,8 +33,9 @@ const App: React.FC = (props: any) => {
     return <div className="App">
         <NavbarContainer/>
         <Routes>
-            <Route path="/" element={props.isAuth ? <Navigate to="users/me"/> : <Navigate to="auth"/>}/>
-            <Route path='users/*' element={<Users/>}/>
+            <Route path="/" element={props.isAuth ? <Navigate to="/profile/me"/> : <Navigate to="auth"/>}/>
+            <Route path="profile/*" element={<Profile/>}/>
+            <Route path='users' element={<UsersContainer/>}/>
             <Route path='auth' element={<AuthorizationContainer/>}/>
             <Route path='*' element={<div className='center'><h1>404 Page not found</h1></div>}/>
         </Routes>

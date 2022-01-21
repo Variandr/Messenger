@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 // @ts-ignore
-import s from "../login/login.module.css";
+import s from "../content/login/login.module.css";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Field} from "redux-form";
 

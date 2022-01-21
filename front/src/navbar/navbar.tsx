@@ -17,9 +17,9 @@ const Navbar = (props: any) => {
         }
         {isVisible &&
             <div className={s.nav}>
-                <div><NavLink to='/users/me' className={s.button}><BiFace/></NavLink></div>
-                <div><NavLink to='/users' className={s.button}><ImUsers/></NavLink></div>
-                <div><NavLink to='/dialogs' className={s.button}><TiMessages/></NavLink></div>
+                <div><NavLink to='profile/me' className={s.button}><BiFace/></NavLink></div>
+                <div><NavLink to='users' className={s.button}><ImUsers/></NavLink></div>
+                <div><NavLink to='dialogs' className={s.button}><TiMessages/></NavLink></div>
             </div>
         }
     </div>

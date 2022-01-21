@@ -5,7 +5,8 @@ import s from './login.module.css'
 import {HiOutlineUserCircle} from "react-icons/hi"
 import {BiLockAlt} from "react-icons/bi"
 import {FaUserAlt} from "react-icons/fa"
-import {FieldCreator} from "../helpers/formCreator"
+// @ts-ignore
+import {FieldCreator} from "../../helpers/formCreator"
 
 const required = (value: any) => value ? undefined : 'Field is required';
 const maxLength = (maxLength: number) => (value: any): string | undefined => value && value.length > maxLength ? `Max length is ${maxLength} symbols` : undefined
