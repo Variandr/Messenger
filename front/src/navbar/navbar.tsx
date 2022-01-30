@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {FC, useState} from "react"
 import {AiOutlineUnorderedList} from "react-icons/ai"
 import {BiFace} from "react-icons/bi"
 import {ImExit, ImUsers} from "react-icons/im"
@@ -7,12 +7,16 @@ import {NavLink} from "react-router-dom"
 // @ts-ignore
 import s from './navbar.module.css'
 
-const Navbar = (props: any) => {
-    let [isVisible, setVisibility] = useState<boolean>(false)
+type PropsType = {
+    Logout: () => void
+    isAuth: boolean
+}
+const Navbar:FC<PropsType> = ({Logout, isAuth}) => {
+    let [isVisible, setVisibility] = useState(false)
     return <div className={s.body}>
-        {props.isAuth && <div>
+        {isAuth && <div>
             <div className={s.mainButton} onClick={() => setVisibility(!isVisible)}><AiOutlineUnorderedList/></div>
-            <div className={s.exitButton} onClick={() => props.Logout()}><ImExit/></div>
+            <div className={s.exitButton} onClick={() => Logout()}><ImExit/></div>
         </div>
         }
         {isVisible &&

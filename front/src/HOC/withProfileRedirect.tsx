@@ -1,10 +1,14 @@
-import React from "react";
-import {connect} from "react-redux";
-import {Navigate} from "react-router-dom";
-import {StateType} from "../state/store";
+import React from "react"
+import {connect} from "react-redux"
+import {Navigate} from "react-router-dom"
+import {StateType} from "../state/store"
+import {getAuth} from "../selectors/authSelectors"
 
-let mapStateToProps = (state: StateType) => ({
-    isAuth: state.authPage.isAuth
+type MapStateToProps = {
+    isAuth: boolean
+}
+let mapStateToProps = (state: StateType): MapStateToProps => ({
+    isAuth: getAuth(state)
 });
 export const withProfileRedirect = (Component: any) => {
     const RedirectComponent = (props: any) => {

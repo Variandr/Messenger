@@ -1,14 +1,23 @@
-import React from "react"
+import React, {FC} from "react"
 import {connect} from "react-redux"
 import Navbar from "./navbar"
-import {StateType} from "../state/store";
-import {Logout} from "../state/authReducer";
+import {StateType} from "../state/store"
+import {Logout} from "../state/authReducer"
+import {getAuth} from "../selectors/authSelectors"
 
-const NavbarContainer = (props: any) => {
-    return <Navbar {...props}/>
+type MapStateToProps = {
+    isAuth: boolean
 }
-let mapStateToProps = (state: StateType) => ({
-    isAuth: state.authPage.isAuth
+type MapDispatchToProps = {
+    Logout: () => void
+}
+type PropsType = MapDispatchToProps & MapStateToProps
+const NavbarContainer: FC<PropsType> = ({isAuth, Logout}) => {
+    return <Navbar isAuth={isAuth}
+                   Logout={Logout}/>
+}
+let mapStateToProps = (state: StateType): MapStateToProps => ({
+    isAuth: getAuth(state)
 })
-export default connect(mapStateToProps, {Logout})(NavbarContainer)
+export default connect<MapStateToProps, MapDispatchToProps, {}, StateType>(mapStateToProps, {Logout})(NavbarContainer)
 

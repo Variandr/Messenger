@@ -1,11 +1,22 @@
-import React, {useState} from "react";
+import React, {FC, useState} from "react";
 // @ts-ignore
 import s from "../content/login/login.module.css";
 import {AiFillEye, AiFillEyeInvisible} from "react-icons/ai";
 import {Field} from "redux-form";
 
-const RenderField = ({input, label, meta: {touched, error}, icon, isPass}: any) => {
-    let [isVisible, setVisibility] = useState<boolean>(false)
+type metaType = {
+    touched: boolean
+    error: string
+}
+type RenderFieldProps = {
+    input: any
+    label: string
+    meta: metaType
+    icon: any
+    isPass: boolean
+}
+const RenderField:FC<RenderFieldProps> = ({input, label, meta: {touched, error}, icon, isPass}) => {
+    let [isVisible, setVisibility] = useState(false)
     return <div>
         <div className={s.icon}>{icon}</div>
         {isPass ? <div>
