@@ -22,8 +22,8 @@ const _setInitialSuccess = (): AppLoadedType => ({
     type: SET_APP_LOADED
 })
 export const initializeApp = () => (dispatch: any) => {
-    let promise = dispatch(AuthMe());
+    let promise = [dispatch(AuthMe())]
     Promise.all([promise]).then(() => {
-        dispatch(_setInitialSuccess());
+        dispatch(_setInitialSuccess())
     })
 }

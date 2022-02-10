@@ -18,6 +18,7 @@
     "@types/redux-form": "^8.3.3",
     "@types/redux-thunk": "^2.1.0",
     "axios": "^0.25.0",
+    "formik": "^2.2.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",

@@ -7,6 +7,23 @@ const instance = axios.create({
         Authorization: `Bearer ${localStorage.getItem('accessToken')}`
     }
 })
+
+instance.interceptors.response.use(config => {
+    return config
+}, async (error) => {
+    const originalRequest = error.config
+    if (error.status === 401 && error.config && !error.config.isRetry) {
+        originalRequest.isRetry = true
+        try {
+            const response = await instance.get<any>('auth/refresh').then(res => res.data)
+            localStorage.setItem('accessToken', response.accessToken)
+            return instance.request(originalRequest)
+        } catch (e) {
+            console.log('User unauthorized')
+        }
+    }
+})
+
 type LoginSignupType = {
     user: {
         login: string
@@ -14,11 +31,7 @@ type LoginSignupType = {
     }
     accessToken: string
     refreshToken: string
-    code: number
     message: string
-}
-type LogoutType = {
-    code: number
 }
 type RefreshType = {
     user: {
@@ -27,7 +40,6 @@ type RefreshType = {
     }
     accessToken: string
     refreshToken: string
-    code: number
 }
 export const AuthAPI = {
     login(login: string, password: string) {
@@ -37,11 +49,13 @@ export const AuthAPI = {
         return instance.post<LoginSignupType>('auth/reg', {login, password, username}).then(res => res.data)
     },
     logout() {
-        return instance.post<LogoutType>('auth/logout').then(res => res.data)
+        return instance.post<any>('auth/logout').then(res => res.data)
     },
     authMe() {
-        return instance.get<RefreshType>('auth/refresh').then(res => res.data)
-    },
+        return instance.get<RefreshType>('auth/refresh').then(res => res)
+    }
+}
+export const UsersAPI = {
     getUsers() {
         return instance.get<any>('auth/users').then(res => res.data)
     }

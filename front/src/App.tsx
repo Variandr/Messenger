@@ -1,16 +1,17 @@
-import React, {useEffect} from 'react'
+import React, {FC, useEffect} from 'react'
 import './App.css'
-import AuthorizationContainer from "./content/login/loginContainer";
-import {Navigate, Route, Routes} from "react-router-dom";
-import NavbarContainer from "./navbar/navbarContainer";
+import AuthorizationContainer from "./content/login/loginContainer"
+import {Navigate, Route, Routes} from "react-router-dom"
 import ProfileContainer from "./content/profile/profileContainer"
 import UsersContainer from "./content/users/usersContainer"
-import {StateType} from "./state/store"
-import {connect} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {initializeApp} from './state/appReducer'
-import Preloader from "./helpers/preloader";
+import Preloader from "./helpers/preloader"
+import {Navbar} from "./navbar/navbar"
+import {getAuth} from "./selectors/authSelectors"
+import {getInitialize} from "./selectors/appSelectors"
 
-const Profile: React.FC = () => {
+const Profile: FC<any> = () => {
     return <div>
         <Routes>
             <Route path=":id" element={<UsersContainer/>}/>
@@ -19,21 +20,24 @@ const Profile: React.FC = () => {
     </div>
 }
 
-const App: React.FC = (props: any) => {
+export const App: FC<any> = () => {
+    const isAuth = useSelector(getAuth)
+    const isInitialized = useSelector(getInitialize)
+    const dispatch = useDispatch()
     useEffect(() => {
-        if (!props.isInitialized) {
-            props.initializeApp()
+        if (!isInitialized) {
+            dispatch(initializeApp())
         }
     })
-    if (!props.isInitialized) {
+    if (!isInitialized) {
         return <div className="App">
             <Preloader/>
         </div>
     }
     return <div className="App">
-        <NavbarContainer/>
+        <Navbar/>
         <Routes>
-            <Route path="/" element={props.isAuth ? <Navigate to="/profile/me"/> : <Navigate to="auth"/>}/>
+            <Route path="/" element={isAuth ? <Navigate to="/profile/me"/> : <Navigate to="auth"/>}/>
             <Route path="profile/*" element={<Profile/>}/>
             <Route path='users' element={<UsersContainer/>}/>
             <Route path='auth' element={<AuthorizationContainer/>}/>
@@ -41,8 +45,3 @@ const App: React.FC = (props: any) => {
         </Routes>
     </div>
 }
-let mapStateToProps = (state: StateType) => ({
-    isInitialized: state.appPage.isInitialized,
-    isAuth: state.authPage.isAuth
-})
-export default connect(mapStateToProps, {initializeApp})(App)

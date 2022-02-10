@@ -1,6 +1,7 @@
 const pool = require("../db");
 const bcrypt = require("bcrypt");
 const tokenService = require('./tokenService')
+const errorHandler = require('../helpers/errorHandler')
 
 class UserService {
     async login(login, password) {
@@ -16,11 +17,10 @@ class UserService {
                         id: user.id,
                         login: user.login,
                         username: user.username
-                    },
-                    code: 0
+                    }
                 }
-            } else return {message: "Wrong login or password", code: 1}
-        } else return {message: "User wasn't found", code: 1}
+            } else throw errorHandler.BadRequest("Wrong login or password")
+        } else throw errorHandler.BadRequest("User wasn't found")
     }
 
     async registration(username, login, password) {
@@ -32,8 +32,8 @@ class UserService {
             const user = data.rows[0]
             const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
             await tokenService.saveToken(user.id, tokens.refreshToken)
-            return {...tokens, user: user, code: 0}
-        } else return {message: "User with this login already exist", code: 1}
+            return {...tokens, user: user}
+        } else throw errorHandler.BadRequest("User with this login already exist")
     }
 
     async logout(refreshToken) {
@@ -41,15 +41,19 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        if (!refreshToken) return {message: "You are not authorized", code: 1}
+        if (!refreshToken) {
+            throw errorHandler.UnauthorizedError()
+        }
         const tokenData = tokenService.validateRefreshToken(refreshToken)
         const isTokenInDB = await tokenService.searchForRefreshTokenDB(refreshToken)
-        if (!tokenData || !isTokenInDB) return {message: "You are not authorized", code: 1}
+        if (!tokenData || !isTokenInDB) {
+            throw errorHandler.UnauthorizedError()
+        }
         const userByLogin = await pool.query("SELECT id, login FROM users WHERE id = $1", [tokenData.userId]);
         const user = userByLogin.rows[0];
         const tokens = tokenService.generateTokens({login: user.login, userId: user.id})
         await tokenService.saveToken(user.id, tokens.refreshToken)
-        return {...tokens, user, code: 0}
+        return {...tokens, user}
     }
 }
 

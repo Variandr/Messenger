@@ -1,19 +1,18 @@
-const errorHandler = require('../helpers/errorHandler')
 const pool = require('../db')
 const {validationResult} = require('express-validator')
 const userService = require('../services/userService')
 
-module.exports.LoginUser = async (req, res) => {
+module.exports.LoginUser = async (req, res, next) => {
     try {
         const {login, password} = req.body
         let data = await userService.login(login, password)
         res.cookie('refreshToken', data.refreshToken, {maxAge: 14 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(data)
     } catch (e) {
-        errorHandler(res, e)
+        next(e)
     }
 }
-module.exports.RegisterUser = async (req, res) => {
+module.exports.RegisterUser = async (req, res, next) => {
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) return res.status(404).json(errors.errors)
@@ -22,34 +21,34 @@ module.exports.RegisterUser = async (req, res) => {
         res.cookie('refreshToken', data.refreshToken, {maxAge: 14 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(data)
     } catch (e) {
-        errorHandler(res, e)
+        next(e)
     }
 }
-module.exports.LogoutUser = async (req, res) => {
+module.exports.LogoutUser = async (req, res, next) => {
     try {
         const {refreshToken} = req.cookies
         await userService.logout(refreshToken)
         res.clearCookie('refreshToken')
-        return res.json({code: 0})
+        return res.json()
     } catch (e) {
-        errorHandler(res, e)
+        next(e)
     }
 }
-module.exports.GetUsers = async (req, res) => {
+module.exports.GetUsers = async (req, res, next) => {
     try {
         let data = await pool.query("SELECT id, login, username, status FROM users");
-        res.json(data.rows, {code: 0})
+        res.json(data.rows)
     } catch (e) {
-        errorHandler(res, e)
+        next(e)
     }
 }
-module.exports.RefreshToken = async (req, res) => {
+module.exports.RefreshToken = async (req, res, next) => {
     try {
         const {refreshToken} = req.cookies
         let data = await userService.refresh(refreshToken)
         res.cookie('refreshToken', data.refreshToken, {maxAge: 14 * 24 * 60 * 60 * 1000, httpOnly: true})
         return res.json(data)
     } catch (e) {
-        errorHandler(res, e)
+        next(e)
     }
 }

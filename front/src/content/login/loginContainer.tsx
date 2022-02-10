@@ -1,4 +1,4 @@
-import React from "react"
+import React, {ComponentType} from "react"
 import {connect} from "react-redux"
 import Auth from "./login"
 import {Login, Registration} from "../../state/authReducer"
@@ -10,4 +10,4 @@ const AuthorizationContainer = (props: any) => {
                  Registration={props.Registration}/>
 }
 
-export default compose(withProfileRedirect, connect(null, {Login, Registration}))(AuthorizationContainer)
+export default compose(withProfileRedirect, connect(null, {Login, Registration}))(AuthorizationContainer) as ComponentType
