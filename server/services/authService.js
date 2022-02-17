@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const tokenService = require('./tokenService')
 const errorHandler = require('../helpers/errorHandler')
 
-class UserService {
+class AuthService {
     async login(login, password) {
         let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [login]);
         let user = userByLogin.rows[0];
@@ -24,8 +24,8 @@ class UserService {
     }
 
     async registration(username, login, password) {
-        const cryptoPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-        let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [login]);
+        const cryptoPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+        let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [login])
         if (!userByLogin.rows.length) {
             if (!username) username = login;
             let data = await pool.query("INSERT INTO users (username, login, password) VALUES($1, $2, $3) RETURNING id, login, username", [username, login, cryptoPassword])
@@ -57,4 +57,4 @@ class UserService {
     }
 }
 
-module.exports = new UserService()
+module.exports = new AuthService()

@@ -1,4 +1,4 @@
-import {FormAction, stopSubmit} from "redux-form"
+import {FormAction} from "redux-form"
 import {AuthAPI} from "../API/api"
 import {Actions, BaseThunk} from "./store"
 
@@ -27,15 +27,12 @@ let actions = {
     } as const)
 }
 
-export const Login = (log: string, password: string): ThunkType => async (dispatch) => {
-    let userData = await AuthAPI.login(log, password)
+export const Login = (log: string, password: string, remember: boolean): ThunkType => async (dispatch) => {
+    let userData = await AuthAPI.login(log, password, remember)
     if (!userData.message) {
         let {login, id} = userData.user
         dispatch(actions._setAuthUserData(login, id, true))
         localStorage.setItem('accessToken', userData.accessToken)
-    } else {
-        let msg = userData.message.length > 0 ? userData.message : "Unknown error"
-        dispatch(stopSubmit('login', {_error: msg}))
     }
 }
 export const Logout = (): ThunkType => async (dispatch) => {
@@ -43,8 +40,8 @@ export const Logout = (): ThunkType => async (dispatch) => {
     dispatch(actions._setAuthUserData(null, null, false))
     localStorage.removeItem('accessToken')
 }
-export const Registration = (log: string, password: string, username: string): ThunkType => async (dispatch) => {
-    let userData = await AuthAPI.reg(log, password, username)
+export const Registration = (log: string, password: string, username: string | null, remember: boolean): ThunkType => async (dispatch) => {
+    let userData = await AuthAPI.reg(log, password, username, remember)
     if (userData) {
         let {login, id} = userData.user
         dispatch(actions._setAuthUserData(login, id, true))

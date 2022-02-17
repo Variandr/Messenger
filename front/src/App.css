@@ -1,13 +1,21 @@
-.App {
-  background: #10161e;
-  min-height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@import '~antd/dist/antd.css';
+
+.center {
+    text-align: center;
+    padding: 10vw;
+    font-size: 5vw;
 }
-.center{
-  text-align: center;
-  padding: 20vh;
+
+.logo {
+    height: 32px;
+    margin: 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.site-layout .site-layout-background {
+    background: #fff;
+}
+
+[data-theme="dark"] .site-layout .site-layout-background {
+    background: #141414;
 }

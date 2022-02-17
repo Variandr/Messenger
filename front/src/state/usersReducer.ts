@@ -2,10 +2,10 @@ import {UsersAPI} from "../API/api";
 
 const SET_USERS = '/users/SET_USERS'
 type users = {
-    id: number,
-    username: string,
-    login: string,
-    status: string
+    id: number
+    status: string | null
+    username: string
+    login: string
 }
 let initialState = {
     users: null as Array<users> | null,

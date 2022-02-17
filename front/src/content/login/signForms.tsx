@@ -1,42 +1,95 @@
 // @ts-ignore
 import s from "./login.module.css"
-import {FieldCreator} from "../../helpers/formCreator"
-import {HiOutlineUserCircle} from "react-icons/hi"
-import {BiLockAlt} from "react-icons/bi"
-import React from "react"
-import {FaUserAlt} from "react-icons/fa"
-import {reduxForm} from "redux-form"
+import React, {FC} from "react"
+import {FaRegUser} from "react-icons/fa"
+import {Button, Checkbox, Form, Input} from "antd"
+import {FiLock} from "react-icons/fi"
 
-const required = (value: any) => value ? undefined : 'Field is required'
-const maxLength = (maxLength: number) => (value: any): string | undefined => value && value.length > maxLength ? `Max length is ${maxLength} symbols` : undefined
-const minLength = (minLength: number) => (value: any): string | undefined => value && value.length < minLength ? `Min length is ${minLength} symbols` : undefined
-const minLength5 = minLength(5)
-const minLength8 = minLength(8)
-const maxLength20 = maxLength(20)
-const maxLength40 = maxLength(40)
 
-const SignInForm = (props: any) => {
+type form = {
+    onSubmit: (values: string) => void
+    setSignUp: () => void
+}
+
+export const SignInForm: FC<form> = ({onSubmit, setSignUp}) => {
     return (
-        <form className={s.sign_in} onSubmit={props.handleSubmit}>
-            {FieldCreator(<HiOutlineUserCircle/>, "login", "Login", [required, minLength5, maxLength20])}
-            {FieldCreator(<BiLockAlt/>, "password", "Password", [required, minLength8, maxLength40], true)}
-            <div>
-                <button className={s.button_log} type="submit">Login</button>
-            </div>
-        </form>
+        <Form name="login"
+              className={s.form}
+              initialValues={{
+                  remember: true,
+              }}
+              onFinish={onSubmit}
+        >
+            <Form.Item name="login"
+                       rules={[
+                           {required: true, message: 'Please input your Username!'},
+                           {min: 5, message: 'Min length is 5 symbols'},
+                           {max: 20, message: 'Max length is 20 symbols'}
+                       ]}
+            >
+                <Input prefix={<FaRegUser/>} placeholder="Login"/>
+            </Form.Item>
+            <Form.Item name="password"
+                       rules={[
+                           {required: true, message: 'Please input your Password!'},
+                           {min: 8, message: 'Min length is 8 symbols'},
+                           {max: 40, message: 'Max length is 40 symbols'}
+                       ]}
+            >
+                <Input.Password prefix={<FiLock/>} placeholder="Password"/>
+            </Form.Item>
+            <Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className={s.formButton}>Log in</Button>
+                Or <span className={s.formNavigate} onClick={setSignUp}>register now!</span>
+            </Form.Item>
+        </Form>
     )
 }
-const SignUpForm = (props: any) => {
+export const SignUpForm: FC<form> = ({onSubmit, setSignUp}) => {
     return (
-        <form className={s.sign_up} onSubmit={props.handleSubmit}>
-            {FieldCreator(<FaUserAlt/>, "username", "Username", [])}
-            {FieldCreator(<HiOutlineUserCircle/>, "login", "Login", [required, minLength5, maxLength20])}
-            {FieldCreator(<BiLockAlt/>, "password", "Password", [required, minLength8, maxLength40], true)}
-            <div>
-                <button className={s.button_log} type="submit">Registration</button>
-            </div>
-        </form>
+        <Form
+            name="login"
+            className={s.form}
+            initialValues={{
+                remember: true,
+            }}
+            onFinish={onSubmit}
+        >
+            <Form.Item name="username">
+                <Input placeholder="Username"/>
+            </Form.Item>
+            <Form.Item name="login"
+                       rules={[
+                           {required: true, message: 'Please input your Login!'},
+                           {min: 5, message: 'Min length is 5 symbols'},
+                           {max: 20, message: 'Max length is 20 symbols'}
+                       ]}
+            >
+                <Input placeholder="Login"/>
+            </Form.Item>
+            <Form.Item name="password"
+                       rules={[
+                           {required: true, message: 'Please input your Password!'},
+                           {min: 8, message: 'Min length is 8 symbols'},
+                           {max: 40, message: 'Max length is 40 symbols'}
+                       ]}
+            >
+                <Input.Password placeholder="Password"/>
+            </Form.Item>
+            <Form.Item>
+                <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit" className={s.formButton}>Sign Up</Button>
+                Already registered? <span className={s.formNavigate} onClick={setSignUp}>Login</span>
+            </Form.Item>
+        </Form>
     )
 }
-export const ReduxSignInForm = reduxForm({form: "login"})(SignInForm)
-export const ReduxSignUpForm = reduxForm({form: "registration"})(SignUpForm)
