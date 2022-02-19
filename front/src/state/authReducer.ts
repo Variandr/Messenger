@@ -32,20 +32,17 @@ export const Login = (log: string, password: string, remember: boolean): ThunkTy
     if (!userData.message) {
         let {login, id} = userData.user
         dispatch(actions._setAuthUserData(login, id, true))
-        localStorage.setItem('accessToken', userData.accessToken)
     }
 }
 export const Logout = (): ThunkType => async (dispatch) => {
     await AuthAPI.logout()
     dispatch(actions._setAuthUserData(null, null, false))
-    localStorage.removeItem('accessToken')
 }
 export const Registration = (log: string, password: string, username: string | null, remember: boolean): ThunkType => async (dispatch) => {
     let userData = await AuthAPI.reg(log, password, username, remember)
     if (userData) {
         let {login, id} = userData.user
         dispatch(actions._setAuthUserData(login, id, true))
-        localStorage.setItem('accessToken', userData.accessToken)
     }
 }
 

@@ -5,7 +5,12 @@ const instance = axios.create({
     baseURL: `http://localhost:5000/api/`,
     withCredentials: true,
     headers: {
-        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        // @ts-ignore
+        Authorization: {
+            toString () {
+                return `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        }
     }
 })
 
@@ -44,13 +49,22 @@ type RefreshType = {
 }
 export const AuthAPI = {
     login(login: string, password: string, remember: boolean) {
-        return instance.post<LoginSignupType>('auth/login', {login, password, remember}).then(res => res.data)
+        return instance.post<LoginSignupType>('auth/login', {login, password, remember}).then(res => {
+            localStorage.setItem('accessToken', res.data.accessToken)
+            return res.data
+        })
     },
     reg(login: string, password: string, username: string | null, remember: boolean) {
-        return instance.post<LoginSignupType>('auth/reg', {login, password, username, remember}).then(res => res.data)
+        return instance.post<LoginSignupType>('auth/reg', {login, password, username, remember}).then(res => {
+            localStorage.setItem('accessToken', res.data.accessToken)
+            return res.data
+        })
     },
     logout() {
-        return instance.delete<any>('auth/logout').then(res => res.data)
+        return instance.delete<any>('auth/logout').then(res => {
+            localStorage.removeItem('accessToken')
+            return res.data
+        })
     },
     authMe() {
         return instance.get<RefreshType>('auth/refresh').then(res => res)
@@ -63,7 +77,7 @@ type profile = {
     login: string
 }
 export const ProfileAPI = {
-    getProfile(userId: number){
+    getProfile(userId: number) {
         return instance.get<profile>(`profile/${userId}`).then(res => res.data)
     },
     updateStatus(status: string) {
@@ -82,6 +96,7 @@ export const UsersAPI = {
 
 export const DialogsAPI = {
     getDialogs() {
+        console.log(localStorage.getItem('accessToken'))
         return instance.get<Array<dialogs>>(`dialogs`).then(res => res ? res.data : res)
     },
     getChat(chatId: string) {

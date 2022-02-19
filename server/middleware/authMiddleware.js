@@ -12,7 +12,6 @@ module.exports = async (req, res, next) => {
         if (!accessToken) {
             return next(ApiError.UnauthorizedError());
         }
-
         const userData = tokenService.validateAccessToken(accessToken);
         if (!userData) {
             return next(ApiError.UnauthorizedError());
