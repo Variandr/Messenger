@@ -33,15 +33,15 @@ export const getProfile = (userId: number): ThunkType => async (dispatch) => {
         dispatch(actions._setProfile(profile))
     }
 }
-export const updateStatus = (id: number, status: string): ThunkType => async (dispatch) => {
-    let data = await ProfileAPI.updateStatus(id, status)
+export const updateStatus = (status: string): ThunkType => async (dispatch) => {
+    let data = await ProfileAPI.updateStatus(status)
     if(data.status){
         dispatch(actions._setStatus(data.status))
     }
 }
 
-export const updateUsername = (id: number, username: string): ThunkType => async (dispatch) => {
-    let data = await ProfileAPI.updateStatus(id, username)
+export const updateUsername = (username: string): ThunkType => async (dispatch) => {
+    let data = await ProfileAPI.updateStatus(username)
     if(data.username){
         dispatch(actions._setUsername(data.username))
     }

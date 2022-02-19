@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {dialogs, messages} from "../state/dialogsReducer";
+import {dialog, dialogs} from "../state/dialogsReducer"
 
 const instance = axios.create({
     baseURL: `http://localhost:5000/api/`,
@@ -32,7 +32,7 @@ type LoginSignupType = {
     }
     accessToken: string
     refreshToken: string
-    message: string
+    message?: string
 }
 type RefreshType = {
     user: {
@@ -50,7 +50,7 @@ export const AuthAPI = {
         return instance.post<LoginSignupType>('auth/reg', {login, password, username, remember}).then(res => res.data)
     },
     logout() {
-        return instance.post<any>('auth/logout').then(res => res.data)
+        return instance.delete<any>('auth/logout').then(res => res.data)
     },
     authMe() {
         return instance.get<RefreshType>('auth/refresh').then(res => res)
@@ -66,11 +66,11 @@ export const ProfileAPI = {
     getProfile(userId: number){
         return instance.get<profile>(`profile/${userId}`).then(res => res.data)
     },
-    updateStatus(userId: number, status: string) {
-        return instance.put<any>('profile/status', {userId, status}).then(res => res.data)
+    updateStatus(status: string) {
+        return instance.put<any>('profile/status', {status}).then(res => res.data)
     },
-    updateUsername(userId: number, username: string) {
-        return instance.put<any>('profile/status', {userId, username}).then(res => res.data)
+    updateUsername(username: string) {
+        return instance.put<any>('profile/status', {username}).then(res => res.data)
     }
 }
 
@@ -81,20 +81,20 @@ export const UsersAPI = {
 }
 
 export const DialogsAPI = {
-    getDialogs(userId: number) {
-        return instance.get<Array<dialogs>>(`dialogs/${userId}`).then(res => res.data)
+    getDialogs() {
+        return instance.get<Array<dialogs>>(`dialogs`).then(res => res ? res.data : res)
     },
     getChat(chatId: string) {
-        return instance.get<Array<messages>>(`dialogs/chat/${chatId}`).then(res => res.data)
+        return instance.get<dialog>(`dialogs/chat/${chatId}`).then(res => res.data)
     },
     createChat(chatName: string, users: Array<number>) {
         return instance.post(`dialogs`, {chatName, users}).then(res => res.data)
     },
-    postMessage(chatId: number, userId: number, message: string) {
-        return instance.post(`dialogs/${chatId}`, {userId, message}).then(res => res.data)
+    postMessage(chatId: number, message: string) {
+        return instance.post(`dialogs/${chatId}`, {message}).then(res => res.data)
     },
-    updateMessage(msgId: number, userId: number, message: string) {
-        return instance.put(`dialogs/message/${msgId}`, {userId, message}).then(res => res.data)
+    updateMessage(msgId: number, message: string) {
+        return instance.put(`dialogs/message/${msgId}`, {message}).then(res => res.data)
     },
     deleteMessage(msgId: number) {
         return instance.delete(`dialogs/message/${msgId}`).then(res => res.data)

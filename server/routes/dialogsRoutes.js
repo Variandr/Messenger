@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/dialogsControllers')
-const passport = require("passport");
+const authMiddleware = require('../middleware/authMiddleware')
 
-router.use(passport.authenticate('jwt', {session: false}))
-router.get('/:userId', controller.GetDialogs)
+router.use(authMiddleware)
+router.get('/', controller.GetDialogs)
 router.get('/chat/:chatId', controller.GetChatData)
 router.post('/', controller.CreateChat)
 router.post('/:chatId', controller.PostMessage)

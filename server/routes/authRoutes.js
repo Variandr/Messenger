@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('../controllers/authControllers')
-const passport = require('passport')
 const {check} = require('express-validator')
 
 router.post('/reg', [
@@ -9,6 +8,6 @@ router.post('/reg', [
     check('password', 'Password cannot be less then 8 and more then 40').notEmpty().isLength({min: 8, max: 40}),
 ], controller.RegisterUser)
 router.post('/login', controller.LoginUser)
-router.post('/logout', controller.LogoutUser)
+router.delete('/logout', controller.LogoutUser)
 router.get('/refresh', controller.RefreshToken)
 module.exports = router;

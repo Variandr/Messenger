@@ -2,7 +2,7 @@ const dialogsService = require("../services/dialogsService");
 
 module.exports.GetDialogs = async (req, res, next) => {
     try {
-        let data = await dialogsService.getDialogs(req.params.userId)
+        let data = await dialogsService.getDialogs(req.user.userId)
         return res.json(data)
     } catch (e) {
         next(e)
@@ -11,8 +11,10 @@ module.exports.GetDialogs = async (req, res, next) => {
 
 module.exports.GetChatData = async (req, res, next) => {
     try {
-        let data = await dialogsService.getChat(req.params.chatId)
-        return res.json(data)
+        let chatData = await dialogsService.getChatInfo(req.params.chatId)
+        let messagesData = await dialogsService.getChatMessages(req.params.chatId)
+
+        return res.status(200).json({...chatData, messages: messagesData})
     } catch (e) {
         next(e)
     }
@@ -30,8 +32,7 @@ module.exports.CreateChat = async (req, res, next) => {
 
 module.exports.PostMessage = async (req, res, next) => {
     try {
-        let {message, userId} = req.body
-        let data = await dialogsService.postMessage(req.params.chatId, message, userId)
+        let data = await dialogsService.postMessage(req.params.chatId, req.body.message, req.user.userId)
         return res.json(data)
     } catch (e) {
         next(e)
@@ -40,8 +41,7 @@ module.exports.PostMessage = async (req, res, next) => {
 
 module.exports.UpdateMessage = async (req, res, next) => {
     try {
-        let {message, userId} = req.body
-        let data = await dialogsService.updateMessage(req.params.msgId, message, userId)
+        let data = await dialogsService.updateMessage(req.params.msgId, req.body.message, req.user.userId)
         return res.json(data)
     } catch (e) {
         next(e)

@@ -14,8 +14,8 @@ import {BiFace} from "react-icons/bi"
 import {ImExit, ImUsers} from "react-icons/im"
 import {Logout} from "./state/authReducer"
 import {TiMessages} from "react-icons/ti"
-import { getProfile } from './selectors/profileSelectors'
-import {DialogsPage} from "./content/dialogs/dialogsPage"
+import {getProfile} from './selectors/profileSelectors'
+import DialogsPage from "./content/dialogs/dialogsPage"
 import Chat from "./content/dialogs/chat"
 
 const {Header, Content} = Layout;
@@ -48,7 +48,7 @@ export const App: FC<any> = () => {
         if (!isInitialized) {
             dispatch(initializeApp())
         }
-    })
+    }, [])
     if (!isInitialized) {
         return <div className="App">
             <Preloader/>

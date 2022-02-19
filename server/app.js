@@ -5,19 +5,16 @@ const app = express()
 const authRoutes = require('./routes/authRoutes')
 const profileRoutes = require('./routes/profileRoutes')
 const dialogsRoutes = require('./routes/dialogsRoutes')
-const passport = require('passport')
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middleware/errorMiddleware')
 
-app.use(passport.initialize())
-require('./middleware/passport')(passport)
+app.use(express.json())
+app.use(cookieParser())
 app.use(cors({
     credentials: true,
     origin: "http://localhost:3000"
 }))
-app.use(cookieParser())
 app.use(require('morgan')('dev'))
-app.use(express.json())
 app.use('/api/auth', authRoutes)
 app.use('/api/profile', profileRoutes)
 app.use('/api/dialogs', dialogsRoutes)

@@ -31,16 +31,27 @@ class DialogsService {
             })
             return Promise.all(data)
         } catch (e) {
-            console.log(e)
             throw errorHandler.BadRequest("Dialogs wasn't found for this user")
         }
     }
 
-    async getChat(chatId) {
+    async getChatMessages(chatId) {
+        try {
+            let messagesData = await pool.query("SELECT * FROM messages WHERE chat_id = $1", [chatId])
+            let messages = messagesData.rows.map(async m => {
+                let username = await pool.query("SELECT username FROM users WHERE id = $1", [m.user_id])
+                return {...m, ...username.rows[0]}
+            })
+            return Promise.all(messages)
+        } catch (e) {
+            throw errorHandler.BadRequest("Chat for this user wasn't found")
+        }
+    }
+
+    async getChatInfo(chatId) {
         try {
             let chatData = await pool.query("SELECT * FROM chats WHERE id = $1", [chatId])
-            let messages = await pool.query("SELECT * FROM messages WHERE chat_id = $1", [chatId])
-            return {...chatData.rows[0], ...messages.rows}
+            return {...chatData.rows[0]}
         } catch (e) {
             throw errorHandler.BadRequest("Chat for this user wasn't found")
         }
