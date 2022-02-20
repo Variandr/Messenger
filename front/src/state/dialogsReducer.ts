@@ -28,7 +28,7 @@ export type chat = {
     chat_name: string
     created_at: string
     updated_at: string | null
-    messages:  Array<messages> | null
+    messages: Array<messages> | null
     chatMembers: Array<members>
 
 }
@@ -47,6 +47,7 @@ const DialogsReducer = (state = initialState, action: ActionTypes): initialState
             return state
     }
 }
+export default DialogsReducer
 type ActionTypes = Actions<typeof actions>
 type ThunkType = BaseThunk<ActionTypes>
 let actions = {
@@ -55,25 +56,33 @@ let actions = {
 }
 export const getDialogs = (): ThunkType => async (dispatch) => {
     let dialogs = await DialogsAPI.getDialogs()
-    if(dialogs){
+    if (dialogs) {
         dispatch(actions._setDialogs(dialogs))
     }
 }
 
-export const getDialogData = (chatId: string): ThunkType => async (dispatch) => {
+export const getDialogData = (chatId: string | number): ThunkType => async (dispatch) => {
     let dialogData = await DialogsAPI.getChat(chatId)
-    if(dialogData){
+    if (dialogData) {
         dispatch(actions._setDialog(dialogData))
     }
 }
 
-export const sendMessage = (chatId: number, message: string):ThunkType => async (dispatch) => {
+export const sendMessage = (chatId: number, message: string): ThunkType => async () => {
     await DialogsAPI.postMessage(chatId, message)
 }
-export const updateMessage = (msgId: number, message: string):ThunkType => async (dispatch) => {
+
+export const updateMessage = (msgId: number, message: string): ThunkType => async () => {
     await DialogsAPI.updateMessage(msgId, message)
 }
-export const deleteMessage = (msgId: number):ThunkType => async (dispatch) => {
+
+export const deleteMessage = (msgId: number): ThunkType => async () => {
     await DialogsAPI.deleteMessage(msgId)
 }
-export default DialogsReducer
+
+export const addParticipant = (chatId: number, userId: number): ThunkType => async () => {
+    let res = await DialogsAPI.addParticipant(chatId, userId)
+    if (res.status === 200) {
+        getDialogData(chatId)
+    }
+}

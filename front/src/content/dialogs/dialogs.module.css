@@ -12,16 +12,18 @@
 .chatName {
     font-weight: bold;
 }
-.chatPage{
+
+.chatPage {
     display: flex;
 }
+
 .chatAndDateBlock {
     display: flex;
     justify-content: space-between;
 }
 
 .date {
-    font-size: 1.5vw;
+    font-size: 1.2vw;
     color: rgba(122, 122, 122, 0.68);
 }
 
@@ -47,169 +49,4 @@
 
 .username {
     color: #0468ff;
-}
-
-.chatContainer {
-    position: relative;
-    height: 90vh;
-    width: 80%;
-    object-fit: contain;
-}
-
-.messageContainer {
-    position: relative;
-    display: flex;
-}
-
-.bg {
-    z-index: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.avatar {
-    display: flex;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    bottom: 1.5vw;
-    max-width: 50px;
-    max-height: 50px;
-    width: 5vw;
-    height: 5vw;
-    border-radius: 50%;
-    background: antiquewhite;
-}
-
-.messagesBlock {
-    height: 85vh;
-    padding: 1vw;
-    overflow-y: auto;
-}
-
-.messageBlock {
-    display: flex;
-    width: 100%;
-}
-
-.myMessageBlock {
-    display: flex;
-    width: 100%;
-    justify-content: end;
-}
-
-.chat {
-    margin: 1vw 0 1vw 5.4vw;
-    padding: 0.5vw;
-    border-radius: 12px;
-    position: relative;
-    color: #141414;
-    -webkit-box-shadow: -4px 7px 8px -4px rgba(34, 60, 80, 0.2);
-    -moz-box-shadow: -4px 7px 8px -4px rgba(34, 60, 80, 0.2);
-    box-shadow: -4px 7px 8px -4px rgba(34, 60, 80, 0.2);
-}
-
-.left {
-    border-bottom-left-radius: 0;
-    background: #ffffff;
-}
-
-.right {
-    border-bottom-right-radius: 0;
-    background: #c4f1c4;
-}
-
-.chat::after {
-    content: '';
-    width: 1.5em;
-    height: 1.5em;
-    position: absolute;
-    bottom: 0;
-}
-
-.left::after {
-    left: 0;
-    transform: translateX(-100%);
-    background: radial-gradient(circle at 0 0, transparent, transparent 72%, #ffffff 72%);
-}
-
-.right::after {
-    right: 0;
-    transform: translateX(100%);
-    background: radial-gradient(circle at 100% 0, transparent, transparent 72%, #c4f1c4 72%);
-}
-
-.messageInputBlock {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    width: 100%;
-}
-
-.messageInput {
-    border: rgba(10, 10, 10, 0.1) solid 1px;
-    outline: none;
-    width: 100%;
-}
-
-.messageEditInput {
-    outline: none;
-    background: #c4f1c4;
-    border: none;
-    overflow: hidden;
-}
-.bodyMessageBlock{
-    display: flex;
-}
-.deleteBtn {
-    position: relative;
-    cursor: pointer;
-    font-size: 2vw;
-    top: -20px;
-}
-.date{
-    color: rgba(20, 20, 20, 0.3);
-    font-size: 1vw;
-    position: relative;
-    margin: 0.5vw 0.5vw 0 0.5vw;
-}
-.infoBlock{
-    width: 20%;
-}
-.infoBlock .chatName{
-    margin-left: 1vw;
-    text-align: center;
-    font-size: 2.5vw;
-    font-weight: 600;
-    border-bottom: rgba(20, 20, 20, 0.4) 1px solid;
-}
-.chatMemberBlock{
-    display: flex;
-    margin-top: 1.5vh;
-}
-.memberImg{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 40px;
-    max-height: 40px;
-    width: 5vw;
-    height: 5vw;
-    border-radius: 50%;
-    background: rgba(175, 232, 255, 0.98);
-}
-.memberName{
-    margin-top: 1vh;
-    margin-left: 1vw;
-    font-size: 1.3vw;
-}
-.participantsBlock{
-    margin-left: 1vw;
-    margin-top: 3vw;
-}
-.participants{
-    overflow: auto;
-    height: 50vh;
 }

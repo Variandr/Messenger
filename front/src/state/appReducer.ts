@@ -1,4 +1,5 @@
 import {AuthMe} from "./authReducer";
+import {getUsers} from "./usersReducer";
 
 const SET_APP_LOADED = '/app/SET_APP_LOADED'
 let initialState = {
@@ -22,7 +23,7 @@ const _setInitialSuccess = (): AppLoadedType => ({
     type: SET_APP_LOADED
 })
 export const initializeApp = () => (dispatch: any) => {
-    let promise = [dispatch(AuthMe())]
+    let promise = [dispatch(AuthMe()), dispatch(getUsers())]
     Promise.all([promise]).then(() => {
         dispatch(_setInitialSuccess())
     })

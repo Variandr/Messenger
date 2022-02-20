@@ -98,7 +98,7 @@ export const DialogsAPI = {
     getDialogs() {
         return instance.get<Array<dialogs>>(`dialogs`).then(res => res ? res.data : res)
     },
-    getChat(chatId: string) {
+    getChat(chatId: string | number) {
         return instance.get<chat>(`dialogs/chat/${chatId}`).then(res => res.data)
     },
     createChat(chatName: string, users: Array<number>) {
@@ -114,6 +114,6 @@ export const DialogsAPI = {
         return instance.delete(`dialogs/message/${msgId}`).then(res => res.data)
     },
     addParticipant(chatId: number, userId: number) {
-        return instance.put(`dialogs/${chatId}`, {userId}).then(res => res.data)
+        return instance.put(`dialogs/${chatId}`, {userId}).then(res => res)
     }
 }

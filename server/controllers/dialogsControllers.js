@@ -14,7 +14,6 @@ module.exports.GetChatData = async (req, res, next) => {
         let chatData = await dialogsService.getChatInfo(req.params.chatId)
         let chatUsers = await dialogsService.getChatUsers(chatData.id)
         let messagesData = await dialogsService.getChatMessages(req.params.chatId)
-console.log(chatUsers)
         return res.status(200).json({...chatData, messages: messagesData, chatMembers: chatUsers})
     } catch (e) {
         next(e)
