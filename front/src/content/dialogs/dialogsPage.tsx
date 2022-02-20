@@ -43,7 +43,7 @@ const DialogsPage = () => {
                     </div>
                     <div className={s.dialogText}>
                         <div className={s.username}>{d.username ? d.username + ":" : ''}</div>
-                        <div className={s.truncateText}>{d.message ? d.message : ''}</div>
+                        <div className={s.truncateText}>{d.message && d.message}</div>
                     </div>
                 </NavLink>
             </div>

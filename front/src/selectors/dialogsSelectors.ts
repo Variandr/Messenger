@@ -5,5 +5,5 @@ export const getDialogsSelector = (state:StateType) => {
 }
 
 export const getDialogDataSelector = (state:StateType) => {
-    return state.dialogsPage.dialog
+    return state.dialogsPage.chat
 }

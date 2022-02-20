@@ -12,9 +12,10 @@ module.exports.GetDialogs = async (req, res, next) => {
 module.exports.GetChatData = async (req, res, next) => {
     try {
         let chatData = await dialogsService.getChatInfo(req.params.chatId)
+        let chatUsers = await dialogsService.getChatUsers(chatData.id)
         let messagesData = await dialogsService.getChatMessages(req.params.chatId)
-
-        return res.status(200).json({...chatData, messages: messagesData})
+console.log(chatUsers)
+        return res.status(200).json({...chatData, messages: messagesData, chatMembers: chatUsers})
     } catch (e) {
         next(e)
     }
@@ -60,8 +61,8 @@ module.exports.AddParticipant = async (req, res, next) => {
 
 module.exports.DeleteMessage = async (req, res, next) => {
     try {
-        let data = await dialogsService.deleteMessage(req.params.msgId)
-        return res.json(data)
+        await dialogsService.deleteMessage(req.params.msgId)
+        return res.status(200).json()
     } catch (e) {
         next(e)
     }

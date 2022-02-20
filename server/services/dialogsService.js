@@ -14,7 +14,13 @@ class DialogsService {
     async getUsername(userId) {
         return await pool.query("SELECT username FROM users WHERE id = $1", [userId]).then(res => res.rows[0].username)
     }
-
+    async getChatUsers(chatId){
+        let usersId = await pool.query("SELECT user_id FROM participants WHERE chat_id = $1", [chatId])
+        let usersData = usersId.rows.map(async u => {
+            return await pool.query("SELECT id, username FROM users WHERE id = $1", [u.user_id]).then(res => res.rows[0])
+        })
+        return Promise.all(usersData)
+    }
     async getDialogs(userId) {
         try {
             let chatsId = await pool.query("SELECT chat_id FROM participants WHERE user_id = $1", [userId]).then(res => res.rows)

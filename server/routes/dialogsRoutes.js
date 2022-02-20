@@ -10,5 +10,5 @@ router.post('/', controller.CreateChat)
 router.post('/:chatId', controller.PostMessage)
 router.put('/message/:msgId', controller.UpdateMessage)
 router.put('/:chatId', controller.AddParticipant)
-router.delete('/chat/message/:msgId', controller.DeleteMessage)
+router.delete('/message/:msgId', controller.DeleteMessage)
 module.exports = router;

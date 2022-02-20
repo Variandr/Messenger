@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {dialog, dialogs} from "../state/dialogsReducer"
+import {chat, dialogs} from "../state/dialogsReducer"
 
 const instance = axios.create({
     baseURL: `http://localhost:5000/api/`,
@@ -90,17 +90,16 @@ export const ProfileAPI = {
 
 export const UsersAPI = {
     getUsers() {
-        return instance.get<Array<profile>>('profile/users').then(res => res.data)
+        return instance.get<Array<profile>>('profile/users').then(res => res?.data)
     }
 }
 
 export const DialogsAPI = {
     getDialogs() {
-        console.log(localStorage.getItem('accessToken'))
         return instance.get<Array<dialogs>>(`dialogs`).then(res => res ? res.data : res)
     },
     getChat(chatId: string) {
-        return instance.get<dialog>(`dialogs/chat/${chatId}`).then(res => res.data)
+        return instance.get<chat>(`dialogs/chat/${chatId}`).then(res => res.data)
     },
     createChat(chatName: string, users: Array<number>) {
         return instance.post(`dialogs`, {chatName, users}).then(res => res.data)

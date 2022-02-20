@@ -19,18 +19,22 @@ export type messages = {
     created_at: string
     updated_at: string | null
 }
-
-export type dialog = {
+type members = {
+    id: number
+    username: string
+}
+export type chat = {
     id: number
     chat_name: string
     created_at: string
     updated_at: string | null
     messages:  Array<messages> | null
+    chatMembers: Array<members>
 
 }
 let initialState = {
     dialogs: null as Array<dialogs> | null,
-    dialog: null as dialog | null
+    chat: null as chat | null
 };
 type initialStateType = typeof initialState
 const DialogsReducer = (state = initialState, action: ActionTypes): initialStateType => {
@@ -38,7 +42,7 @@ const DialogsReducer = (state = initialState, action: ActionTypes): initialState
         case "SET_DIALOGS":
             return {...state, dialogs: action.dialogs}
         case "SET_DIALOG_DATA":
-            return {...state, dialog: action.dialogData}
+            return {...state, chat: action.dialogData}
         default:
             return state
     }
@@ -47,7 +51,7 @@ type ActionTypes = Actions<typeof actions>
 type ThunkType = BaseThunk<ActionTypes>
 let actions = {
     _setDialogs: (dialogs: Array<dialogs>) => ({type: "SET_DIALOGS", dialogs} as const),
-    _setDialog: (dialogData: dialog) => ({type: "SET_DIALOG_DATA", dialogData} as const)
+    _setDialog: (dialogData: chat) => ({type: "SET_DIALOG_DATA", dialogData} as const)
 }
 export const getDialogs = (): ThunkType => async (dispatch) => {
     let dialogs = await DialogsAPI.getDialogs()
@@ -65,5 +69,11 @@ export const getDialogData = (chatId: string): ThunkType => async (dispatch) => 
 
 export const sendMessage = (chatId: number, message: string):ThunkType => async (dispatch) => {
     await DialogsAPI.postMessage(chatId, message)
+}
+export const updateMessage = (msgId: number, message: string):ThunkType => async (dispatch) => {
+    await DialogsAPI.updateMessage(msgId, message)
+}
+export const deleteMessage = (msgId: number):ThunkType => async (dispatch) => {
+    await DialogsAPI.deleteMessage(msgId)
 }
 export default DialogsReducer
