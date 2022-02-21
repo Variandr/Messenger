@@ -1,14 +1,14 @@
 // @ts-ignore
 import s from "./chat.module.css"
 // @ts-ignore
-import chatBg from "../../../assets/chatBg.png"
+import chatBg from "../../../../assets/chatBg.png"
 import {Button} from "antd"
 import {IoMdSend} from "react-icons/io"
 import React, {FC, useState} from "react"
-import {sendMessage} from "../../../state/dialogsReducer"
+import {sendMessage} from "../../../../state/dialogsReducer"
 import {MessageItem} from "./messageItem"
 import {useDispatch, useSelector} from "react-redux"
-import {getDialogDataSelector} from "../../../selectors/dialogsSelectors"
+import {getDialogDataSelector} from "../../../../selectors/dialogsSelectors"
 
 export const Chat: FC = () => {
     let dispatch = useDispatch()

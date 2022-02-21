@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {chat, dialogs} from "../state/dialogsReducer"
+import {chat, dialogs, user} from "../state/dialogsReducer"
 
 const instance = axios.create({
     baseURL: `http://localhost:5000/api/`,
@@ -101,7 +101,7 @@ export const DialogsAPI = {
     getChat(chatId: string | number) {
         return instance.get<chat>(`dialogs/chat/${chatId}`).then(res => res.data)
     },
-    createChat(chatName: string, users: Array<number>) {
+    createChat(chatName: string, users: Array<user>) {
         return instance.post(`dialogs`, {chatName, users}).then(res => res.data)
     },
     postMessage(chatId: number, message: string) {

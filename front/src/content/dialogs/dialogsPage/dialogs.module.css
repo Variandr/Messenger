@@ -1,0 +1,128 @@
+.truncateText {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.dialogText {
+    display: flex;
+}
+
+.chatName {
+    font-weight: bold;
+}
+
+.chatPage {
+    display: flex;
+}
+
+.chatAndDateBlock {
+    display: flex;
+    justify-content: space-between;
+}
+
+.date {
+    font-size: 1.2vw;
+    color: rgba(122, 122, 122, 0.68);
+}
+
+.dialogContainer {
+    font-size: 1.5vw;
+    cursor: pointer;
+    margin: 1vw;
+    padding: 0.5vw;
+    max-width: 400px;
+    border-bottom: rgba(20, 20, 20, 0.4) 1px solid;
+}
+
+.dialogContainer:hover {
+    -webkit-box-shadow: -3px -4px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    -moz-box-shadow: -3px -4px 5px -5px rgba(34, 60, 80, 0.2) inset;
+    box-shadow: -3px -4px 5px -5px rgba(34, 60, 80, 0.2) inset;
+}
+
+.navLink, .navLink:hover {
+    text-decoration: none;
+    color: #141414;
+}
+
+.username {
+    color: #0468ff;
+}
+
+.dialogsPageBlock {
+    margin: 0 4vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addChatBtn {
+    cursor: pointer;
+    font-size: 2.5vw;
+}
+
+.addChatBtnBlock {
+    text-align: center;
+}
+
+.addChatBlock {
+    width: 400px;
+    height: 50vh;
+    border: #141414 3px dashed;
+}
+
+.chatNameInput {
+    text-align: center;
+    outline: none;
+    border: none;
+    font-size: 1.8vw;
+    width: 100%;
+}
+
+.addParticipantBtnBlock {
+    text-align: center;
+}
+
+.addParticipantBtn {
+    font-size: 1.5vw;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.participants {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 0.5vw;
+}
+
+.participantImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    margin-top: 10px;
+    border-radius: 50%;
+    background: rgba(216, 175, 255, 0.98);
+}
+
+.participantName {
+    margin-top: 1vh;
+    margin-left: 0.3vw;
+    font-size: 1.3vw;
+}
+
+.usersBlock {
+    margin-left: 1vw;
+}
+.createChatBtnBlock{
+    text-align: center;
+}
+.createChatBtn{
+    cursor: pointer;
+    font-size: 3vw;
+}

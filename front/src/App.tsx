@@ -15,8 +15,8 @@ import {ImExit, ImUsers} from "react-icons/im"
 import {Logout} from "./state/authReducer"
 import {TiMessages} from "react-icons/ti"
 import {getProfile} from './selectors/profileSelectors'
-import DialogsPage from "./content/dialogs/dialogsPage"
-import Chat from "./content/dialogs/chatPage"
+import DialogsPage from "./content/dialogs/dialogsPage/dialogsPage"
+import Chat from "./content/dialogs/ChatPage/chatPage"
 
 const {Header, Content} = Layout;
 const Profile = () => {

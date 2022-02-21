@@ -6,3 +6,6 @@ export const getAuth = (state:StateType) => {
 export const getUserId = (state:StateType) => {
     return state.authPage.id
 }
+export const getUserLogin = (state: StateType) => {
+    return state.authPage.login
+}

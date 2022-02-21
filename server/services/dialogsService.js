@@ -68,9 +68,9 @@ class DialogsService {
             let date = new Date()
             let chatData = await pool.query("INSERT INTO chats (chat_name, created_at) VALUES ($1, $2) RETURNING id", [chatName, date])
             users.map(async (u) => {
-                let check = await pool.query("SELECT * FROM participants WHERE chat_id = $1 AND user_id = $2", [chatData.rows[0].id, u])
+                let check = await pool.query("SELECT * FROM participants WHERE chat_id = $1 AND user_id = $2", [chatData.rows[0].id, u.id])
                 if (!check.rows.length) {
-                    await pool.query("INSERT INTO participants (user_id, chat_id) VALUES ($1, $2)", [u, chatData.rows[0].id])
+                    await pool.query("INSERT INTO participants (user_id, chat_id) VALUES ($1, $2)", [u.id, chatData.rows[0].id])
                 }
                 return u
             })

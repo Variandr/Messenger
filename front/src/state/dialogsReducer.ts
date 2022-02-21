@@ -86,3 +86,10 @@ export const addParticipant = (chatId: number, userId: number): ThunkType => asy
         getDialogData(chatId)
     }
 }
+export type user = {
+    id: number | null
+    username: string | null
+}
+export const createChat = (chatName: string, users: Array<user>):ThunkType => async () => {
+    await DialogsAPI.createChat(chatName, users)
+}

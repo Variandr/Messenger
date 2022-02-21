@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux"
-import {getUserId} from "../../../selectors/authSelectors"
+import {getUserId} from "../../../../selectors/authSelectors"
 import React, {useState} from "react"
-import {updateMessage, deleteMessage} from "../../../state/dialogsReducer"
+import {updateMessage, deleteMessage} from "../../../../state/dialogsReducer"
 // @ts-ignore
 import s from "./chat.module.css"
 import {TiDelete} from "react-icons/ti"
