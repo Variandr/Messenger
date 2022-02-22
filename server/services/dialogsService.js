@@ -45,8 +45,8 @@ class DialogsService {
         try {
             let messagesData = await pool.query("SELECT * FROM messages WHERE chat_id = $1", [chatId])
             let messages = messagesData.rows.map(async m => {
-                let username = await pool.query("SELECT username FROM users WHERE id = $1", [m.user_id])
-                return {...m, ...username.rows[0]}
+                let username = messagesData ? await this.getUsername(m.user_id) : null
+                return {...m, username}
             })
             return Promise.all(messages)
         } catch (e) {
@@ -82,7 +82,9 @@ class DialogsService {
     async postMessage(chatId, message, userId) {
         try {
             let date = new Date()
-            await pool.query("INSERT INTO messages (chat_id, user_id, body, created_at) VALUES ($1, $2, $3, $4)", [chatId, userId, message, date])
+            let messageData = await pool.query("INSERT INTO messages (chat_id, user_id, body, created_at) VALUES ($1, $2, $3, $4) RETURNING *", [chatId, userId, message, date])
+            let username = await this.getUsername(messageData.rows[0].user_id)
+            return {...messageData.rows[0], username}
         } catch (e) {
             throw errorHandler.BadRequest("Message wasn't sent")
         }
@@ -91,7 +93,8 @@ class DialogsService {
     async updateMessage(msgId, message) {
         try {
             let date = new Date()
-            await pool.query("UPDATE messages SET body = $1, updated_at = $2 WHERE id = $3", [message, date, msgId])
+            let messageData = await pool.query("UPDATE messages SET body = $1, updated_at = $2 WHERE id = $3 RETURNING body, updated_at, id", [message, date, msgId])
+            return messageData.rows[0]
         } catch (e) {
             throw errorHandler.BadRequest("Message wasn't updated")
         }
@@ -112,7 +115,14 @@ class DialogsService {
         try {
             await pool.query("DELETE FROM messages WHERE id = $1", [msgId])
         } catch (e) {
-            throw errorHandler.BadRequest("Message wasn't updated")
+            throw errorHandler.BadRequest("Message wasn't deleted")
+        }
+    }
+    async setOnlineStatus(online, userId){
+        try{
+            await pool.query("UPDATE users SET online = $1 WHERE id = $2", [online, userId])
+        }catch(e){
+            throw errorHandler.BadRequest("Status wasn't changed")
         }
     }
 }

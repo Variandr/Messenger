@@ -104,7 +104,13 @@ const DialogsPage = () => {
                     {participants.length > 1 && chatName.length > 3 && chatName.length < 40 &&
                         <div className={s.createChatBtnBlock}>
                             <AiOutlineSend className={s.createChatBtn}
-                                           onClick={() => dispatch(createChat(chatName, participants))}/>
+                                           onClick={() => {
+                                               dispatch(createChat(chatName, participants))
+                                               setAddChat(false)
+                                               setChatName('')
+                                               setParticipant([])
+                                           }}
+                            />
                         </div>}
                 </div>
             }

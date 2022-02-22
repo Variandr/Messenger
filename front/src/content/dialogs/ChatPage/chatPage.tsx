@@ -10,6 +10,7 @@ import s from "../dialogsPage/dialogs.module.css"
 import {ChatInfo} from "./chatInfo/chatInfo"
 import {Chat} from "./chatBlock/chat"
 
+
 const ChatPage = () => {
     let dispatch = useDispatch()
     const {dialogId} = useParams()

@@ -1,4 +1,3 @@
-import {FormAction} from "redux-form"
 import {AuthAPI} from "../API/api"
 import {Actions, BaseThunk} from "./store"
 
@@ -18,7 +17,7 @@ const AuthorizationReducer = (state = initialState, action: ActionTypes): initia
 }
 export default AuthorizationReducer
 type ActionTypes = Actions<typeof actions>
-type ThunkType = BaseThunk<ActionTypes | FormAction>
+type ThunkType = BaseThunk<ActionTypes>
 
 let actions = {
     _setAuthUserData: (login: string | null, id: number | null, isAuth: boolean) => ({
