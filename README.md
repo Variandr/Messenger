@@ -18,10 +18,10 @@ Front:
 
 1. Clone project `git clone https://github.com/Variandr/Messenger.git`
 
-2. Install node modules to new directory `cd Messenger/front` -> `npm i`
+2. Install node modules to new directory `cd .\Messenger\front` -> `npm i`
 
 3. Start app `npm start`
 
 Backend:
 
-1. Write `cd Messenger/server` -> `npm run dev`
+1. Write `cd .\Messenger\server` -> `npm run dev`
