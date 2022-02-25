@@ -68,18 +68,6 @@ export const getDialogData = (chatId: string | number): ThunkType => async (disp
     }
 }
 
-export const sendMessage = (chatId: number, message: string): ThunkType => async () => {
-    await DialogsAPI.postMessage(chatId, message)
-}
-
-export const updateMessage = (msgId: number, message: string): ThunkType => async () => {
-    await DialogsAPI.updateMessage(msgId, message)
-}
-
-export const deleteMessage = (msgId: number): ThunkType => async () => {
-    await DialogsAPI.deleteMessage(msgId)
-}
-
 export const addParticipant = (chatId: number, userId: number): ThunkType => async () => {
     let res = await DialogsAPI.addParticipant(chatId, userId)
     if (res.status === 200) {
@@ -90,6 +78,6 @@ export type user = {
     id: number | null
     username: string | null
 }
-export const createChat = (chatName: string, users: Array<user>):ThunkType => async () => {
+export const createChat = (chatName: string, users: Array<user>): ThunkType => async () => {
     await DialogsAPI.createChat(chatName, users)
 }

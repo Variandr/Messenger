@@ -24,13 +24,12 @@ type ActionTypes = Actions<typeof actions>
 type ThunkType = BaseThunk<ActionTypes>
 let actions = {
     _setUsers: (users: Array<users>) => ({type: "SET_USERS", users} as const),
-
 }
 
-export const getUsers = ():ThunkType => async (dispatch) => {
-    let response = await UsersAPI.getUsers()
-    if(response){
-        dispatch(actions._setUsers(response))
+export const getUsers = (): ThunkType => async (dispatch) => {
+    let users = await UsersAPI.getUsers()
+    if (users) {
+        dispatch(actions._setUsers(users))
     }
 }
 export default UsersReducer

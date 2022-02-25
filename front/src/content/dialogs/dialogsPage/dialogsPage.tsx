@@ -60,7 +60,6 @@ const DialogsPage = () => {
     let [isAddChat, setAddChat] = useState(false)
     let [chatName, setChatName] = useState('')
     let [isUsersShow, setUsersShow] = useState(false)
-
     let [participants, setParticipant] = useState<Array<user>>([{id: userId, username: login}])
     let addParticipant = (id: number, username: string) => {
         setParticipant([...participants, {id: id, username: username}])
@@ -81,38 +80,38 @@ const DialogsPage = () => {
                 </div>
             </div>
             {isAddChat &&
-                <div className={s.addChatBlock}>
-                    <input type="text"
-                           placeholder="Input chat name..."
-                           className={s.chatNameInput}
-                           value={chatName}
-                           onChange={(e) => setChatName(e.target.value)}
-                    />
-                    <div className={s.participants}>{showParticipants}
-                        <div className={s.addParticipantBtnBlock}>
-                            <IoMdPersonAdd className={s.addParticipantBtn} onClick={() => setUsersShow(true)}/>
-                        </div>
+            <div className={s.addChatBlock}>
+                <input type="text"
+                       placeholder="Input chat name..."
+                       className={s.chatNameInput}
+                       value={chatName}
+                       onChange={(e) => setChatName(e.target.value)}
+                />
+                <div className={s.participants}>{showParticipants}
+                    <div className={s.addParticipantBtnBlock}>
+                        <IoMdPersonAdd className={s.addParticipantBtn} onClick={() => setUsersShow(true)}/>
                     </div>
-                    {isUsersShow &&
-                        <div className={s.usersBlock}>
-                            <ShowFreeUsers chatMembers={participants}
-                                           setUsersShow={setUsersShow}
-                                           addParticipant={addParticipant}
-                            />
-                        </div>
-                    }
-                    {participants.length > 1 && chatName.length > 3 && chatName.length < 40 &&
-                        <div className={s.createChatBtnBlock}>
-                            <AiOutlineSend className={s.createChatBtn}
-                                           onClick={() => {
-                                               dispatch(createChat(chatName, participants))
-                                               setAddChat(false)
-                                               setChatName('')
-                                               setParticipant([])
-                                           }}
-                            />
-                        </div>}
                 </div>
+                {isUsersShow &&
+                <div className={s.usersBlock}>
+                    <ShowFreeUsers chatMembers={participants}
+                                   setUsersShow={setUsersShow}
+                                   addParticipant={addParticipant}
+                    />
+                </div>
+                }
+                {participants.length > 1 && chatName.length > 3 && chatName.length < 40 &&
+                <div className={s.createChatBtnBlock}>
+                    <AiOutlineSend className={s.createChatBtn}
+                                   onClick={() => {
+                                       dispatch(createChat(chatName, participants))
+                                       setAddChat(false)
+                                       setChatName('')
+                                       setParticipant([])
+                                   }}
+                    />
+                </div>}
+            </div>
             }
         </div>
     )

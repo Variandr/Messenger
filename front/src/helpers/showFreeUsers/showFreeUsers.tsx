@@ -3,7 +3,7 @@ import isUserParticipant from "../isUserParticipant"
 import s from "./showFreeUsers.module.css";
 import React, {FC} from "react"
 import {useSelector} from "react-redux";
-import {getUsers} from "../../selectors/usersSelectors";
+import {getUsersSelector} from "../../selectors/usersSelectors"
 
 type members = {
     id: number | null
@@ -15,7 +15,7 @@ type ShowFreeUsersType = {
     addParticipant: (id: number, username: string) => void
 }
 const ShowFreeUsers: FC<ShowFreeUsersType> = ({chatMembers, setUsersShow, addParticipant}) => {
-    let users = useSelector(getUsers)
+    let users = useSelector(getUsersSelector)
     let showUsers = users?.map(u => {
         let check = isUserParticipant(chatMembers, u.id)
         if (check) return null

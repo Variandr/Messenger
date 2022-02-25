@@ -1,0 +1,26 @@
+.userBlock {
+    display: flex;
+    width: 20vw;
+    justify-content: space-between;
+    margin-bottom: 1vw;
+}
+
+.userNick {
+    font-family: SansSerif sans-serif;
+    font-size: 1.5vw;
+}
+
+.userTextBtn {
+    cursor: pointer;
+    font-size: 1.5vw;
+}
+
+.userTextBtnBlock {
+    position: relative;
+    top: 0.4vw;
+}
+
+.navLink, .navLink:hover {
+    text-decoration: none;
+    color: #141414;
+}

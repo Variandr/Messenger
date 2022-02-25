@@ -77,14 +77,14 @@ type profile = {
     login: string
 }
 export const ProfileAPI = {
-    getProfile(userId: number) {
+    getProfile(userId: number | string) {
         return instance.get<profile>(`profile/${userId}`).then(res => res.data)
     },
     updateStatus(status: string) {
         return instance.put<any>('profile/status', {status}).then(res => res.data)
     },
     updateUsername(username: string) {
-        return instance.put<any>('profile/status', {username}).then(res => res.data)
+        return instance.put<any>('profile/username', {username}).then(res => res.data)
     }
 }
 

@@ -1,16 +1,19 @@
-import React, {useEffect} from "react"
-import {useDispatch, useSelector} from "react-redux"
+import React, {FC, useEffect} from "react"
+import {useDispatch} from "react-redux"
 import Profile from "./profile"
 import {withAuthRedirect} from "../../HOC/withAuthRedirect"
-import {getProfile} from "../../state/profileReducer";
-import {getUserId} from "../../selectors/authSelectors";
+import {getProfile} from "../../state/profileReducer"
+import {useParams} from "react-router-dom"
 
-export const ProfilePage = (props: any) => {
+export const ProfilePage: FC = () => {
     let dispatch = useDispatch()
-    let userId = useSelector(getUserId)
+    let {id} = useParams()
     useEffect(() => {
-        if (userId) dispatch(getProfile(userId))
-    }, [])
+        if (id) dispatch(getProfile(id))
+    }, [id])
+    useEffect(() => {
+
+    })
     return <Profile/>
 }
 export default withAuthRedirect(ProfilePage)

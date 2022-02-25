@@ -7,7 +7,7 @@ export const MessageItem = ({userId, editMessage, deleteMessageOnClick, m, setEd
     let [isEdit, setEdit] = useState(false)
     let [messageForEdit, setMessage] = useState<string>('')
     let date = new Date(m.created_at).toLocaleString('en-US', {hour: '2-digit', minute: '2-digit'})
-    let onMessageForEditChange = (e: any) => {
+    let onMessageForEditChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessage(e.target.value)
     }
     return <div key={m.id} className={s.messageContainer}>

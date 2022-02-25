@@ -1,5 +1,5 @@
 import {StateType} from "../state/store";
 
-export const getUsers = (state:StateType) => {
+export const getUsersSelector = (state:StateType) => {
     return state.usersPage.users
 }

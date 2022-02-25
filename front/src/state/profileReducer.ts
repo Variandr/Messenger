@@ -1,5 +1,5 @@
-import {ProfileAPI} from "../API/api";
-import {Actions, BaseThunk} from "./store";
+import {ProfileAPI} from "../API/api"
+import {Actions, BaseThunk} from "./store"
 
 type profileType = {
     id: number,
@@ -23,27 +23,27 @@ const ProfileReducer = (state = initialState, action: ActionTypes): initialState
 type ActionTypes = Actions<typeof actions>
 type ThunkType = BaseThunk<ActionTypes>
 let actions = {
-    _setStatus: (status: string) => ({type: "SET_STATUS", status} as const),
-    _setUsername: (username: string) => ({type: "SET_USERNAME", username} as const),
     _setProfile: (profile: profileType) => ({type: "SET_PROFILE", profile} as const)
 }
-export const getProfile = (userId: number): ThunkType => async (dispatch) => {
+export const getProfile = (userId: number | string): ThunkType => async (dispatch) => {
     let profile = await ProfileAPI.getProfile(userId)
-    if(profile){
+    if (profile) {
         dispatch(actions._setProfile(profile))
     }
 }
-export const updateStatus = (status: string): ThunkType => async (dispatch) => {
+export const updateStatus = (status: string): ThunkType => async (dispatch, getState) => {
     let data = await ProfileAPI.updateStatus(status)
-    if(data.status){
-        dispatch(actions._setStatus(data.status))
+    if (data.status) {
+        let userId = getState().profilePage.profile?.id
+        console.log(userId)
+        if (userId) await dispatch(getProfile(userId))
     }
 }
 
-export const updateUsername = (username: string): ThunkType => async (dispatch) => {
-    let data = await ProfileAPI.updateStatus(username)
-    if(data.username){
-        dispatch(actions._setUsername(data.username))
-    }
+export const updateUsername = (username: string): ThunkType => async (dispatch, getState) => {
+    let data = await ProfileAPI.updateUsername(username)
+    if (data.username) {
+        let userId = getState().profilePage.profile?.id
+        if (userId) await dispatch(getProfile(userId))    }
 }
 export default ProfileReducer
