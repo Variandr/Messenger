@@ -4,13 +4,13 @@ import s from "./chat.module.css"
 import chatBg from "../../../../assets/chatBg.png"
 import {Button} from "antd"
 import {IoMdSend} from "react-icons/io"
-import React, {FC, useEffect, useState} from "react"
+import React, {FC, useEffect, useRef, useState} from "react"
 import {messages} from "../../../../state/dialogsReducer"
 import {MessageItem} from "./messageItem"
 import {useSelector} from "react-redux"
 import {getDialogDataSelector} from "../../../../selectors/dialogsSelectors"
 import socket from "../../../../API/socket"
-import {getUserId} from "../../../../selectors/authSelectors";
+import {getUserId} from "../../../../selectors/authSelectors"
 
 export const Chat: FC = () => {
     let userId = useSelector(getUserId)
@@ -21,6 +21,11 @@ export const Chat: FC = () => {
             socket.emit('chat:join', {chatId: dialogData.id})
             socket.on('messages', (data: Array<messages>) => {
                 setMessages(data)
+                if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest",
+                    inline: "start"
+                })
             })
         }
     }, [dialogData])
@@ -28,7 +33,7 @@ export const Chat: FC = () => {
         socket.on('message', (req) => {
             switch (req.type) {
                 case 'send-message':
-                        setMessages([...messages, req.data])
+                    setMessages([...messages, req.data])
                     break
                 case 'change-message':
                     setMessages([...messages.map(m => {
@@ -80,9 +85,13 @@ export const Chat: FC = () => {
                             setEditing={setEditing}
         />
     })
+    let messagesEndRef = useRef<HTMLDivElement>(null)
     return <div className={s.chatContainer}>
         <img className={s.bg} src={chatBg} alt="chat-background"/>
-        <div className={s.messagesBlock}>{showMessages}</div>
+        <div className={s.messagesBlock}>
+            <div>{showMessages}</div>
+            <div ref={messagesEndRef}/>
+        </div>
         <div className={s.messageInputBlock}>
             <input className={s.messageInput} type="text" value={messageBody} onChange={onMessageChange}
                    placeholder="Message"/>
