@@ -3,7 +3,8 @@ const errorHandler = require("../helpers/errorHandler")
 
 class DialogsService {
     async getLastMessage(chatId) {
-        return await pool.query("SELECT body, user_id FROM messages WHERE chat_id = $1 ORDER BY id DESC LIMIT 1", [chatId]).then(res => res.rows[0])
+        return await pool.query("SELECT body, user_id FROM messages WHERE chat_id = $1 ORDER BY id DESC LIMIT 1", [chatId])
+            .then(res => res.rows[0])
     }
 
     async getDialogData(chatId) {
@@ -14,16 +15,20 @@ class DialogsService {
     async getUsername(userId) {
         return await pool.query("SELECT username FROM users WHERE id = $1", [userId]).then(res => res.rows[0].username)
     }
-    async getChatUsers(chatId){
+
+    async getChatUsers(chatId) {
         let usersId = await pool.query("SELECT user_id FROM participants WHERE chat_id = $1", [chatId])
         let usersData = usersId.rows.map(async u => {
-            return await pool.query("SELECT id, username FROM users WHERE id = $1", [u.user_id]).then(res => res.rows[0])
+            return await pool.query("SELECT id, username, online, last_online FROM users WHERE id = $1", [u.user_id])
+                .then(res => res.rows[0])
         })
         return Promise.all(usersData)
     }
+
     async getDialogs(userId) {
         try {
-            let chatsId = await pool.query("SELECT chat_id FROM participants WHERE user_id = $1", [userId]).then(res => res.rows)
+            let chatsId = await pool.query("SELECT chat_id FROM participants WHERE user_id = $1", [userId])
+                .then(res => res.rows)
             let data = chatsId.map(async c => {
                 let chat = await this.getDialogData(c.chat_id)
                 let messageData = await this.getLastMessage(c.chat_id)
@@ -118,10 +123,12 @@ class DialogsService {
             throw errorHandler.BadRequest("Message wasn't deleted")
         }
     }
-    async setOnlineStatus(online, userId){
-        try{
-            await pool.query("UPDATE users SET online = $1 WHERE id = $2", [online, userId])
-        }catch(e){
+
+    async setOnlineStatus(online, userId) {
+        try {
+            let date = new Date()
+            await pool.query("UPDATE users SET online = $1, last_online = $2 WHERE id = $3", [online, date, userId])
+        } catch (e) {
             throw errorHandler.BadRequest("Status wasn't changed")
         }
     }

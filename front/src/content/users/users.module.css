@@ -24,3 +24,19 @@
     text-decoration: none;
     color: #141414;
 }
+
+.memberImg {
+    margin-right: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 40px;
+    max-height: 40px;
+    width: 5vw;
+    height: 5vw;
+    border-radius: 50%;
+    background: rgba(175, 232, 255, 0.98);
+}
+.userNickAndImgBlock{
+    display: flex;
+}

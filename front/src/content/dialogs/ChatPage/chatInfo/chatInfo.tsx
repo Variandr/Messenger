@@ -12,9 +12,19 @@ export const ChatInfo: FC = () => {
     let dialogData = useSelector(getDialogDataSelector)
     let [isUsersShow, setUsersShow] = useState(false)
     let participants = dialogData?.chatMembers.map(m => {
+        let d = new Date(m.last_online)
+        let localDate = new Date()
+        let offline = () => {
+            if (d.getDate() === localDate.getDate()) {
+                return d.toLocaleString('en-US', {hour: 'numeric', minute: 'numeric', hour12: true})
+            } else return 'last seen recently'
+        }
         return <div key={m.id} className={s.chatMemberBlock}>
             <div className={s.memberImg}>{m.username[0].toUpperCase()}</div>
+            <div>
             <div className={s.memberName + ' ' + s.truncateText}>{m.username}</div>
+                <div className={(m.online ? s.onlineStatus : s.offlineStatus)}>{m.online ? 'online' : offline()}</div>
+            </div>
         </div>
     })
     let setParticipant = (id: number) => {

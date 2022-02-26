@@ -22,13 +22,14 @@ export type messages = {
 type members = {
     id: number
     username: string
+    online: boolean
+    last_online: string
 }
 export type chat = {
     id: number
     chat_name: string
     created_at: string
     updated_at: string | null
-    messages: Array<messages> | null
     chatMembers: Array<members>
 
 }

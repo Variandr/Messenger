@@ -28,3 +28,11 @@
     width: 100%;
     white-space: nowrap;
 }
+.offlineStatus{
+    margin-left: 1vw;
+    color: #5e5e5e;
+}
+.onlineStatus{
+    margin-left: 1vw;
+    color: #1b83fa;
+}

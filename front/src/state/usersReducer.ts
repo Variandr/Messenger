@@ -6,6 +6,8 @@ export type users = {
     status: string | null
     username: string
     login: string
+    online: boolean
+    last_online: string
 }
 let initialState = {
     users: null as Array<users> | null,
