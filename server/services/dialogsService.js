@@ -118,7 +118,8 @@ class DialogsService {
 
     async deleteMessage(msgId) {
         try {
-            await pool.query("DELETE FROM messages WHERE id = $1", [msgId])
+            let messageData = await pool.query("DELETE FROM messages WHERE id = $1 RETURNING *", [msgId])
+            return messageData.rows[0]
         } catch (e) {
             throw errorHandler.BadRequest("Message wasn't deleted")
         }

@@ -16,6 +16,7 @@ import {Logout} from "./state/authReducer"
 import {TiMessages} from "react-icons/ti"
 import DialogsPage from "./content/dialogs/dialogsPage/dialogsPage"
 import Chat from "./content/dialogs/ChatPage/chatPage"
+import socket from "./API/socket"
 
 const {Header, Content} = Layout
 
@@ -56,7 +57,10 @@ export const App: FC<any> = () => {
                         <Menu.Item key="1">
                             <NavLink to={"/profile/" + userId}>{userLogin ? userLogin : "Profile"}</NavLink>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<ImExit/>} onClick={() => dispatch(Logout())}>
+                        <Menu.Item key="2" icon={<ImExit/>} onClick={() => {
+                            socket.disconnect()
+                            dispatch(Logout())
+                        }}>
                             Logout
                         </Menu.Item>
                     </Menu.SubMenu>

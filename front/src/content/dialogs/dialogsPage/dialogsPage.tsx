@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux"
-import {createChat, getDialogs, user} from "../../../state/dialogsReducer"
+import {actions, createChat, user} from "../../../state/dialogsReducer"
 import {getDialogsSelector} from "../../../selectors/dialogsSelectors"
 // @ts-ignore
 import s from "./dialogs.module.css"
@@ -11,6 +11,7 @@ import {IoMdPersonAdd} from "react-icons/io"
 import {AiOutlineSend} from "react-icons/ai"
 import {getUserId, getUserLogin} from "../../../selectors/authSelectors"
 import ShowFreeUsers from "../../../helpers/showFreeUsers/showFreeUsers"
+import socket from "../../../API/socket";
 
 const DialogsPage = () => {
     let showDate = (date: string) => {
@@ -31,8 +32,13 @@ const DialogsPage = () => {
     let userId = useSelector(getUserId) || null
     let login = useSelector(getUserLogin) || null
     useEffect(() => {
-        dispatch(getDialogs())
+        socket.emit('dialogs:join')
     }, [])
+    useEffect(() => {
+        socket.on('dialogs', (dialogs) => {
+            dispatch(actions.setDialogs(dialogs))
+        })
+    })
     let DialogItems
     if (dialogs) {
         let sortedDialogs = dialogs.sort((a, b) => {

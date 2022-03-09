@@ -15,40 +15,14 @@ import {getUserId} from "../../../../selectors/authSelectors"
 export const Chat: FC = () => {
     let userId = useSelector(getUserId)
     let dialogData = useSelector(getDialogDataSelector)
-    let [messages, setMessages] = useState<Array<messages>>([])
     useEffect(() => {
-        if (dialogData) {
-            socket.emit('chat:join', {chatId: dialogData.id})
-            socket.on('messages', (data: Array<messages>) => {
-                setMessages(data)
-                if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({
-                    behavior: "smooth",
-                    block: "nearest",
-                    inline: "start"
-                })
-            })
-        }
-    }, [dialogData])
-    useEffect(() => {
-        socket.on('message', (req) => {
-            switch (req.type) {
-                case 'send-message':
-                    setMessages([...messages, req.data])
-                    break
-                case 'change-message':
-                    setMessages([...messages.map(m => {
-                        if (m.id === req.data.id) {
-                            m.body = req.data.body
-                            m.updated_at = req.data.updated_at
-                        }
-                        return m
-                    })])
-                    break
-                case 'delete-message':
-                    setMessages([...messages.filter(m => m.id !== req.data)])
-            }
+        if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+            inline: "start"
         })
-    })
+    }, [dialogData])
+
     let [isEditingAvailable, setEditing] = useState(false)
     let [messageBody, setMessageBody] = useState<string>('')
     let addMessage = () => {
@@ -73,7 +47,7 @@ export const Chat: FC = () => {
         setMessageBody(e.target.value)
     }
     let showMessages
-    let sortedMessages = messages.sort((a, b) => {
+    let sortedMessages = dialogData?.messages.sort((a, b) => {
         return +new Date(a.created_at) - +new Date(b.created_at)
     })
     showMessages = sortedMessages?.map(m => {

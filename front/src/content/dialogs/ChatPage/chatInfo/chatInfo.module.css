@@ -47,7 +47,8 @@
 }
 
 .participants {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 50vh;
 }
 .addParticipantBtnBlock{
@@ -59,7 +60,8 @@
 }
 
 .usersBlock {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 30vh;
 }
 

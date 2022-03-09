@@ -42,6 +42,7 @@
 .messagesBlock {
     height: 75vh;
     padding: 1vw;
+    overflow-x: hidden;
     overflow-y: auto;
 }
 

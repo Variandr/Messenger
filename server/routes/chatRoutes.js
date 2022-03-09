@@ -5,11 +5,18 @@ module.exports = (socket, io) => {
     let user = socket.request.user
     io.use((socket, next) => authMiddleWare(socket.request, socket.request.res, next))
     if (user) {
+        socket.on('dialogs:join', async () => {
+            socket.join(user.userId)
+            let data = await dialogsService.getDialogs(user.userId)
+            io.in(user.userId).emit('dialogs', data)
+        })
         socket.on('chat:join', async ({chatId}) => {
             await dialogsService.setOnlineStatus(true, user.userId)
             socket.join(chatId)
             let messages = await dialogsService.getChatMessages(chatId)
-            io.in(chatId).emit('messages', messages)
+            let chatData = await dialogsService.getChatInfo(chatId)
+            let chatUsers = await dialogsService.getChatUsers(chatData.id)
+            io.in(chatId).emit('chatData', {...chatData, messages: messages, chatMembers: chatUsers})
         })
         socket.on('chat:sendMessage', async ({chatId, message}) => {
             let messageData = await dialogsService.postMessage(chatId, message, user.userId)
@@ -20,8 +27,8 @@ module.exports = (socket, io) => {
             io.in(chatId).emit('message', {type: 'change-message', data: messageData})
         })
         socket.on('chat:deleteMessage', async ({chatId, msgId}) => {
-            await dialogsService.deleteMessage(msgId)
-            io.in(chatId).emit('message', {type: 'delete-message', data: msgId})
+            let messageData = await dialogsService.deleteMessage(msgId)
+            io.in(chatId).emit('message', {type: 'delete-message', data: messageData})
         })
         socket.on('disconnect', async () => {
             await dialogsService.setOnlineStatus(false, user.userId)
