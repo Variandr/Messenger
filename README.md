@@ -2,7 +2,7 @@
 
 <!-- The project was deployed [HERE](https://variandr.github.io/Messenger) -->
 
-The app war created using:
+The app was created using:
 
 -React, react-router-dom v6
 
