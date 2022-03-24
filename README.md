@@ -12,6 +12,8 @@ The app was created using:
 
 -NodeJS, express, socket.io
 
+-Jsonwebtokens, express-validator
+
 You can run this app on localhost using following steps:
 
 Front:
