@@ -1,26 +1,37 @@
-import React, {useState} from "react"
-// @ts-ignore
-import s from './login.module.css'
-// @ts-ignore
-import {FieldCreator} from "../../helpers/formCreator"
-import {SignInForm, SignUpForm} from "./signForms"
+import React, { useState } from 'react';
+import s from './login.module.css';
+import { SignInForm, SignUpForm } from './signForms';
+import { Props } from './loginContainer';
 
-const Auth = ({Login, Registration}: any) => {
-    let [isSignUp, setSignUp] = useState(false)
-    const onSubmit = (formData: any) => {
-        Login(formData.login, formData.password, formData.remember);
-    }
-    const onSubmitReg = (formData: any) => {
-        Registration(formData.login, formData.password, formData.username, formData.remember);
-    }
-    const RedirectRegForm = () => setSignUp(true)
-    const RedirectLoginForm = () => setSignUp(false)
-    return <div className={s.body}>
-        {isSignUp
-            ? <SignUpForm onSubmit={onSubmitReg} setSignUp={RedirectLoginForm}/>
-            : <SignInForm onSubmit={onSubmit} setSignUp={RedirectRegForm}/>
-        }
-    </div>
+export interface Login {
+  login: string;
+  password: string;
+  remember: boolean;
 }
+
+export interface Register extends Login {
+  username: string;
+}
+
+const Auth: React.FC<Props> = ({ login, registration }) => {
+  const [isSignUp, setSignUp] = useState(false);
+  const onSubmit = (values: Login) => {
+    login(values.login, values.password, values.remember);
+  };
+  const onSubmitReg = (values: Register) => {
+    registration(values.login, values.password, values.username, values.remember);
+  };
+  const RedirectRegForm = () => setSignUp(true);
+  const RedirectLoginForm = () => setSignUp(false);
+  return (
+    <div className={s.body}>
+      {isSignUp ? (
+        <SignUpForm onSubmit={onSubmitReg} setSignUp={RedirectLoginForm} />
+      ) : (
+        <SignInForm onSubmit={onSubmit} setSignUp={RedirectRegForm} />
+      )}
+    </div>
+  );
+};
 
 export default Auth;

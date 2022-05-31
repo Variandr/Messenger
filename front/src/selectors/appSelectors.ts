@@ -1,5 +1,5 @@
-import {StateType} from "../state/store"
+import { StateType } from '../state/store';
 
-export const getInitialize = (state:StateType) => {
-    return state.appPage.isInitialized
-}
+export const getInitialize = (state: StateType) => {
+  return state.appPage.isInitialized;
+};

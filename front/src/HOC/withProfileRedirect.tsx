@@ -1,21 +1,15 @@
-import React from "react"
-import {connect} from "react-redux"
-import {Navigate} from "react-router-dom"
-import {StateType} from "../state/store"
-import {getAuth, getUserId} from "../selectors/authSelectors"
+import React, { ComponentType } from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { getAuth, getUserId } from '../selectors/authSelectors';
 
-type MapStateToProps = {
-    isAuth: boolean
-    userId: number | null
-}
-let mapStateToProps = (state: StateType): MapStateToProps => ({
-    isAuth: getAuth(state),
-    userId: getUserId(state)
-});
-export const withProfileRedirect = (Component: any) => {
-    const RedirectComponent = (props: any) => {
-        if (props.isAuth) return <Navigate to={'/profile/' + props.userId}/>
-        return <Component {...props}/>
-    }
-    return connect(mapStateToProps)(RedirectComponent);
-}
+const withProfileRedirect = <T,>(Component: ComponentType<T>) => {
+  return (hocProps: Omit<T, 'isAuth' | 'userId'>) => {
+    const isAuth = useSelector(getAuth);
+    const userId = useSelector(getUserId);
+    if (isAuth) return <Navigate to={'/profile/' + userId} />;
+    return <Component {...(hocProps as T)} />;
+  };
+};
+
+export default withProfileRedirect;
