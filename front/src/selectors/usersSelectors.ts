@@ -1,5 +1,5 @@
-import {StateType} from "../state/store";
+import { StateType } from '../state/store';
 
-export const getUsersSelector = (state:StateType) => {
-    return state.usersPage.users
-}
+export const getUsersSelector = (state: StateType) => {
+  return state.usersPage.users;
+};

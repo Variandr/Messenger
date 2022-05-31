@@ -1,14 +1,14 @@
-import {dialogs} from "../state/dialogsReducer"
+import { dialogs } from '../state/dialogsReducer';
 
 export const isChatExisting = (dialogs: Array<dialogs> | null, chatName: string) => {
-    let isExisting = false
-    let chatId
-    dialogs?.map(d => {
-        if (d.chat_name === chatName) {
-            isExisting = true
-            chatId = d.id
-        }
-        return d
-    })
-    return {isExisting: isExisting, chatId: chatId}
-}
+  let isExisting = false;
+  let chatId;
+  dialogs?.map((d) => {
+    if (d.chat_name === chatName) {
+      isExisting = true;
+      chatId = d.id;
+    }
+    return d;
+  });
+  return { isExisting: isExisting, chatId: chatId };
+};
