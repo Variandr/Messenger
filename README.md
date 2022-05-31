@@ -1,29 +1,27 @@
-# Messenger(TypeScript+React+NodeJS)
+# Messenger
 
 <!-- The project was deployed [HERE](https://variandr.github.io/Messenger) -->
 
-The app was created using:
+## Stack:
 
--React, react-router-dom v6
+Front: react, redux, redux-thunk, antd, socket.io
 
--Redux, react-redux, redux-thunk
+Server: nodeJS, express, socket.io, jsonwebtokens, pg
 
--AntDesign, socket.io-client
-
--NodeJS, express, socket.io
-
--Jsonwebtokens, express-validator
+Database: PostgreSQL
 
 You can run this app on localhost using following steps:
 
+## Init app
+
 Front:
 
-1. Clone project `git clone https://github.com/Variandr/Messenger.git`
+1. Clone app `git clone https://github.com/Variandr/Messenger.git`
 
-2. Install node modules to new directory `cd .\Messenger\front` -> `npm i`
+2. Install dependencies `cd .\Messenger\front` -> `npm i`
 
-3. Start app `npm start`
+3. Start app `npm start` and open in browser http://localhost:3000/
 
 Backend:
 
-1. Write `cd .\Messenger\server` -> `npm run dev`
+1. `cd .\Messenger\server` -> `npm run dev`
