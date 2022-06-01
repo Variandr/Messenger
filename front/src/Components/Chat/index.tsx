@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { actions, chat } from '../../state/Reducers/dialogsReducer';
+import { actions } from '../../state/Reducers/dialogsReducer';
 import { useDispatch } from 'react-redux';
 import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
 import s from '../Dialogs/index.module.css';
 import { ChatInfo } from './Info';
 import { Chat } from './Chat';
 import socket from '../../api/socket';
+import { Chat as ChatType } from '../../../types/types';
 
-const ChatPage = () => {
+const ChatPage: React.FC = () => {
   const dispatch = useDispatch();
   const { dialogId } = useParams();
   useEffect(() => {
     if (dialogId) {
       socket.emit('chat:join', { chatId: dialogId });
-      socket.on('chatData', (data: chat) => {
+      socket.on('chatData', (data: ChatType) => {
         dispatch(actions.setChat(data));
       });
       socket.on('message', (req) => {

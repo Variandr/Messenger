@@ -1,18 +1,16 @@
 import { ProfileAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
+import { Profile } from '../../../types/types';
 
-type profileType = {
-  id: number;
-  username: string;
-  login: string;
-  status: string | null;
-};
+type State = typeof initialState;
+type ActionTypes = Actions<typeof actions>;
+type ThunkType = BaseThunk<ActionTypes>;
+
 const initialState = {
-  profile: null as profileType | null,
+  profile: null as Profile | null,
   isFetching: false,
 };
-type initialStateType = typeof initialState;
-const ProfileReducer = (state = initialState, action: ActionTypes): initialStateType => {
+const ProfileReducer = (state = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case 'SET_PROFILE':
       return { ...state, profile: action.profile };
@@ -20,10 +18,8 @@ const ProfileReducer = (state = initialState, action: ActionTypes): initialState
       return state;
   }
 };
-type ActionTypes = Actions<typeof actions>;
-type ThunkType = BaseThunk<ActionTypes>;
 const actions = {
-  _setProfile: (profile: profileType) => ({ type: 'SET_PROFILE', profile } as const),
+  _setProfile: (profile: Profile) => ({ type: 'SET_PROFILE', profile } as const),
 };
 export const getProfile =
   (userId: number | string): ThunkType =>

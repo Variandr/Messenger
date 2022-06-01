@@ -3,12 +3,12 @@ import chatBg from './chatBg.png';
 import { Button } from 'antd';
 import { IoMdSend } from 'react-icons/io';
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
-import { messages } from '../../../state/Reducers/dialogsReducer';
 import { MessageItem } from './messageItem';
 import { useSelector } from 'react-redux';
 import { getDialogDataSelector } from '../../../state/Selectors/dialogsSelectors';
 import socket from '../../../api/socket';
 import { getUserId } from '../../../state/Selectors/authSelectors';
+import { Message } from '../../../../types/types';
 
 export const Chat: FC = () => {
   const userId = useSelector(getUserId);
@@ -31,7 +31,7 @@ export const Chat: FC = () => {
     }
   };
 
-  const editMessage = (m: messages, messageForEdit: string) => {
+  const editMessage = (m: Message, messageForEdit: string) => {
     if (
       userId === m.user_id &&
       messageForEdit !== m.body &&
@@ -46,7 +46,7 @@ export const Chat: FC = () => {
     }
   };
 
-  const deleteMessageOnClick = (m: messages) => {
+  const deleteMessageOnClick = (m: Message) => {
     if (userId === m.user_id && dialogData) {
       socket.emit('chat:deleteMessage', { chatId: dialogData.id, msgId: m.id });
     }

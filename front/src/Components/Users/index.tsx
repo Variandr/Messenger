@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Users from './users';
 import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
@@ -7,7 +7,7 @@ import { getUsersSelector } from '../../state/Selectors/usersSelectors';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
 import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
 
-const UsersPage = () => {
+const UsersPage: FC = () => {
   const dispatch = useDispatch();
   const users = useSelector(getUsersSelector);
   const dialogs = useSelector(getDialogsSelector);

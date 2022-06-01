@@ -3,17 +3,9 @@ import s from './index.module.css';
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { getUsersSelector } from '../../state/Selectors/usersSelectors';
+import { ShowFreeUsersProps } from '../../../types/types';
 
-type members = {
-  id: number | null;
-  username: string | null;
-};
-type ShowFreeUsersType = {
-  chatMembers: Array<members> | null;
-  setUsersShow: (isUsersShow: boolean) => void;
-  addParticipant: (id: number, username: string) => void;
-};
-const ShowFreeUsers: FC<ShowFreeUsersType> = ({ chatMembers, setUsersShow, addParticipant }) => {
+const ShowFreeUsers: FC<ShowFreeUsersProps> = ({ chatMembers, setUsersShow, addParticipant }) => {
   const users = useSelector(getUsersSelector);
   const showUsers = users?.map((u) => {
     const d = new Date(u.last_online);

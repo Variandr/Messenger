@@ -4,14 +4,9 @@ import Auth from './login';
 import { login, registration } from '../../state/Reducers/authReducer';
 import { compose } from 'redux';
 import withProfileRedirect from '../../helpers/hoc/withProfileRedirect';
+import { AuthProps } from '../../../types/types';
 
-export interface Props {
-  login(log: string, password: string, remember: boolean): void;
-
-  registration(log: string, password: string, username: string | null, remember: boolean): void;
-}
-
-const AuthorizationContainer: React.FC<Props> = (props) => {
+const AuthorizationContainer: React.FC<AuthProps> = (props) => {
   return <Auth login={props.login} registration={props.registration} />;
 };
 

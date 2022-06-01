@@ -20,7 +20,7 @@ import socket from '../../../api/socket';
 
 const { Header, Content } = Layout;
 
-const Dialogs = () => {
+const Dialogs: FC = () => {
   return (
     <div>
       <Routes>
@@ -59,7 +59,6 @@ export const App: FC = () => {
             collapsed={isVisible}
             onCollapse={() => setVisibility(!isVisible)}
           >
-            <div className="logo" />
             <Menu theme="dark" mode="inline">
               <Menu.SubMenu key="sub1" icon={<BiFace />} title="Profile">
                 <Menu.Item key="1">

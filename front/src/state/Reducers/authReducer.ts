@@ -1,13 +1,16 @@
 import { AuthAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
 
+type State = typeof initialState;
+type ActionTypes = Actions<typeof actions>;
+type ThunkType = BaseThunk<ActionTypes>;
+
 const initialState = {
   isAuth: false,
   login: null as string | null,
   id: null as number | null,
 };
-type initialStateType = typeof initialState;
-const AuthorizationReducer = (state = initialState, action: ActionTypes): initialStateType => {
+const AuthorizationReducer = (state = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case 'SET_AUTH_DATA':
       return { ...state, ...action.payload };
@@ -16,9 +19,6 @@ const AuthorizationReducer = (state = initialState, action: ActionTypes): initia
   }
 };
 export default AuthorizationReducer;
-type ActionTypes = Actions<typeof actions>;
-type ThunkType = BaseThunk<ActionTypes>;
-
 const actions = {
   _setAuthUserData: (login: string | null, id: number | null, isAuth: boolean) =>
     ({

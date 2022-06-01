@@ -1,6 +1,6 @@
-import { dialogs } from '../../state/Reducers/dialogsReducer';
+import { Dialogs } from '../../../types/types';
 
-export const isChatExisting = (dialogs: Array<dialogs> | null, chatName: string) => {
+export const isChatExisting = (dialogs: Array<Dialogs> | null, chatName: string) => {
   let isExisting = false;
   let chatId;
   dialogs?.map((d) => {

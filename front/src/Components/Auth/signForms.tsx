@@ -3,17 +3,7 @@ import React, { FC } from 'react';
 import { FaRegUser } from 'react-icons/fa';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { FiLock } from 'react-icons/fi';
-import { Login, Register } from './login';
-
-interface LoginProps {
-  onSubmit: (values: Login) => void;
-  setSignUp: () => void;
-}
-
-interface RegisterProps {
-  onSubmit: (values: Register) => void;
-  setSignUp: () => void;
-}
+import { LoginProps, RegisterProps } from '../../../types/types';
 
 export const SignInForm: FC<LoginProps> = ({ onSubmit, setSignUp }) => {
   return (
