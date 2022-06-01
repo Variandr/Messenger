@@ -32,7 +32,7 @@ const DialogsPage: React.FC = () => {
   const userId = useSelector(getUserId) || null;
   const login = useSelector(getUserLogin) || null;
   useEffect(() => {
-    socket.emit('Dialogs:join');
+    socket.emit('dialogs:join');
   }, []);
   useEffect(() => {
     socket.on('dialogs', (dialogs) => {
