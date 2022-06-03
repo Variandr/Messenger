@@ -2,18 +2,12 @@ import React, { FC } from 'react';
 import { FiMessageSquare } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import s from './users.module.css';
-import { createChat, dialogs, user } from '../../state/Reducers/dialogsReducer';
+import { createChat } from '../../state/Reducers/dialogsReducer';
 import { NavLink } from 'react-router-dom';
-import { users } from '../../state/Reducers/usersReducer';
 import { isChatExisting } from '../../helpers/isChatExisting';
+import { UsersProps } from '../../../types/types';
 
-type usersType = {
-  u: users;
-  myData: Array<user>;
-  userId: number | null;
-  dialogs: Array<dialogs> | null;
-};
-const Users: FC<usersType> = ({ u, myData, userId, dialogs }) => {
+const Users: FC<UsersProps> = ({ u, myData, userId, dialogs }) => {
   const dispatch = useDispatch();
   if (u.id === userId) return null;
   const data = isChatExisting(dialogs, u.username);

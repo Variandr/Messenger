@@ -1,20 +1,17 @@
 import { UsersAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
+import { Users } from '../../../types/types';
 
-export type users = {
-  id: number;
-  status: string | null;
-  username: string;
-  login: string;
-  online: boolean;
-  last_online: string;
-};
+type State = typeof initialState;
+type ActionTypes = Actions<typeof actions>;
+type ThunkType = BaseThunk<ActionTypes>;
+
 const initialState = {
-  users: null as Array<users> | null,
+  users: null as Array<Users> | null,
   isFetching: false,
 };
-type initialStateType = typeof initialState;
-const UsersReducer = (state = initialState, action: ActionTypes): initialStateType => {
+
+const UsersReducer = (state = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case 'SET_USERS':
       return { ...state, users: action.users };
@@ -22,10 +19,9 @@ const UsersReducer = (state = initialState, action: ActionTypes): initialStateTy
       return state;
   }
 };
-type ActionTypes = Actions<typeof actions>;
-type ThunkType = BaseThunk<ActionTypes>;
+
 const actions = {
-  _setUsers: (users: Array<users>) => ({ type: 'SET_USERS', users } as const),
+  _setUsers: (users: Array<Users>) => ({ type: 'SET_USERS', users } as const),
 };
 
 export const getUsers = (): ThunkType => async (dispatch) => {

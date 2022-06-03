@@ -1,44 +1,17 @@
 import { DialogsAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
+import { Chat, Dialogs, Message, User } from '../../../types/types';
 
-export type dialogs = {
-  id: number;
-  chat_name: string;
-  created_at: string;
-  updated_at: null | string;
-  message: string | null;
-  username: string | null;
-};
+type State = typeof initialState;
+type ActionTypes = Actions<typeof actions>;
+type ThunkType = BaseThunk<ActionTypes>;
 
-export type messages = {
-  id: number;
-  user_id: number;
-  chat_id: number;
-  username: string;
-  body: string;
-  created_at: string;
-  updated_at: string | null;
-};
-type members = {
-  id: number;
-  username: string;
-  online: boolean;
-  last_online: string;
-};
-export type chat = {
-  id: number;
-  chat_name: string;
-  created_at: string;
-  updated_at: string | null;
-  chatMembers: Array<members>;
-  messages: Array<messages>;
-};
 const initialState = {
-  dialogs: null as Array<dialogs> | null,
-  chat: null as chat | null,
+  dialogs: null as Array<Dialogs> | null,
+  chat: null as Chat | null,
 };
 
-const changeMessages = (arr: chat | null, msg: messages, type: string) => {
+const changeMessages = (arr: Chat | null, msg: Message, type: string) => {
   if (arr) {
     switch (type) {
       case 'ADD_MESSAGE':
@@ -63,8 +36,7 @@ const changeMessages = (arr: chat | null, msg: messages, type: string) => {
   return null;
 };
 
-type initialStateType = typeof initialState;
-const DialogsReducer = (state = initialState, action: ActionTypes): initialStateType => {
+const DialogsReducer = (state = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case 'SET_DIALOGS':
       return { ...state, dialogs: action.dialogs };
@@ -81,14 +53,12 @@ const DialogsReducer = (state = initialState, action: ActionTypes): initialState
   }
 };
 export default DialogsReducer;
-type ActionTypes = Actions<typeof actions>;
-type ThunkType = BaseThunk<ActionTypes>;
 export const actions = {
-  setDialogs: (dialogs: Array<dialogs>) => ({ type: 'SET_DIALOGS', dialogs } as const),
-  setChat: (dialogData: chat) => ({ type: 'SET_DIALOG_DATA', dialogData } as const),
-  addMessage: (msg: messages) => ({ type: 'ADD_MESSAGE', msg } as const),
-  editMessage: (msg: messages) => ({ type: 'EDIT_MESSAGE', msg } as const),
-  deleteMessage: (msg: messages) => ({ type: 'DELETE_MESSAGE', msg } as const),
+  setDialogs: (dialogs: Array<Dialogs>) => ({ type: 'SET_DIALOGS', dialogs } as const),
+  setChat: (dialogData: Chat) => ({ type: 'SET_DIALOG_DATA', dialogData } as const),
+  addMessage: (msg: Message) => ({ type: 'ADD_MESSAGE', msg } as const),
+  editMessage: (msg: Message) => ({ type: 'EDIT_MESSAGE', msg } as const),
+  deleteMessage: (msg: Message) => ({ type: 'DELETE_MESSAGE', msg } as const),
 };
 
 export const addParticipant =
@@ -96,12 +66,9 @@ export const addParticipant =
   async () => {
     await DialogsAPI.addParticipant(chatId, userId);
   };
-export type user = {
-  id: number | null;
-  username: string | null;
-};
+
 export const createChat =
-  (chatName: string, users: Array<user>): ThunkType =>
+  (chatName: string, users: Array<User>): ThunkType =>
   async () => {
     await DialogsAPI.createChat(chatName, users);
   };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions, createChat, user } from '../../state/Reducers/dialogsReducer';
+import { actions, createChat } from '../../state/Reducers/dialogsReducer';
 import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
 import s from './index.module.css';
 import { NavLink } from 'react-router-dom';
@@ -11,8 +11,9 @@ import { AiOutlineSend } from 'react-icons/ai';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
 import ShowFreeUsers from '../../helpers/showUsersToAdd';
 import socket from '../../api/socket';
+import { User } from '../../../types/types';
 
-const DialogsPage = () => {
+const DialogsPage: React.FC = () => {
   const showDate = (date: string) => {
     const d = new Date(date);
     const localDate = new Date();
@@ -31,7 +32,7 @@ const DialogsPage = () => {
   const userId = useSelector(getUserId) || null;
   const login = useSelector(getUserLogin) || null;
   useEffect(() => {
-    socket.emit('Dialogs:join');
+    socket.emit('dialogs:join');
   }, []);
   useEffect(() => {
     socket.on('dialogs', (dialogs) => {
@@ -67,7 +68,7 @@ const DialogsPage = () => {
   const [isAddChat, setAddChat] = useState(false);
   const [chatName, setChatName] = useState('');
   const [isUsersShow, setUsersShow] = useState(false);
-  const [participants, setParticipant] = useState<Array<user>>([{ id: userId, username: login }]);
+  const [participants, setParticipant] = useState<Array<User>>([{ id: userId, username: login }]);
   const addParticipant = (id: number, username: string) => {
     setParticipant([...participants, { id: id, username: username }]);
   };

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateStatus, updateUsername } from '../../state/Reducers/profileReducer';
 import { getProfile } from '../../state/Selectors/profileSelectors';
 import { getUserId } from '../../state/Selectors/authSelectors';
 
-const Profile = () => {
+const Profile: FC = () => {
   const dispatch = useDispatch();
   const profile = useSelector(getProfile);
   const userId = useSelector(getUserId);

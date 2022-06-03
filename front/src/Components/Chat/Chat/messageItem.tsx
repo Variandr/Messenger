@@ -1,21 +1,9 @@
 import React, { useState } from 'react';
 import s from './index.module.css';
 import { TiDelete } from 'react-icons/ti';
-import { messages } from '../../../state/Reducers/dialogsReducer';
+import { ChatProps } from '../../../../types/types';
 
-interface Props {
-  userId: number | null;
-  isEditingAvailable: boolean;
-  m: messages;
-
-  editMessage(m: messages, messageForEdit: string): void;
-
-  deleteMessageOnClick(m: messages): void;
-
-  setEditing(prop: boolean): void;
-}
-
-export const MessageItem: React.FC<Props> = ({
+export const MessageItem: React.FC<ChatProps> = ({
   userId,
   editMessage,
   deleteMessageOnClick,

@@ -2,11 +2,14 @@ import { authMe } from './authReducer';
 import { getUsers } from './usersReducer';
 import { Actions, BaseThunk } from '../store';
 
+type State = typeof initialState;
+type ActionTypes = Actions<typeof actions>;
+type ThunkType = BaseThunk<ActionTypes>;
+
 const initialState = {
   isInitialized: false,
 };
-type initialStateType = typeof initialState;
-const AppReducer = (state = initialState, action: ActionTypes): initialStateType => {
+const AppReducer = (state = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case 'SET_APP_LOADED':
       return { ...state, isInitialized: true };
@@ -21,8 +24,6 @@ const actions = {
       type: 'SET_APP_LOADED',
     } as const),
 };
-type ActionTypes = Actions<typeof actions>;
-type ThunkType = BaseThunk<ActionTypes>;
 export const initializeApp = (): ThunkType => async (dispatch) => {
   const promise = [dispatch(authMe()), dispatch(getUsers())];
   await Promise.all([promise]).then(() => {
