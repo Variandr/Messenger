@@ -109,13 +109,25 @@ interface ChatMembers {
   last_online: string;
 }
 
-export interface Chat {
+interface ChatDefault {
   id: number;
   chat_name: string;
   created_at: string;
   updated_at: string | null;
   chatMembers: Array<ChatMembers>;
+}
+
+export interface Chat extends ChatDefault {
   messages: Array<Message>;
+}
+
+export interface DateMessages {
+  date: string;
+  messages: Array<Message>;
+}
+
+export interface ChatState extends ChatDefault {
+  messages: Array<DateMessages>;
 }
 
 export interface Users {

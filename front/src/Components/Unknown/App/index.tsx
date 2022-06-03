@@ -62,7 +62,7 @@ export const App: FC = () => {
             <Menu theme="dark" mode="inline">
               <Menu.SubMenu key="sub1" icon={<BiFace />} title="Profile">
                 <Menu.Item key="1">
-                  <NavLink to={'/Profile/' + userId}>{userLogin ? userLogin : 'Profile'}</NavLink>
+                  <NavLink to={'/profile/' + userId}>{userLogin ? userLogin : 'Profile'}</NavLink>
                 </Menu.Item>
                 <Menu.Item
                   key="2"
@@ -91,7 +91,7 @@ export const App: FC = () => {
               <Routes>
                 <Route
                   path="/"
-                  element={isAuth ? <Navigate to={'/Profile/' + userId} /> : <Navigate to="auth" />}
+                  element={isAuth ? <Navigate to={'/profile/' + userId} /> : <Navigate to="auth" />}
                 />
                 <Route path="profile/:id" element={<Profile />} />
                 <Route path="users" element={<UsersPage />} />
