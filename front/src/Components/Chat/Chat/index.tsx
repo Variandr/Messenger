@@ -30,7 +30,6 @@ export const Chat: FC = () => {
       setMessageBody('');
     }
   };
-
   const editMessage = (m: Message, messageForEdit: string) => {
     if (
       userId === m.user_id &&
@@ -45,7 +44,6 @@ export const Chat: FC = () => {
       });
     }
   };
-
   const deleteMessageOnClick = (m: Message) => {
     if (userId === m.user_id && dialogData) {
       socket.emit('chat:deleteMessage', { chatId: dialogData.id, msgId: m.id });
@@ -54,20 +52,59 @@ export const Chat: FC = () => {
   const onMessageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMessageBody(e.target.value);
   };
-  const sortedMessages = dialogData?.messages.sort((a, b) => {
-    return +new Date(a.created_at) - +new Date(b.created_at);
-  });
-  const showMessages = sortedMessages?.map((m) => {
+
+  const showMessages = dialogData?.messages.map((m) => {
+    const newDate = new Date().getFullYear();
+    const date = new Date(m.date).getFullYear();
+    let showDate;
+    if (newDate === date) {
+      showDate = new Date(m.date).toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+      });
+    } else
+      showDate = new Date(m.date).toLocaleString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      });
+    const messages = m.messages.map((msg) => {
+      return (
+        <MessageItem
+          key={msg.id}
+          m={msg}
+          userId={userId}
+          deleteMessageOnClick={deleteMessageOnClick}
+          editMessage={editMessage}
+          isEditingAvailable={isEditingAvailable}
+          setEditing={setEditing}
+        />
+      );
+    });
     return (
-      <MessageItem
-        key={m.id}
-        m={m}
-        userId={userId}
-        deleteMessageOnClick={deleteMessageOnClick}
-        editMessage={editMessage}
-        isEditingAvailable={isEditingAvailable}
-        setEditing={setEditing}
-      />
+      <React.Fragment key={m.date + m.messages}>
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              fontWeight: 700,
+              background: 'rgba(0, 0, 0, 0.31)',
+              borderRadius: '20%',
+              padding: '2px 10px',
+            }}
+          >
+            {showDate}
+          </div>
+        </div>
+        {messages}
+      </React.Fragment>
     );
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);

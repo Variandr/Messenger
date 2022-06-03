@@ -7,7 +7,7 @@ const withProfileRedirect = <T,>(Component: ComponentType<T>) => {
   return (hocProps: Omit<T, 'isAuth' | 'userId'>) => {
     const isAuth = useSelector(getAuth);
     const userId = useSelector(getUserId);
-    if (isAuth) return <Navigate to={'/Profile/' + userId} />;
+    if (isAuth) return <Navigate to={'/profile/' + userId} />;
     return <Component {...(hocProps as T)} />;
   };
 };

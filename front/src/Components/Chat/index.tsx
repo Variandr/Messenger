@@ -7,15 +7,16 @@ import s from '../Dialogs/index.module.css';
 import { ChatInfo } from './Info';
 import { Chat } from './Chat';
 import socket from '../../api/socket';
-import { Chat as ChatType } from '../../../types/types';
+import { ChatState } from '../../../types/types';
 
 const ChatPage: React.FC = () => {
   const dispatch = useDispatch();
   const { dialogId } = useParams();
+
   useEffect(() => {
     if (dialogId) {
       socket.emit('chat:join', { chatId: dialogId });
-      socket.on('chatData', (data: ChatType) => {
+      socket.on('chatData', (data: ChatState) => {
         dispatch(actions.setChat(data));
       });
       socket.on('message', (req) => {

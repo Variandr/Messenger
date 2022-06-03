@@ -50,7 +50,7 @@ const DialogsPage: React.FC = () => {
       const actualDate = d.updated_at ? d.updated_at : d.created_at;
       return (
         <div key={d.id} className={s.dialogContainer}>
-          <NavLink to={'/Dialogs/' + d.id} className={s.navLink}>
+          <NavLink to={'/dialogs/' + d.id} className={s.navLink}>
             <div className={s.chatAndDateBlock}>
               <div className={s.chatName}>{d.chat_name}</div>
               <div className={s.date}>{showDate(actualDate)}</div>
