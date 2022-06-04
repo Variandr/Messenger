@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom';
 import { actions } from '../../state/Reducers/dialogsReducer';
 import { useDispatch } from 'react-redux';
 import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
-import s from '../Dialogs/index.module.css';
 import { ChatInfo } from './Info';
 import { Chat } from './Chat';
 import socket from '../../api/socket';
 import { ChatState } from '../../../types/types';
+import { Box } from '@mui/material';
 
 const ChatPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,10 +35,10 @@ const ChatPage: React.FC = () => {
     }
   }, [dialogId, dispatch]);
   return (
-    <div className={s.chatPage}>
+    <Box display="flex">
       <Chat />
       <ChatInfo />
-    </div>
+    </Box>
   );
 };
 export default withAuthRedirect(ChatPage);

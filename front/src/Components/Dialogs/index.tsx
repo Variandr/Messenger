@@ -5,11 +5,11 @@ import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
 import s from './index.module.css';
 import { NavLink } from 'react-router-dom';
 import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
-import { BiCommentAdd } from 'react-icons/bi';
-import { IoMdPersonAdd } from 'react-icons/io';
-import { AiOutlineSend } from 'react-icons/ai';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
 import ShowFreeUsers from '../../helpers/showUsersToAdd';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import SaveIcon from '@mui/icons-material/Save';
 import socket from '../../api/socket';
 import { User } from '../../../types/types';
 
@@ -86,7 +86,7 @@ const DialogsPage: React.FC = () => {
       <div>
         <div>{DialogItems}</div>
         <div className={s.addChatBtnBlock}>
-          <BiCommentAdd className={s.addChatBtn} onClick={() => setAddChat(!isAddChat)} />
+          <AddCommentIcon className={s.addChatBtn} onClick={() => setAddChat(!isAddChat)} />
         </div>
       </div>
       {isAddChat && (
@@ -101,7 +101,7 @@ const DialogsPage: React.FC = () => {
           <div className={s.participants}>
             {showParticipants}
             <div className={s.addParticipantBtnBlock}>
-              <IoMdPersonAdd className={s.addParticipantBtn} onClick={() => setUsersShow(true)} />
+              <PersonAddIcon className={s.addParticipantBtn} onClick={() => setUsersShow(true)} />
             </div>
           </div>
           {isUsersShow && (
@@ -115,7 +115,7 @@ const DialogsPage: React.FC = () => {
           )}
           {participants.length > 1 && chatName.length > 3 && chatName.length < 40 && (
             <div className={s.createChatBtnBlock}>
-              <AiOutlineSend
+              <SaveIcon
                 className={s.createChatBtn}
                 onClick={() => {
                   dispatch(createChat(chatName, participants));

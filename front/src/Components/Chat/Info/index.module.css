@@ -23,18 +23,6 @@
     margin-top: 1.5vh;
 }
 
-.memberImg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 40px;
-    max-height: 40px;
-    width: 10vw;
-    height: 5vw;
-    border-radius: 50%;
-    background: rgba(175, 232, 255, 0.98);
-}
-
 .memberName {
     margin-top: 1vh;
     margin-left: 1vw;

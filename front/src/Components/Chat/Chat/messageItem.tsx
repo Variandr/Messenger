@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import s from './index.module.css';
-import { TiDelete } from 'react-icons/ti';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { ChatProps } from '../../../../types/types';
+import { Avatar } from '@mui/material';
 
 export const MessageItem: React.FC<ChatProps> = ({
   userId,
@@ -36,7 +37,7 @@ export const MessageItem: React.FC<ChatProps> = ({
                 }}
                 className={s.messageEditInput}
               />
-              <TiDelete
+              <DeleteIcon
                 className={s.deleteBtn}
                 onClick={() => {
                   deleteMessageOnClick(m);
@@ -69,7 +70,9 @@ export const MessageItem: React.FC<ChatProps> = ({
         </div>
       ) : (
         <div className={s.messageBlock}>
-          <div className={s.avatar}>{m.username[0].toUpperCase()}</div>
+          <Avatar style={{ position: 'absolute', bottom: 10 }} alt="user avatar">
+            {m.username[0].toUpperCase()}
+          </Avatar>
           <div className={s.chat + ' ' + s.left}>
             <div className={s.username + ' ' + s.truncateText}>{m.username}</div>
             <div className={s.bodyMessageBlock}>

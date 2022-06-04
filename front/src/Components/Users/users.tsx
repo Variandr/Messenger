@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { FiMessageSquare } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import s from './users.module.css';
 import { createChat } from '../../state/Reducers/dialogsReducer';
+import ChatIcon from '@mui/icons-material/Chat';
 import { NavLink } from 'react-router-dom';
 import { isChatExisting } from '../../helpers/isChatExisting';
 import { UsersProps } from '../../../types/types';
@@ -22,10 +22,10 @@ const Users: FC<UsersProps> = ({ u, myData, userId, dialogs }) => {
       <div className={s.userTextBtnBlock}>
         {data.isExisting ? (
           <NavLink to={'/Dialogs/' + data.chatId} className={s.navLink}>
-            <FiMessageSquare />
+            <ChatIcon />
           </NavLink>
         ) : (
-          <FiMessageSquare
+          <ChatIcon
             onClick={() => {
               dispatch(createChat(u.login, [...myData, { id: u.id, username: u.username }]));
             }}
