@@ -1,10 +1,11 @@
 import s from './index.module.css';
-import { IoMdAddCircle } from 'react-icons/io';
 import React, { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import { addParticipant } from '../../../state/Reducers/dialogsReducer';
 import { getDialogDataSelector } from '../../../state/Selectors/dialogsSelectors';
 import ShowFreeUsers from '../../../helpers/showUsersToAdd';
+import { Avatar } from '@mui/material';
 
 export const ChatInfo: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export const ChatInfo: FC = () => {
     };
     return (
       <div key={m.id} className={s.chatMemberBlock}>
-        <div className={s.memberImg}>{m.username[0].toUpperCase()}</div>
+        <Avatar alt="user avatar">{m.username[0].toUpperCase()}</Avatar>
         <div>
           <div className={s.memberName + ' ' + s.truncateText}>{m.username}</div>
           <div className={m.online ? s.onlineStatus : s.offlineStatus}>
@@ -41,7 +42,10 @@ export const ChatInfo: FC = () => {
         <div>Participants</div>
         <div className={s.participants}>{participants}</div>
         <div className={s.addParticipantBtnBlock}>
-          <IoMdAddCircle className={s.addParticipantBtn} onClick={() => setUsersShow(true)} />
+          <PersonAddAltRoundedIcon
+            className={s.addParticipantBtn}
+            onClick={() => setUsersShow(!isUsersShow)}
+          />
         </div>
         {isUsersShow && (
           <div className={s.usersBlock}>

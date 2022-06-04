@@ -4,6 +4,7 @@ import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { getUsersSelector } from '../../state/Selectors/usersSelectors';
 import { ShowFreeUsersProps } from '../../../types/types';
+import { Avatar } from '@mui/material';
 
 const ShowFreeUsers: FC<ShowFreeUsersProps> = ({ chatMembers, setUsersShow, addParticipant }) => {
   const users = useSelector(getUsersSelector);
@@ -26,7 +27,7 @@ const ShowFreeUsers: FC<ShowFreeUsersProps> = ({ chatMembers, setUsersShow, addP
           setUsersShow(false);
         }}
       >
-        <div className={s.memberImg}>{u.username[0].toUpperCase()}</div>
+        <Avatar alt="user avatar">{u.username[0].toUpperCase()}</Avatar>
         <div>
           <div className={s.memberName + ' ' + s.truncateText}>{u.username}</div>
           <div className={u.online ? s.onlineStatus : s.offlineStatus}>

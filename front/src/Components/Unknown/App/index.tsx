@@ -1,19 +1,15 @@
-import React, { FC, useEffect } from 'react';
-import AuthorizationContainer from '../../../Components/Auth/index';
+import React, { FC } from 'react';
 import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
 import Profile from '../../../Components/Profile/index';
 import UsersPage from '../../../Components/Users/index';
 import { useDispatch, useSelector } from 'react-redux';
-import { initializeApp } from '../../../state/Reducers/appReducer';
-import Preloader from '../../../helpers/Preloader';
-import { getAuth, getUserId, getUserLogin } from '../../../state/Selectors/authSelectors';
-import { getInitialize } from '../../../state/Selectors/appSelectors';
+import { getUserId, getUserLogin } from '../../../state/Selectors/authSelectors';
 import { logout } from '../../../state/Reducers/authReducer';
 import DialogsPage from '../../Dialogs';
 import Chat from '../../Chat';
 import socket from '../../../api/socket';
 import NotFound from '../NotFound';
-import logo from './logo.png';
+import logo from '../../../helpers/assets/logo.png';
 import {
   AppBar,
   Avatar,
@@ -53,32 +49,15 @@ export const App: FC = () => {
       url: 'dialogs',
     },
   ];
-  const isAuth = useSelector(getAuth);
-  const isInitialized = useSelector(getInitialize);
   const userId = useSelector(getUserId);
   const dispatch = useDispatch();
   const login = useSelector(getUserLogin);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  useEffect(() => {
-    if (!isInitialized) {
-      dispatch(initializeApp());
-    }
-  }, [isInitialized, dispatch]);
-  if (!isInitialized) {
-    return (
-      <div className="App">
-        <Preloader />
-      </div>
-    );
-  }
   return (
     <Box width="100vw" height="100vh">
       <AppBar position="static">
@@ -122,8 +101,8 @@ export const App: FC = () => {
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
-                onClose={handleClose}
-                onClick={handleClose}
+                onClose={() => setAnchorEl(null)}
+                onClick={() => setAnchorEl(null)}
                 PaperProps={{
                   elevation: 0,
                   sx: {
@@ -180,13 +159,11 @@ export const App: FC = () => {
         </Container>
       </AppBar>
       <Routes>
-        <Route
-          path="/"
-          element={isAuth ? <Navigate to={'/profile/' + userId} /> : <Navigate to="auth" />}
-        />
+        <Route path="/" element={<Navigate to={'/profile/' + userId} />} />
+        <Route path="/login" element={<Navigate to="/" />} />
+        <Route path="/register" element={<Navigate to="/" />} />
         <Route path="profile/:id" element={<Profile />} />
         <Route path="users" element={<UsersPage />} />
-        <Route path="auth" element={<AuthorizationContainer />} />
         <Route path="dialogs/*" element={<Dialogs />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

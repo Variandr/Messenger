@@ -1,7 +1,5 @@
 import s from './index.module.css';
 import chatBg from './chatBg.png';
-import { Button } from 'antd';
-import { IoMdSend } from 'react-icons/io';
 import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import { MessageItem } from './messageItem';
 import { useSelector } from 'react-redux';
@@ -9,6 +7,8 @@ import { getDialogDataSelector } from '../../../state/Selectors/dialogsSelectors
 import socket from '../../../api/socket';
 import { getUserId } from '../../../state/Selectors/authSelectors';
 import { Message } from '../../../../types/types';
+import { Box, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 
 export const Chat: FC = () => {
   const userId = useSelector(getUserId);
@@ -109,8 +109,8 @@ export const Chat: FC = () => {
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
   return (
-    <div className={s.chatContainer}>
-      <img className={s.bg} src={chatBg} alt="chat-background" />
+    <Box width="75vw" height="85vh" sx={{ position: 'relative' }}>
+      <img src={chatBg} className={s.bg} alt="chat background" />
       <div className={s.messagesBlock}>
         <div>{showMessages}</div>
         <div ref={messagesEndRef} />
@@ -123,10 +123,10 @@ export const Chat: FC = () => {
           onChange={onMessageChange}
           placeholder="Message"
         />
-        <Button onClick={addMessage} type="primary">
-          <IoMdSend />
+        <Button disabled={!messageBody} onClick={addMessage} variant="contained">
+          <SendIcon />
         </Button>
       </div>
-    </div>
+    </Box>
   );
 };
