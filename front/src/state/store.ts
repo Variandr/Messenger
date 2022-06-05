@@ -5,6 +5,7 @@ import ProfileReducer from './Reducers/profileReducer';
 import AppReducer from './Reducers/appReducer';
 import UsersReducer from './Reducers/usersReducer';
 import DialogsReducer from './Reducers/dialogsReducer';
+import SnackbarReducer from './Reducers/snackbarReducer';
 
 export type Actions<T> = T extends { [key: string]: (...args: never[]) => infer U } ? U : never;
 export type BaseThunk<A extends Action, R = Promise<void>> = ThunkAction<R, StateType, unknown, A>;
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   appPage: AppReducer,
   usersPage: UsersReducer,
   dialogsPage: DialogsReducer,
+  snackbar: SnackbarReducer,
 });
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));

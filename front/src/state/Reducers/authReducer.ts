@@ -1,8 +1,9 @@
 import { AuthAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
+import { actions as snackbarActions } from './snackbarReducer';
 
 type State = typeof initialState;
-type ActionTypes = Actions<typeof actions>;
+type ActionTypes = Actions<typeof actions> | Actions<typeof snackbarActions>;
 type ThunkType = BaseThunk<ActionTypes>;
 
 const initialState = {
@@ -34,7 +35,10 @@ export const login =
     if (!userData.message) {
       const { login, id } = userData.user;
       dispatch(actions._setAuthUserData(login, id, true));
-    }
+      dispatch(
+        snackbarActions.setSnackbar(true, 'success', `${login} was successfully authorized`)
+      );
+    } else dispatch(snackbarActions.setSnackbar(true, 'error', userData.message));
   };
 export const logout = (): ThunkType => async (dispatch) => {
   await AuthAPI.logout();
@@ -44,10 +48,13 @@ export const registration =
   (log: string, password: string, username: string | null, remember: boolean): ThunkType =>
   async (dispatch) => {
     const userData = await AuthAPI.reg(log, password, username, remember);
-    if (userData) {
+    if (!userData.message) {
       const { login, id } = userData.user;
       dispatch(actions._setAuthUserData(login, id, true));
-    }
+      dispatch(
+        snackbarActions.setSnackbar(true, 'success', `${login} was successfully registered`)
+      );
+    } else dispatch(snackbarActions.setSnackbar(true, 'error', userData.message));
   };
 
 export const authMe = (): ThunkType => async (dispatch) => {
@@ -56,5 +63,6 @@ export const authMe = (): ThunkType => async (dispatch) => {
     const { login, id } = tokenData.data.user;
     dispatch(actions._setAuthUserData(login, id, true));
     localStorage.setItem('accessToken', tokenData.data.accessToken);
+    dispatch(snackbarActions.setSnackbar(true, 'success', `${login} was successfully authorized`));
   }
 };

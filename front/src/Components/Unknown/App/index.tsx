@@ -9,7 +9,7 @@ import DialogsPage from '../../Dialogs';
 import Chat from '../../Chat';
 import socket from '../../../api/socket';
 import NotFound from '../NotFound';
-import logo from '../../../helpers/assets/logo.png';
+import logo from './logo.png';
 import {
   AppBar,
   Avatar,
@@ -26,6 +26,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Logout, Settings } from '@mui/icons-material';
+import { actions } from '../../../state/Reducers/snackbarReducer';
 
 const Dialogs: FC = () => {
   return (
@@ -146,6 +147,7 @@ export const App: FC = () => {
                   onClick={() => {
                     socket.disconnect();
                     dispatch(logout());
+                    dispatch(actions.setSnackbar(true, 'success', `You successfully logout`));
                   }}
                 >
                   <ListItemIcon>
