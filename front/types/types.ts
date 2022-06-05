@@ -1,3 +1,5 @@
+import { AlertColor } from '@mui/material';
+
 export interface Interceptors {
   accessToken: string;
   refreshToken: string;
@@ -22,10 +24,13 @@ export interface Refresh {
   refreshToken: string;
 }
 
-export interface AuthProps {
-  login(log: string, password: string, remember: boolean): void;
-
-  registration(log: string, password: string, username: string | null, remember: boolean): void;
+export interface ProfileAxiosRes {
+  id: number;
+  status: string | null;
+  username: string;
+  login: string;
+  online: boolean;
+  last_online: string;
 }
 
 export interface LoginValues {
@@ -36,11 +41,6 @@ export interface LoginValues {
 
 export interface RegisterValues extends LoginValues {
   username: string;
-}
-
-export interface LoginProps {
-  onSubmit: (values: LoginValues) => void;
-  setSignUp: () => void;
 }
 
 export interface RegisterProps {
@@ -117,10 +117,6 @@ interface ChatDefault {
   chatMembers: Array<ChatMembers>;
 }
 
-export interface Chat extends ChatDefault {
-  messages: Array<Message>;
-}
-
 export interface DateMessages {
   date: string;
   messages: Array<Message>;
@@ -144,4 +140,10 @@ export interface Profile {
   username: string;
   login: string;
   status: string | null;
+}
+
+export interface Snackbar {
+  open: boolean;
+  severity: AlertColor;
+  message: string;
 }

@@ -6,6 +6,7 @@ import { getAuth } from '../../../state/Selectors/authSelectors';
 import { getInitialize } from '../../../state/Selectors/appSelectors';
 import { App } from '../App';
 import Auth from '../../Auth';
+import SnackbarUI from '../../Snackbar';
 
 const Root: React.FC = () => {
   const isAuth = useSelector(getAuth);
@@ -16,6 +17,11 @@ const Root: React.FC = () => {
       dispatch(initializeApp());
     }
   }, [isInitialized, dispatch]);
-  return <>{isInitialized ? isAuth ? <App /> : <Auth /> : <Preloader />}</>;
+  return (
+    <>
+      <SnackbarUI />
+      {isInitialized ? isAuth ? <App /> : <Auth /> : <Preloader />}
+    </>
+  );
 };
 export default Root;

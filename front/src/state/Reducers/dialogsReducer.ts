@@ -1,9 +1,10 @@
 import { DialogsAPI } from '../../api/restAPI';
 import { Actions, BaseThunk } from '../store';
 import { ChatState, Dialogs, Message, User } from '../../../types/types';
+import { actions as snackbarActions } from './snackbarReducer';
 
 type State = typeof initialState;
-type ActionTypes = Actions<typeof actions>;
+type ActionTypes = Actions<typeof actions> | Actions<typeof snackbarActions>;
 type ThunkType = BaseThunk<ActionTypes>;
 
 const initialState = {
@@ -90,12 +91,18 @@ export const actions = {
 
 export const addParticipant =
   (chatId: number, userId: number): ThunkType =>
-  async () => {
-    await DialogsAPI.addParticipant(chatId, userId);
+  async (dispatch) => {
+    const data = await DialogsAPI.addParticipant(chatId, userId);
+    if (data) {
+      dispatch(snackbarActions.setSnackbar(true, 'success', `User was added to the chat`));
+    } else dispatch(snackbarActions.setSnackbar(true, 'error', `User wasn't added to the chat`));
   };
 
 export const createChat =
   (chatName: string, users: Array<User>): ThunkType =>
-  async () => {
-    await DialogsAPI.createChat(chatName, users);
+  async (dispatch) => {
+    const data = await DialogsAPI.createChat(chatName, users);
+    if (data) {
+      dispatch(snackbarActions.setSnackbar(true, 'success', `Chat was created`));
+    } else dispatch(snackbarActions.setSnackbar(true, 'error', `Chat wasn't created`));
   };
