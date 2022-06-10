@@ -18,10 +18,12 @@ Front:
 
 1. Clone app `git clone https://github.com/Variandr/Messenger.git`
 
-2. Install dependencies `cd .\Messenger\front` -> `npm i`
+2. Install dependencies `cd .\Messenger\front` -> `npm i` or `yarn`
 
 3. Start app `npm start` and open in browser http://localhost:3000/
 
 Backend:
 
-1. `cd .\Messenger\server` -> `npm run dev`
+1. `cd .\Messenger\server` -> `npm i or `yarn`
+
+2. Start server with `npm start` or `yarn`
