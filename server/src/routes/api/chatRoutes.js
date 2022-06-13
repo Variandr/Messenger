@@ -1,5 +1,5 @@
-const authMiddleWare = require("../middleware/authMiddleware");
-const dialogsService = require("../services/dialogsService");
+const authMiddleWare = require("../../middleware/auth.middleware");
+const dialogsService = require("../../services/dialogsService");
 
 module.exports = (socket, io) => {
   let user = socket.request.user;

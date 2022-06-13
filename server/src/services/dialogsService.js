@@ -1,5 +1,5 @@
 const pool = require("../db");
-const errorHandler = require("../helpers/errorHandler");
+const errorHandler = require("../helpers/error-handler");
 
 class DialogsService {
   async getLastMessage(chatId) {
