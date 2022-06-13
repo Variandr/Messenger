@@ -18,7 +18,7 @@ export class DialogsController {
     async AddParticipant(req: Request, res: Response, next: NextFunction) {
         try {
             const {userId} = req.body;
-            const data = await this.dialogsService.addParticipant(req.params.chatId, userId);
+            const data = await this.dialogsService.addParticipant(req.query, userId);
             return res.json(data);
         } catch (e) {
             next(e);

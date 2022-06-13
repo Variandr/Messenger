@@ -5,11 +5,12 @@ import { Message, MessagesByDate } from "index";
 
 const dialogsService = require("../../services/dialogs.service");
 
+// TODO: move all logic to socket.controller
 // TODO: remove any type
 const ChatRoutes = (socket: Socket, io: any) => {
     // TODO: remove ts-ignore
     // @ts-ignore
-    const user = socket.request.user;
+    const user = socket.request.res.locals.user;
     // TODO: remove any type
     io.use((socket: any, next: NextFunction) =>
         authMiddleware(socket.request, socket.request.res, next)

@@ -1,3 +1,5 @@
+import { Payload } from "token";
+
 const pool = require("../../config/database");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
@@ -19,8 +21,7 @@ class TokenService {
         }
     }
 
-// TODO: no any type
-    generateTokens(payload: any) {
+    generateTokens(payload: Payload) {
         const accessToken = jwt.sign(payload, keys.jwt_access, {
             expiresIn: "30m",
         });

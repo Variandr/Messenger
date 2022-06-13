@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import AuthService from "../services/auth.service";
+import TokenService from "../services/token.service";
 
 export class AuthController {
     constructor(private authService: AuthService) {
@@ -66,5 +67,5 @@ export class AuthController {
     }
 }
 
-const authController = new AuthController(new AuthService());
+const authController = new AuthController(new AuthService(new TokenService()));
 export default authController;

@@ -16,34 +16,35 @@ export class ProfileController {
     async EditUsername(req: Request, res: Response, next: NextFunction) {
         try {
             const {username} = req.body;
-            const data = await this.profileService.editUsername(username, req.user.userId);
+            const data = await this.profileService.editUsername(username, res.locals.user.userId);
             return res.status(200).json(data);
         } catch (e) {
             next(e);
         }
-    };
+    }
 
     async EditStatus(req: Request, res: Response, next: NextFunction) {
         try {
             const {status} = req.body;
-            const data = await this.profileService.editStatus(status, req.user.userId);
+            const data = await this.profileService.editStatus(status, res.locals.user.userId);
             return res.status(200).json(data);
         } catch (e) {
             next(e);
         }
-    };
+    }
 
+    // Set image
     async EditImage(req: Request, res: Response, next: NextFunction) {
         try {
-            await cloudinary.uploader.upload(req.body.image, function (error, result) {
+            await cloudinary.uploader.upload(req.body.image, function (error: Error, result: any) {
                 // tslint:disable-next-line:no-console
                 console.log(result, error);
             });
-            return res.status(200).json();
+            return res.status(200);
         } catch (e) {
             next(e);
         }
-    };
+    }
 
     async GetUsers(req: Request, res: Response, next: NextFunction) {
         try {

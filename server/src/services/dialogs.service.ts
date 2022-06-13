@@ -1,5 +1,6 @@
 import pool from "../../config/database";
 import errorHandler from "../helpers/error-handler";
+import { Params } from "index";
 
 class DialogsService {
     async getLastMessage(chatId: number) {
@@ -140,16 +141,16 @@ class DialogsService {
         }
     }
 
-    async addParticipant(chatId: number, userId: number) {
+    async addParticipant(params: Params, userId: number) {
         try {
             const check = await pool.query(
                 "SELECT * FROM participants WHERE user_id = $1 AND chat_id = $2",
-                [userId, chatId]
+                [userId, params.chatId]
             );
             if (!check.rows.length) {
                 await pool.query(
                     "INSERT INTO participants (chat_id, user_id) VALUES ($1, $2)",
-                    [chatId, userId]
+                    [params.chatId, userId]
                 );
             } else errorHandler.BadRequest("User already in this chat");
         } catch (e) {

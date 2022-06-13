@@ -12,3 +12,7 @@ export interface MessagesByDate {
     date: string;
     messages: Array<Message>;
 }
+
+export interface Params {
+    chatId?: string;
+}
