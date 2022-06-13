@@ -19,6 +19,8 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         if (!userData) {
             return next(ApiError.UnauthorizedError());
         }
+        // TODO: res.locals.user
+        // @ts-ignore
         req.user = userData;
         next();
     } catch (e) {

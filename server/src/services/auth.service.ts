@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "../../config/database";
 import bcrypt from "bcrypt";
 import errorHandler from "../helpers/error-handler";
 import TokenService from "./token.service";

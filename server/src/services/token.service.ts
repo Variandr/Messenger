@@ -1,6 +1,6 @@
-const pool = require("../db");
+const pool = require("../../config/database");
 const jwt = require("jsonwebtoken");
-const keys = require("../keys");
+const keys = require("../../config/keys");
 
 class TokenService {
     validateAccessToken(token: string) {

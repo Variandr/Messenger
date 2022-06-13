@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "../../config/database";
 import errorHandler from "../helpers/error-handler";
 
 class DialogsService {

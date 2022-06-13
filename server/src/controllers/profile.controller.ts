@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import ProfileService from "../services/profile.service";
-import pool from "../db";
+import pool from "../../config/database";
 
 cloudinary.config({
     cloud_name: "dgcjhgz00",

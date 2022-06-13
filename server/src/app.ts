@@ -4,7 +4,7 @@ import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import errorMiddleware from "./middleware/error.middleware";
-import chatRoutes from "./routes/api/chatRoutes";
+import chatRoutes from "./routes/api/chat.route";
 import AppRouter from "./routes";
 
 const app = express();
