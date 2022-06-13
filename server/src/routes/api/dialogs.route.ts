@@ -1,5 +1,5 @@
 import { Router } from "express";
-import dialogsController from "../../controllers/dialogsControllers";
+import dialogsController from "../../controllers/dialogs.controller";
 import authMiddleware from "../../middleware/auth.middleware";
 
 const dialogsRouter: Router = Router();
