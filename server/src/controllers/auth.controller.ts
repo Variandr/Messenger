@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import AuthService from "../services/authService";
+import AuthService from "../services/auth.service";
 
 export class AuthController {
     constructor(private authService: AuthService) {
@@ -10,8 +10,8 @@ export class AuthController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(404).json(errors);
-            let {username, login, password, remember} = req.body;
-            let data = await authService.registration(username, login, password);
+            const {username, login, password, remember} = req.body;
+            const data = await this.authService.registration(username, login, password);
             if (remember) {
                 res.cookie("refreshToken", data.refreshToken, {
                     maxAge: 14 * 24 * 60 * 60 * 1000,
@@ -27,7 +27,7 @@ export class AuthController {
     async LoginUser(req: Request, res: Response, next: NextFunction) {
         try {
             const {login, password, remember} = req.body;
-            let data = await authService.login(login, password);
+            const data = await this.authService.login(login, password);
             if (remember) {
                 res.cookie("refreshToken", data.refreshToken, {
                     maxAge: 14 * 24 * 60 * 60 * 1000,
@@ -43,7 +43,7 @@ export class AuthController {
     async LogoutUser(req: Request, res: Response, next: NextFunction) {
         try {
             const {refreshToken} = req.cookies;
-            await authService.logout(refreshToken);
+            await this.authService.logout(refreshToken);
             res.clearCookie("refreshToken");
             return res.json();
         } catch (e) {
@@ -54,7 +54,7 @@ export class AuthController {
     async RefreshToken(req: Request, res: Response, next: NextFunction) {
         try {
             const {refreshToken} = req.cookies;
-            let data = await authService.refresh(refreshToken);
+            const data = await this.authService.refresh(refreshToken);
             res.cookie("refreshToken", data.refreshToken, {
                 maxAge: 14 * 24 * 60 * 60 * 1000,
                 httpOnly: true,

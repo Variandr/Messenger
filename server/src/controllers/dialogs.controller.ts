@@ -1,4 +1,4 @@
-import DialogsService from "../services/dialogsService";
+import DialogsService from "../services/dialogs.service";
 import { NextFunction, Request, Response } from "express";
 
 export class DialogsController {
@@ -8,7 +8,7 @@ export class DialogsController {
     async CreateChat(req: Request, res: Response, next: NextFunction) {
         try {
             const {chatName, users} = req.body;
-            let data = await dialogsService.createChat(chatName, users);
+            const data = await this.dialogsService.createChat(chatName, users);
             return res.json(data);
         } catch (e) {
             next(e);
@@ -18,7 +18,7 @@ export class DialogsController {
     async AddParticipant(req: Request, res: Response, next: NextFunction) {
         try {
             const {userId} = req.body;
-            let data = await dialogsService.addParticipant(req.params.chatId, userId);
+            const data = await this.dialogsService.addParticipant(req.params.chatId, userId);
             return res.json(data);
         } catch (e) {
             next(e);

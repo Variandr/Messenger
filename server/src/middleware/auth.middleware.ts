@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
 import ApiError from "../helpers/error-handler";
-import tokenService from "../services/tokenService";
+import TokenService from "../services/token.service";
 
+const tokenService = new TokenService();
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const authorizationHeader = req.headers.authorization;

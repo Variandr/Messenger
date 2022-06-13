@@ -1,4 +1,4 @@
-const dialogsService = require("../services/dialogsService");
+const dialogsService = require("../services/dialogs.service");
 module.exports.Connect = async (socket) => {
   await dialogsService.setOnlineStatus(true, socket.request.user?.userId);
   socket.join(socket.chatId);

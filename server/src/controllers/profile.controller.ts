@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
-import ProfileService from "../services/profileService";
+import ProfileService from "../services/profile.service";
 import pool from "../db";
 
 cloudinary.config({
@@ -16,7 +16,7 @@ export class ProfileController {
     async EditUsername(req: Request, res: Response, next: NextFunction) {
         try {
             const {username} = req.body;
-            let data = await profileService.editUsername(username, req.user.userId);
+            const data = await this.profileService.editUsername(username, req.user.userId);
             return res.status(200).json(data);
         } catch (e) {
             next(e);
@@ -26,7 +26,7 @@ export class ProfileController {
     async EditStatus(req: Request, res: Response, next: NextFunction) {
         try {
             const {status} = req.body;
-            let data = await profileService.editStatus(status, req.user.userId);
+            const data = await this.profileService.editStatus(status, req.user.userId);
             return res.status(200).json(data);
         } catch (e) {
             next(e);
@@ -36,6 +36,7 @@ export class ProfileController {
     async EditImage(req: Request, res: Response, next: NextFunction) {
         try {
             await cloudinary.uploader.upload(req.body.image, function (error, result) {
+                // tslint:disable-next-line:no-console
                 console.log(result, error);
             });
             return res.status(200).json();
@@ -46,7 +47,7 @@ export class ProfileController {
 
     async GetUsers(req: Request, res: Response, next: NextFunction) {
         try {
-            let data = await pool.query(
+            const data = await pool.query(
                 "SELECT id, login, username, status FROM users"
             );
             res.json(data.rows);
@@ -57,7 +58,7 @@ export class ProfileController {
 
     async GetProfile(req: Request, res: Response, next: NextFunction) {
         try {
-            let data = await pool.query(
+            const data = await pool.query(
                 "SELECT id, login, username, status FROM users WHERE id = $1",
                 [req.params.userId]
             );

@@ -1,22 +1,24 @@
-const pool = require("../db");
-const bcrypt = require("bcrypt");
-const tokenService = require("./tokenService");
-const errorHandler = require("../helpers/error-handler");
+import pool from "../db";
+import bcrypt from "bcrypt";
+import errorHandler from "../helpers/error-handler";
+import TokenService from "./token.service";
 
 class AuthService {
-  async login(login, password) {
-    let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
+  constructor(private tokenService: TokenService) {
+  }
+  async login(login: string, password: string) {
+    const userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
       login,
     ]);
-    let user = userByLogin.rows[0];
+    const user = userByLogin.rows[0];
     if (userByLogin.rows.length) {
       const passwordSync = bcrypt.compareSync(password, user.password);
       if (passwordSync) {
-        const tokens = tokenService.generateTokens({
+        const tokens = this.tokenService.generateTokens({
           login: user.login,
           userId: user.id,
         });
-        await tokenService.saveToken(user.id, tokens.refreshToken);
+        await this.tokenService.saveToken(user.id, tokens.refreshToken);
         return {
           ...tokens,
           user: {
@@ -29,37 +31,37 @@ class AuthService {
     } else throw errorHandler.BadRequest("User wasn't found");
   }
 
-  async registration(username, login, password) {
+  async registration(username: string, login: string, password: string) {
     const cryptoPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    let userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
+    const userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
       login,
     ]);
     if (!userByLogin.rows.length) {
       if (!username) username = login;
-      let data = await pool.query(
+      const data = await pool.query(
         "INSERT INTO users (username, login, password) VALUES($1, $2, $3) RETURNING id, login, username",
         [username, login, cryptoPassword]
       );
       const user = data.rows[0];
-      const tokens = tokenService.generateTokens({
+      const tokens = this.tokenService.generateTokens({
         login: user.login,
         userId: user.id,
       });
-      await tokenService.saveToken(user.id, tokens.refreshToken);
+      await this.tokenService.saveToken(user.id, tokens.refreshToken);
       return { ...tokens, user: user };
     } else throw errorHandler.BadRequest("User with this login already exist");
   }
 
-  async logout(refreshToken) {
-    await tokenService.removeToken(refreshToken);
+  async logout(refreshToken: string) {
+    await this.tokenService.removeToken(refreshToken);
   }
 
-  async refresh(refreshToken) {
+  async refresh(refreshToken: string) {
     if (!refreshToken) {
       throw errorHandler.UnauthorizedError();
     }
-    const tokenData = tokenService.validateRefreshToken(refreshToken);
-    const isTokenInDB = await tokenService.searchForRefreshTokenDB(
+    const tokenData = this.tokenService.validateRefreshToken(refreshToken);
+    const isTokenInDB = await this.tokenService.searchForRefreshTokenDB(
       refreshToken
     );
     if (!tokenData || !isTokenInDB) {
@@ -70,13 +72,13 @@ class AuthService {
       [tokenData.userId]
     );
     const user = userByLogin.rows[0];
-    const tokens = tokenService.generateTokens({
+    const tokens = this.tokenService.generateTokens({
       login: user.login,
       userId: user.id,
     });
-    await tokenService.saveToken(user.id, tokens.refreshToken);
+    await this.tokenService.saveToken(user.id, tokens.refreshToken);
     return { ...tokens, user };
   }
 }
 
-module.exports = new AuthService();
+export default AuthService;
