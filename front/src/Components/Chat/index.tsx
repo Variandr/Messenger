@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { actions } from '../../state/Reducers/dialogsReducer';
 import { useDispatch } from 'react-redux';
-import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
 import { ChatInfo } from './Info';
 import { Chat } from './Chat';
 import socket from '../../api/socket';
@@ -41,4 +40,4 @@ const ChatPage: React.FC = () => {
     </Box>
   );
 };
-export default withAuthRedirect(ChatPage);
+export default ChatPage;

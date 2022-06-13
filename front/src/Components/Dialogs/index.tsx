@@ -4,7 +4,6 @@ import { actions, createChat } from '../../state/Reducers/dialogsReducer';
 import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
 import s from './index.module.css';
 import { NavLink } from 'react-router-dom';
-import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
 import ShowFreeUsers from '../../helpers/showUsersToAdd';
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -131,4 +130,4 @@ const DialogsPage: React.FC = () => {
     </div>
   );
 };
-export default withAuthRedirect(DialogsPage);
+export default DialogsPage;
