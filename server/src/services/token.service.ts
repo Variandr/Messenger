@@ -1,13 +1,12 @@
 import { Payload } from "token";
-
-const pool = require("../../config/database");
-const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
+import pool from "../../config/database";
+import jwt from "jsonwebtoken";
+import config from "config";
 
 class TokenService {
     validateAccessToken(token: string) {
         try {
-            return jwt.verify(token, keys.jwt_access);
+            return jwt.verify(token, config.get("jwt_access"));
         } catch (e) {
             return undefined;
         }
@@ -15,17 +14,17 @@ class TokenService {
 
     validateRefreshToken(token: string) {
         try {
-            return jwt.verify(token, keys.jwt_refresh);
+            return jwt.verify(token, config.get("jwt_refresh"));
         } catch (e) {
             return undefined;
         }
     }
 
     generateTokens(payload: Payload) {
-        const accessToken = jwt.sign(payload, keys.jwt_access, {
+        const accessToken = jwt.sign(payload, config.get("jwt_access"), {
             expiresIn: "30m",
         });
-        const refreshToken = jwt.sign(payload, keys.jwt_refresh, {
+        const refreshToken = jwt.sign(payload, config.get("jwt_refresh"), {
             expiresIn: "14d",
         });
         return {accessToken, refreshToken};
