@@ -70,7 +70,7 @@ const DialogsPage: React.FC = () => {
   const [isAddChat, setAddChat] = useState(false);
   const [chatName, setChatName] = useState('');
   const [isUsersShow, setUsersShow] = useState(false);
-  const [participants, setParticipant] = useState<Array<User>>([{ id: userId, username: login }]);
+  const [participants, setParticipant] = useState<User[]>([{ id: userId, username: login }]);
   const addParticipant = (id: number, username: string) => {
     setParticipant([...participants, { id: id, username: username }]);
   };

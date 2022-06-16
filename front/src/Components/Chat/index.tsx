@@ -19,7 +19,6 @@ const ChatPage: React.FC = () => {
         dispatch(actions.setChat(data));
       });
       socket.on('message', (req) => {
-        console.log(req);
         switch (req.type) {
           case 'send-message':
             dispatch(actions.addMessage(req.data));
