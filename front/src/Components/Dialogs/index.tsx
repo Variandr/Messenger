@@ -30,14 +30,17 @@ const DialogsPage: React.FC = () => {
   const dialogs = useSelector(getDialogsSelector);
   const userId = useSelector(getUserId) || null;
   const login = useSelector(getUserLogin) || null;
+
   useEffect(() => {
-    socket.emit('dialogs:join');
-  }, []);
+    if (!dialogs) socket.emit('dialogs:join');
+  });
+
   useEffect(() => {
     socket.on('dialogs', (dialogs) => {
       dispatch(actions.setDialogs(dialogs));
     });
-  });
+  }, [dispatch]);
+
   let DialogItems;
   if (dialogs) {
     const sortedDialogs = dialogs.sort((a, b) => {

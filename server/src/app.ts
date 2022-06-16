@@ -1,10 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { createServer } from "http";
 import cookieParser from "cookie-parser";
 import errorMiddleware from "./middleware/error.middleware";
-import chatRoutes from "./routes/api/chat.route";
 import AppRouter from "./routes";
 
 const app = express();
@@ -29,13 +28,7 @@ app.use(
     })
 );
 
-router.init();
-
-io.on("connection", (socket: Socket) => {
-    // tslint:disable-next-line:no-console
-    console.log("User connected", socket.id);
-    chatRoutes(socket, io);
-});
+router.init(io);
 
 app.use(errorMiddleware);
 

@@ -10,16 +10,11 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
         if (!authorizationHeader) {
             return next(ApiError.UnauthorizedError());
         }
-
-        const accessToken = authorizationHeader.split(" ")[1];
-        if (!accessToken) {
+        const user = tokenService.validateAccessToken(authorizationHeader.split(" ")[1]);
+        if (!user) {
             return next(ApiError.UnauthorizedError());
         }
-        const userData = tokenService.validateAccessToken(accessToken);
-        if (!userData) {
-            return next(ApiError.UnauthorizedError());
-        }
-        res.locals.user = userData;
+        res.locals.user = user;
         next();
     } catch (e) {
         return next(ApiError.UnauthorizedError());

@@ -1,23 +1,24 @@
 import { Payload } from "token";
 import pool from "../../config/database";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "config";
+import errorHandler from "../helpers/error-handler";
+
+export interface UserIDJwtPayload extends JwtPayload {
+    userId: number;
+}
 
 class TokenService {
-    validateAccessToken(token: string) {
-        try {
-            return jwt.verify(token, config.get("jwt_access"));
-        } catch (e) {
-            return undefined;
-        }
+    validateAccessToken(token: string | undefined) {
+        if (token) {
+            return <UserIDJwtPayload>jwt.verify(token, config.get("jwt_access"));
+        } else throw errorHandler.UnauthorizedError();
     }
 
-    validateRefreshToken(token: string) {
-        try {
-            return jwt.verify(token, config.get("jwt_refresh"));
-        } catch (e) {
-            return undefined;
-        }
+    validateRefreshToken(token: string | undefined) {
+        if (token) {
+            return <UserIDJwtPayload>jwt.verify(token, config.get("jwt_refresh"));
+        } else throw errorHandler.UnauthorizedError();
     }
 
     generateTokens(payload: Payload) {
