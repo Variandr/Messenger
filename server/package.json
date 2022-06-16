@@ -6,10 +6,12 @@
   "scripts": {
     "tsc": "tsc",
     "watch-tsc": "tsc -w",
+    "start": "npm run deploy",
+    "client": "npm start --prefix ../front",
     "deploy": "node dist/src/app.js",
     "watch-deploy": "nodemon dist/src/app.js",
     "server": "concurrently \"npm run watch-tsc\" \"npm run watch-deploy\"",
-    "start": "npm run deploy"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -37,6 +39,7 @@
     "@types/socket.io": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
+    "concurrently": "^7.2.1",
     "eslint": "^8.17.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.8.1",
