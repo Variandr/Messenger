@@ -1,7 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Users from './users';
-import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
 import { getUsers } from '../../state/Reducers/usersReducer';
 import { getUsersSelector } from '../../state/Selectors/usersSelectors';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
@@ -22,4 +21,4 @@ const UsersPage: FC = () => {
   });
   return <div>{showUsers}</div>;
 };
-export default withAuthRedirect(UsersPage);
+export default UsersPage;
