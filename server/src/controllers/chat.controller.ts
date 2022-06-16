@@ -95,7 +95,24 @@ export class ChatController {
       data: messageData,
     });
   }
-
+  // TODO: use sockets for creating chat and adding participant
+  // async createChat(io: Server, chatName: string, users) {
+  //   try {
+  //     const data = await this.dialogsService.createChat(chatName, users);
+  //     return res.json(data);
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // }
+  //
+  // async addParticipant(io: Server, chatId: number, userId: number) {
+  //   try {
+  //     const data = await this.dialogsService.addParticipant(chatId, userId);
+  //     return res.json(data);
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // }
   async disconnectUser(socket: Socket) {
     await this.dialogsService.setOnlineStatus(false, socket.data.userId);
     // tslint:disable-next-line:no-console

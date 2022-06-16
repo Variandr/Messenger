@@ -1,3 +1,4 @@
+// TODO: use sockets instead
 import { Router } from "express";
 import dialogsController from "../../controllers/dialogs.controller";
 import authMiddleware from "../../middleware/auth.middleware";

@@ -14,6 +14,7 @@ class AppRouter {
     });
     this.app.use("/api/auth", authRouter);
     this.app.use("/api/profile", profileRoutes);
+    // TODO: use sockets instead
     this.app.use("/api/dialogs", dialogsRoutes);
     io.on("connection", (socket: Socket) => chatRoutes(socket, io));
   }

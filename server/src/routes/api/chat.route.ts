@@ -20,7 +20,6 @@ const ChatRoutes = (socket: Socket, io: Server) => {
     socket.data.userId = user.userId;
     next();
   });
-  socket.on("dialogs:join", () => chatController.connectDialogs(socket, io));
   socket.on("chat:join", ({ chatId }) =>
     chatController.connectChat(socket, io, chatId)
   );
@@ -33,6 +32,14 @@ const ChatRoutes = (socket: Socket, io: Server) => {
   socket.on("chat:deleteMessage", ({ chatId, msgId }) =>
     chatController.deleteMessage(io, chatId, msgId)
   );
+  socket.on("dialogs:join", () => chatController.connectDialogs(socket, io));
+  // TODO: use sockets for creating chat and adding participant
+  // socket.on("dialogs:createChat", ({ chatName, users }) =>
+  //   chatController.createChat(io, chatName, users)
+  // );
+  // socket.on("dialogs:addParticipant", ({ chatId, userId }) =>
+  //   chatController.addParticipant(io, chatId, userId)
+  // );
   socket.on("disconnect", () => chatController.disconnectUser(socket));
 };
 export default ChatRoutes;
