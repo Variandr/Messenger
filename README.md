@@ -12,18 +12,9 @@ Database: PostgreSQL
 
 You can run this app on localhost using following steps:
 
-## Init app
+## Init app locally
 
-Front:
 
-1. Clone app `git clone https://github.com/Variandr/Messenger.git`
+1. Install dependencies for `front` and `server` folders with `npm i` or `yarn`
 
-2. Install dependencies `cd .\Messenger\front` -> `npm i` or `yarn`
-
-3. Start app `npm start` and open in browser http://localhost:3000/
-
-Backend:
-
-1. `cd .\Messenger\server` -> `npm i or `yarn`
-
-2. Start server with `npm start` or `yarn`
+2. Go to `server` folder and write `npm run dev` or `yarn run dev`
