@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Navigate, NavLink, Route, Routes } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, Route, Routes } from 'react-router-dom';
 import Profile from '../../../Components/Profile/index';
 import UsersPage from '../../../Components/Users/index';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,17 +27,6 @@ import {
 } from '@mui/material';
 import { Logout, Settings } from '@mui/icons-material';
 import { actions } from '../../../state/Reducers/snackbarReducer';
-
-const Dialogs: FC = () => {
-  return (
-    <div>
-      <Routes>
-        <Route path=":dialogId" element={<Chat />} />
-        <Route path="" element={<DialogsPage />} />
-      </Routes>
-    </div>
-  );
-};
 
 export const App: FC = () => {
   const pages = [
@@ -161,12 +150,15 @@ export const App: FC = () => {
         </Container>
       </AppBar>
       <Routes>
-        <Route path="/" element={<Navigate to={'/profile/' + userId} />} />
+        <Route path="/" element={<Navigate to="/dialogs" />} />
         <Route path="/login" element={<Navigate to="/" />} />
         <Route path="/register" element={<Navigate to="/" />} />
         <Route path="profile/:id" element={<Profile />} />
         <Route path="users" element={<UsersPage />} />
-        <Route path="dialogs/*" element={<Dialogs />} />
+        <Route path="dialogs/*" element={<Outlet />}>
+          <Route path=":dialogId" element={<Chat />} />
+          <Route path="" element={<DialogsPage />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Box>

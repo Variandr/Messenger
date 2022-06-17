@@ -4,7 +4,6 @@ import { actions, createChat } from '../../state/Reducers/dialogsReducer';
 import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
 import s from './index.module.css';
 import { NavLink } from 'react-router-dom';
-import withAuthRedirect from '../../helpers/hoc/withAuthRedirect';
 import { getUserId, getUserLogin } from '../../state/Selectors/authSelectors';
 import ShowFreeUsers from '../../helpers/showUsersToAdd';
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -31,14 +30,17 @@ const DialogsPage: React.FC = () => {
   const dialogs = useSelector(getDialogsSelector);
   const userId = useSelector(getUserId) || null;
   const login = useSelector(getUserLogin) || null;
+
   useEffect(() => {
-    socket.emit('dialogs:join');
-  }, []);
+    if (!dialogs) socket.emit('dialogs:join');
+  });
+
   useEffect(() => {
     socket.on('dialogs', (dialogs) => {
       dispatch(actions.setDialogs(dialogs));
     });
-  });
+  }, [dispatch]);
+
   let DialogItems;
   if (dialogs) {
     const sortedDialogs = dialogs.sort((a, b) => {
@@ -68,7 +70,7 @@ const DialogsPage: React.FC = () => {
   const [isAddChat, setAddChat] = useState(false);
   const [chatName, setChatName] = useState('');
   const [isUsersShow, setUsersShow] = useState(false);
-  const [participants, setParticipant] = useState<Array<User>>([{ id: userId, username: login }]);
+  const [participants, setParticipant] = useState<User[]>([{ id: userId, username: login }]);
   const addParticipant = (id: number, username: string) => {
     setParticipant([...participants, { id: id, username: username }]);
   };
@@ -131,4 +133,4 @@ const DialogsPage: React.FC = () => {
     </div>
   );
 };
-export default withAuthRedirect(DialogsPage);
+export default DialogsPage;

@@ -1,5 +1,4 @@
 import { authMe } from './authReducer';
-import { getUsers } from './usersReducer';
 import { Actions, BaseThunk } from '../store';
 
 type State = typeof initialState;
@@ -25,8 +24,7 @@ const actions = {
     } as const),
 };
 export const initializeApp = (): ThunkType => async (dispatch) => {
-  const promise = [dispatch(authMe()), dispatch(getUsers())];
-  await Promise.all([promise]).then(() => {
+  await dispatch(authMe()).then(() => {
     dispatch(actions._setInitialSuccess());
   });
 };
