@@ -96,7 +96,7 @@ export const Chat: FC = () => {
               color: 'white',
               fontWeight: 700,
               background: 'rgba(0, 0, 0, 0.31)',
-              borderRadius: '20%',
+              borderRadius: '8px',
               padding: '2px 10px',
             }}
           >
