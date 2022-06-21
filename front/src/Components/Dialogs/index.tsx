@@ -13,6 +13,7 @@ import socket from '../../api/socket';
 import { User } from '../../../types/types';
 
 const DialogsPage: React.FC = () => {
+  // TODO: move to helpers
   const showDate = (date: string) => {
     const d = new Date(date);
     const localDate = new Date();
@@ -41,6 +42,7 @@ const DialogsPage: React.FC = () => {
     });
   }, [dispatch]);
 
+  // TODO: moveDialogItem to different file
   let DialogItems;
   if (dialogs) {
     const sortedDialogs = dialogs.sort((a, b) => {
@@ -83,6 +85,7 @@ const DialogsPage: React.FC = () => {
       </div>
     );
   });
+  // TODO: refactor UI
   return (
     <div className={s.dialogsPageBlock}>
       <div>
