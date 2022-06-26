@@ -13,13 +13,8 @@ export interface MessagesByDate {
   messages: Array<Message>;
 }
 
-export interface Params {
-  chatId?: string;
-}
-
 export interface User {
-  id: number | null;
-  username: string | null;
+  id: number;
 }
 
 export interface SocketData {
