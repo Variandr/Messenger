@@ -6,23 +6,15 @@ export class DialogsController {
   constructor(private dialogsService: DialogsService) {}
 
   async CreateChat(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { chatName, users } = req.body;
-      const data = await this.dialogsService.createChat(chatName, users);
-      return res.json(data);
-    } catch (e) {
-      next(e);
-    }
+    const { name, users } = req.body;
+    await this.dialogsService.createChat(name, users);
+    next();
   }
 
   async AddParticipant(req: Request, res: Response, next: NextFunction) {
-    try {
-      const { userId } = req.body;
-      const data = await this.dialogsService.addParticipant(req.query, userId);
-      return res.json(data);
-    } catch (e) {
-      next(e);
-    }
+    const { userId } = req.body;
+    await this.dialogsService.addParticipant(req.params.chatId, userId);
+    next();
   }
 }
 

@@ -1,6 +1,6 @@
 import pool from "../../config/database";
 import errorHandler from "../helpers/error-handler";
-import { Params, User } from "index";
+import { User } from "index";
 
 class DialogsService {
   async getLastMessage(chatId: number) {
@@ -89,22 +89,23 @@ class DialogsService {
     }
   }
 
-  async createChat(chatName: string, users: User[]) {
+  async createChat(name: string, users: User[]) {
     try {
       const date = new Date();
       const chatData = await pool.query(
         "INSERT INTO chats (chat_name, created_at) VALUES ($1, $2) RETURNING id",
-        [chatName, date]
+        [name, date]
       );
+      const chatId = chatData.rows[0].id;
       users.map(async (u) => {
         const check = await pool.query(
           "SELECT * FROM participants WHERE chat_id = $1 AND user_id = $2",
-          [chatData.rows[0].id, u.id]
+          [chatId, u.id]
         );
         if (!check.rows.length) {
           await pool.query(
             "INSERT INTO participants (user_id, chat_id) VALUES ($1, $2)",
-            [u.id, chatData.rows[0].id]
+            [u.id, chatId]
           );
         }
         return u;
@@ -141,21 +142,18 @@ class DialogsService {
     }
   }
 
-  async addParticipant(params: Params, userId: number) {
-    try {
-      const check = await pool.query(
-        "SELECT * FROM participants WHERE user_id = $1 AND chat_id = $2",
-        [userId, params.chatId]
-      );
-      if (!check.rows.length) {
-        await pool.query(
-          "INSERT INTO participants (chat_id, user_id) VALUES ($1, $2)",
-          [params.chatId, userId]
-        );
-      } else errorHandler.BadRequest("User already in this chat");
-    } catch (e) {
-      throw errorHandler.BadRequest("User wasn't added in chat");
+  async addParticipant(chatId: string, userId: number) {
+    const check = await pool.query(
+      "SELECT * FROM participants WHERE user_id = $1 AND chat_id = $2",
+      [userId, chatId]
+    );
+    if (check.rows.length !== 0) {
+      throw errorHandler.BadRequest("User already in this chat");
     }
+    await pool.query(
+      "INSERT INTO participants (chat_id, user_id) VALUES ($1, $2)",
+      [chatId, userId]
+    );
   }
 
   async deleteMessage(msgId: number) {

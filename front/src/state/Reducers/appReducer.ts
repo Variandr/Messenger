@@ -24,7 +24,6 @@ const actions = {
     } as const),
 };
 export const initializeApp = (): ThunkType => async (dispatch) => {
-  await dispatch(authMe()).then(() => {
-    dispatch(actions._setInitialSuccess());
-  });
+  dispatch(authMe());
+  dispatch(actions._setInitialSuccess());
 };

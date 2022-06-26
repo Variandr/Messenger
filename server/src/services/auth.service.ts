@@ -4,12 +4,12 @@ import errorHandler from "../helpers/error-handler";
 import TokenService from "./token.service";
 
 class AuthService {
-  constructor(private tokenService: TokenService) {
-  }
+  constructor(private tokenService: TokenService) {}
   async login(login: string, password: string) {
-    const userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
-      login,
-    ]);
+    const userByLogin = await pool.query(
+      "SELECT * FROM users WHERE login = $1",
+      [login]
+    );
     const user = userByLogin.rows[0];
     if (userByLogin.rows.length) {
       const passwordSync = bcrypt.compareSync(password, user.password);
@@ -33,9 +33,10 @@ class AuthService {
 
   async registration(username: string, login: string, password: string) {
     const cryptoPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    const userByLogin = await pool.query("SELECT * FROM users WHERE login = $1", [
-      login,
-    ]);
+    const userByLogin = await pool.query(
+      "SELECT * FROM users WHERE login = $1",
+      [login]
+    );
     if (!userByLogin.rows.length) {
       if (!username) username = login;
       const data = await pool.query(
@@ -53,6 +54,9 @@ class AuthService {
   }
 
   async logout(refreshToken: string) {
+    if (!refreshToken) {
+      throw errorHandler.UnauthorizedError();
+    }
     await this.tokenService.removeToken(refreshToken);
   }
 

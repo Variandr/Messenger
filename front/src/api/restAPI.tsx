@@ -43,7 +43,7 @@ export const AuthAPI = {
   },
   reg(login: string, password: string, username: string | null, remember: boolean) {
     return instance
-      .post<Auth>('auth/reg', { login, password, username, remember })
+      .post<Auth>('auth/register', { login, password, username, remember })
       .then((res) => {
         localStorage.setItem('accessToken', res.data.accessToken);
         return res.data;
