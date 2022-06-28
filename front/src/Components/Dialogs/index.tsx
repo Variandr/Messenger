@@ -33,7 +33,9 @@ const DialogsPage: React.FC = () => {
   const login = useSelector(getUserLogin) || null;
 
   useEffect(() => {
-    if (!dialogs) socket.emit('dialogs:join');
+    if (!dialogs) {
+      socket.emit('dialogs:join');
+    }
   });
 
   useEffect(() => {
@@ -68,7 +70,6 @@ const DialogsPage: React.FC = () => {
       );
     });
   }
-
   const [isAddChat, setAddChat] = useState(false);
   const [chatName, setChatName] = useState('');
   const [isUsersShow, setUsersShow] = useState(false);

@@ -59,7 +59,7 @@ export const registration =
 
 export const authMe = (): ThunkType => async (dispatch) => {
   const tokenData = await AuthAPI.authMe();
-  if (tokenData) {
+  if (tokenData.data) {
     const { login, id } = tokenData.data.user;
     dispatch(actions._setAuthUserData(login, id, true));
     localStorage.setItem('accessToken', tokenData.data.accessToken);

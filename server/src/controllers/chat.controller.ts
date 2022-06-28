@@ -6,9 +6,11 @@ export class ChatController {
   constructor(private dialogsService: DialogsService) {}
 
   async connectDialogs(socket: Socket, io: Server) {
-    socket.join(socket.data.userId.toString());
-    const data = await this.dialogsService.getDialogs(socket.data.userId);
-    io.in(socket.data.userId.toString()).emit("dialogs", data);
+    if (socket.data.userId) {
+      socket.join(socket.data.userId.toString());
+      const data = await this.dialogsService.getDialogs(socket.data.userId);
+      io.in(socket.data.userId.toString()).emit("dialogs", data);
+    }
   }
 
   async connectChat(socket: Socket, io: Server, chatId: number) {
@@ -95,6 +97,7 @@ export class ChatController {
       data: messageData,
     });
   }
+
   // TODO: use sockets for creating chat and adding participant
   // async createChat(io: Server, chatName: string, users) {
   //   try {

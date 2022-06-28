@@ -48,13 +48,15 @@ class DialogsService {
       const data = chatsId.map(async (c) => {
         const chat = await this.getDialogData(c.chat_id);
         const messageData = await this.getLastMessage(c.chat_id);
-        const username =
-          (await this.getUsername(messageData.user_id)) || undefined;
-        return {
-          ...chat,
-          message: messageData.body || undefined,
-          username: username,
-        };
+        if (messageData) {
+          const username =
+            (await this.getUsername(messageData.user_id)) || undefined;
+          return {
+            ...chat,
+            message: messageData.body,
+            username: username,
+          };
+        } else return chat;
       });
       return Promise.all(data);
     } catch (e) {

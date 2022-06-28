@@ -7,6 +7,7 @@ import { App } from '../App';
 import Auth from '../../Auth';
 import SnackbarUI from '../../Snackbar';
 import { CircularProgress } from '@mui/material';
+import socket from '../../../api/socket';
 
 const Root: React.FC = () => {
   const isAuth = useSelector(getAuth);
@@ -16,7 +17,10 @@ const Root: React.FC = () => {
     if (!isInitialized) {
       dispatch(initializeApp());
     }
-  }, [isInitialized, dispatch]);
+    if (isAuth) {
+      socket.connect();
+    }
+  }, [isInitialized, dispatch, isAuth]);
   return (
     <>
       <SnackbarUI />
