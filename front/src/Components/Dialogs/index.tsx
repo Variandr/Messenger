@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions, createChat } from '../../state/Reducers/dialogsReducer';
 import { getDialogsSelector } from '../../state/Selectors/dialogsSelectors';
@@ -9,7 +9,7 @@ import ShowFreeUsers from '../../helpers/showUsersToAdd';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import SaveIcon from '@mui/icons-material/Save';
-import socket from '../../api/socket';
+import { SocketContext } from '../../api/socket';
 import { User } from '../../../types/types';
 
 const DialogsPage: React.FC = () => {
@@ -27,10 +27,12 @@ const DialogsPage: React.FC = () => {
       return day + ' ' + month + '.';
     } else return d.toLocaleString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
+
   const dispatch = useDispatch();
   const dialogs = useSelector(getDialogsSelector);
   const userId = useSelector(getUserId) || null;
   const login = useSelector(getUserLogin) || null;
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     if (!dialogs) {
@@ -42,7 +44,7 @@ const DialogsPage: React.FC = () => {
     socket.on('dialogs', (dialogs) => {
       dispatch(actions.setDialogs(dialogs));
     });
-  }, [dispatch]);
+  }, [socket, dispatch]);
 
   // TODO: moveDialogItem to different file
   let DialogItems;
@@ -77,6 +79,7 @@ const DialogsPage: React.FC = () => {
   const addParticipant = (id: number, username: string) => {
     setParticipant([...participants, { id: id, username: username }]);
   };
+
   const showParticipants = participants.map((p) => {
     if (p.id === userId) return null;
     return (

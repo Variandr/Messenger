@@ -8,14 +8,17 @@ import Root from './Components/Unknown/Root/index';
 import '@fontsource/roboto';
 import theme from './helpers/theme';
 import { ThemeProvider } from '@mui/styles';
+import { socket, SocketContext } from './api/socket';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <BrowserRouter>
-          <Root />
-        </BrowserRouter>
+        <SocketContext.Provider value={socket}>
+          <BrowserRouter>
+            <Root />
+          </BrowserRouter>
+        </SocketContext.Provider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,

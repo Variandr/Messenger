@@ -1,10 +1,10 @@
 import s from './index.module.css';
 import chatBg from './chatBg.png';
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, useContext, useEffect, useRef, useState } from 'react';
 import { MessageItem } from './messageItem';
 import { useSelector } from 'react-redux';
 import { getDialogDataSelector } from '../../../state/Selectors/dialogsSelectors';
-import socket from '../../../api/socket';
+import { SocketContext } from '../../../api/socket';
 import { getUserId } from '../../../state/Selectors/authSelectors';
 import { Message } from '../../../../types/types';
 import { Box, Button } from '@mui/material';
@@ -13,6 +13,8 @@ import SendIcon from '@mui/icons-material/Send';
 export const Chat: FC = () => {
   const userId = useSelector(getUserId);
   const dialogData = useSelector(getDialogDataSelector);
+  const socket = useContext(SocketContext);
+
   useEffect(() => {
     if (messagesEndRef.current)
       messagesEndRef.current.scrollIntoView({
@@ -30,6 +32,7 @@ export const Chat: FC = () => {
       setMessageBody('');
     }
   };
+
   const editMessage = (m: Message, messageForEdit: string) => {
     if (
       userId === m.user_id &&
@@ -44,6 +47,7 @@ export const Chat: FC = () => {
       });
     }
   };
+
   const deleteMessageOnClick = (m: Message) => {
     if (userId === m.user_id && dialogData) {
       socket.emit('chat:deleteMessage', { chatId: dialogData.id, msgId: m.id });
@@ -107,6 +111,7 @@ export const Chat: FC = () => {
       </React.Fragment>
     );
   });
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   return (
     <Box width="75vw" height="85vh" sx={{ position: 'relative' }}>

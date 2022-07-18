@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { Navigate, NavLink, Outlet, Route, Routes } from 'react-router-dom';
 import Profile from '../../../Components/Profile/index';
 import UsersPage from '../../../Components/Users/index';
@@ -7,7 +7,7 @@ import { getUserId, getUserLogin } from '../../../state/Selectors/authSelectors'
 import { logout } from '../../../state/Reducers/authReducer';
 import DialogsPage from '../../Dialogs';
 import Chat from '../../Chat';
-import socket from '../../../api/socket';
+import { SocketContext } from '../../../api/socket';
 import NotFound from '../NotFound';
 import logo from './logo.png';
 import {
@@ -44,6 +44,7 @@ export const App: FC = () => {
   const login = useSelector(getUserLogin);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const socket = useContext(SocketContext);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

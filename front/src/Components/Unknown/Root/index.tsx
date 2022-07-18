@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { initializeApp } from '../../../state/Reducers/appReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuth } from '../../../state/Selectors/authSelectors';
@@ -7,12 +7,13 @@ import { App } from '../App';
 import Auth from '../../Auth';
 import SnackbarUI from '../../Snackbar';
 import { CircularProgress } from '@mui/material';
-import socket from '../../../api/socket';
+import { SocketContext } from '../../../api/socket';
 
 const Root: React.FC = () => {
   const isAuth = useSelector(getAuth);
   const isInitialized = useSelector(getInitialize);
   const dispatch = useDispatch();
+  const socket = useContext(SocketContext);
   useEffect(() => {
     if (!isInitialized) {
       dispatch(initializeApp());
@@ -20,7 +21,7 @@ const Root: React.FC = () => {
     if (isAuth) {
       socket.connect();
     }
-  }, [isInitialized, dispatch, isAuth]);
+  }, [socket, isInitialized, dispatch, isAuth]);
   return (
     <>
       <SnackbarUI />

@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { actions } from '../../state/Reducers/dialogsReducer';
 import { useDispatch } from 'react-redux';
 import { ChatInfo } from './Info';
 import { Chat } from './Chat';
-import socket from '../../api/socket';
 import { ChatState } from '../../../types/types';
 import { Box } from '@mui/material';
+import { SocketContext } from '../../api/socket';
 
 const ChatPage: React.FC = () => {
   const dispatch = useDispatch();
   const { dialogId } = useParams();
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     if (dialogId) {
@@ -31,7 +32,8 @@ const ChatPage: React.FC = () => {
         }
       });
     }
-  }, [dialogId, dispatch]);
+  }, [socket, dialogId, dispatch]);
+
   return (
     <Box display="flex">
       <Chat />

@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import errorMiddleware from "./middleware/error.middleware";
 import AppRouter from "./routes";
 import { SocketData } from "index";
+const morgan = require("morgan");
 
 const app = express();
 const server = createServer(app);
@@ -19,6 +20,7 @@ const io = new Server<{}, {}, {}, SocketData>(server, {
 });
 
 app.set("port", process.env.PORT || 5000);
+app.use(morgan("tiny"));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -28,7 +30,6 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
 router.init(io);
 
 app.use(errorMiddleware);
