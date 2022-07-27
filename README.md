@@ -4,13 +4,8 @@
 
 ## Stack:
 
-Front: react, redux, redux-thunk, antd, socket.io
+React, Redux, MaterialUI, WebSockets, TypeScript, nodeJS, Express, JsonWebTokens, PostgreSQL
 
-Server: nodeJS, express, socket.io, jsonwebtokens, pg
-
-Database: PostgreSQL
-
-You can run this app on localhost using following steps:
 
 ## Init app locally
 
