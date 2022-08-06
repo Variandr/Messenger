@@ -7,6 +7,7 @@
 
 .dialogText {
     display: flex;
+    margin-top: 1vw;
 }
 
 .chatName {
@@ -19,16 +20,17 @@
 }
 
 .date {
-    font-size: 1.2vw;
+    font-size: 1.5vw;
     color: rgba(122, 122, 122, 0.68);
+    margin-top: 4px;
 }
 
 .dialogContainer {
-    font-size: 1.5vw;
+    font-size: 2vw;
     cursor: pointer;
-    margin: 1vw;
-    padding: 0.5vw;
-    max-width: 400px;
+    padding: 3vw 1vw;
+    max-width: 800px;
+    width: 40vw;
     border-bottom: rgba(20, 20, 20, 0.4) 1px solid;
 }
 
@@ -55,11 +57,11 @@
 
 .addChatBtn {
     cursor: pointer;
-    font-size: 2.5vw;
 }
 
 .addChatBtnBlock {
     text-align: center;
+    margin-top: 5vw;
 }
 
 .addChatBlock {
