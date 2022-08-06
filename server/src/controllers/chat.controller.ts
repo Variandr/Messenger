@@ -6,13 +6,13 @@ export class ChatController {
   constructor(private dialogsService: DialogsService) {}
 
   async connectDialogs(socket: Socket, io: Server) {
-    socket.join(socket.data.userId.toString());
-    const data = await this.dialogsService.getDialogs(socket.data.userId);
-    io.in(socket.data.userId.toString()).emit("dialogs", data);
+    socket.join(socket.data?.userId?.toString());
+    const data = await this.dialogsService.getDialogs(socket.data?.userId);
+    io.in(socket.data?.userId?.toString()).emit("dialogs", data);
   }
 
   async connectChat(socket: Socket, io: Server, chatId: number) {
-    await this.dialogsService.setOnlineStatus(true, socket.data.userId);
+    await this.dialogsService.setOnlineStatus(true, socket.data?.userId);
     socket.join(chatId.toString());
     const messages = await this.dialogsService.getChatMessages(chatId);
     let dateMessages: Array<MessagesByDate> = [];
@@ -49,8 +49,8 @@ export class ChatController {
       .sort((a, b) => {
         return Number(new Date(a.date)) - Number(new Date(b.date));
       });
-    const chatData = await this.dialogsService.getChatInfo(socket.data.userId);
-    const chatUsers = await this.dialogsService.getChatUsers(chatData.id);
+    const chatData = await this.dialogsService.getChatInfo(socket.data?.userId);
+    const chatUsers = await this.dialogsService.getChatUsers(chatData?.id);
     io.in(chatId.toString()).emit("chatData", {
       ...chatData,
       messages: sortedMessages,
@@ -67,7 +67,7 @@ export class ChatController {
     const messageData = await this.dialogsService.postMessage(
       chatId,
       message,
-      socket.data.userId
+      socket.data?.userId
     );
     io.in(chatId.toString()).emit("message", {
       type: "send-message",
@@ -95,6 +95,7 @@ export class ChatController {
       data: messageData,
     });
   }
+
   // TODO: use sockets for creating chat and adding participant
   // async createChat(io: Server, chatName: string, users) {
   //   try {

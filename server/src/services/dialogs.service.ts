@@ -21,7 +21,7 @@ class DialogsService {
   async getUsername(userId: number) {
     return await pool
       .query("SELECT username FROM users WHERE id = $1", [userId])
-      .then((res) => res.rows[0].username);
+      .then((res) => res.rows[0]?.username);
   }
 
   async getChatUsers(chatId: number) {
@@ -49,10 +49,10 @@ class DialogsService {
         const chat = await this.getDialogData(c.chat_id);
         const messageData = await this.getLastMessage(c.chat_id);
         const username =
-          (await this.getUsername(messageData.user_id)) || undefined;
+          (await this.getUsername(messageData?.user_id)) || undefined;
         return {
           ...chat,
-          message: messageData.body || undefined,
+          message: messageData?.body || undefined,
           username: username,
         };
       });
